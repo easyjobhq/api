@@ -1,7 +1,7 @@
 import { User } from "src/clients/entities/user.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ChildEntity } from "typeorm";
 
-@ChildEntity()
+@Entity()
 export class Professional extends User {
     
     @Column()

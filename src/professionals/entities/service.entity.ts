@@ -12,8 +12,8 @@ export class Service {
     @Column()
     description: string;
 
-    @Column()
-    price: Double;
+    @Column({type: 'float'})
+    price: number;
 
 }
 

@@ -1,3 +1,7 @@
+# Postgres files
+/pgadmin-data
+/postgresql-data
+
 # compiled output
 /dist
 /node_modules

@@ -6,8 +6,8 @@ export class Question {
     @PrimaryGeneratedColumn()
     id: string;
 
-    @Column()
-    score: Double;
+    @Column({type: 'float'})
+    score: number;
 
     @Column()
     comment: string;
