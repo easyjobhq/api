@@ -1,9 +1,11 @@
-import { User } from "src/clients/entities/user.entity";
+import { User } from "../../clients/entities/user.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ChildEntity, JoinTable, ManyToMany, OneToMany } from "typeorm";
-import { Question } from "src/client_professional_entities/entities/question.entitiy";
-import { Review } from "src/client_professional_entities/entities/review.entity";
+import { Question } from "../../client_professional_entities/entities/question.entitiy";
+import { Review } from "../../client_professional_entities/entities/review.entity";
 import { Speciality } from "./speciality.entity";
 import { Service } from "./service.entity";
+import { Language } from "../../general_resources/entities/language.entity";
+import { City } from "../../general_resources/entities/city.entity";
 
 @Entity()
 export class Professional extends User {
@@ -31,6 +33,16 @@ export class Professional extends User {
         cascade:true
     })
     services: Service[]
+
+    @ManyToMany(()=>Language, (language)=>language.professionals, {
+        cascade:true
+    })
+    languages: Language[]
+
+    @ManyToMany(()=>City, (city)=>city.professionals,{
+        cascade:true
+    })
+    cities: City[]
 
 }
 

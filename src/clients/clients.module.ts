@@ -15,6 +15,7 @@ import { Review } from 'src/client_professional_entities/entities/review.entity'
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Question]),
     TypeOrmModule.forFeature([Review])
-  ]
+  ],
+  exports: [ClientsModule]
 })
 export class ClientsModule {}

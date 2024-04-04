@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToOne, ManyToMany } from "typeorm";
-import { Client } from "src/clients/entities/client.entity";
-import { Professional } from "src/professionals/entities/professional.entity";
+import { Client } from "../../clients/entities/client.entity";
+import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class Question {
 

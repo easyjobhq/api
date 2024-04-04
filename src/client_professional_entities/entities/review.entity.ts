@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Client } from "../../clients/entities/client.entity";
-import { Professional } from "src/professionals/entities/professional.entity";
+import { Professional } from "../../professionals/entities/professional.entity";
 
 @Entity()
 export class Review {
