@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Double } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToMany } from "typeorm";
+import { Professional } from "./professional.entity";
 
 @Entity()
 export class Service {
@@ -14,6 +15,11 @@ export class Service {
 
     @Column({type: 'float'})
     price: number;
+
+    @ManyToMany(()=>Professional, (professional)=>professional.services,{
+        cascade:true
+    })
+    professionals: Professional[]
 
 }
 
