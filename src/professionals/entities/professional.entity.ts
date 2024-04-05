@@ -16,31 +16,36 @@ export class Professional extends User {
     @Column()
     description: string;
 
-    @ManyToMany(()=>Question, (question)=>question.professionals, {
-        cascade:true,
+    @ManyToMany(()=>Question, (question)=>question.professionals)
+    @JoinTable({
+        name: 'professional_question'
     })
     questions: Question[]
 
-    @OneToMany(()=>Review, (review)=>review.professionals)
+    @OneToMany(()=>Review, (review)=>review.professionals)   
     reviews: Review[]
 
-    @ManyToMany(()=>Speciality, (specilities)=>specilities.professionals, {
-        cascade: true
+    @ManyToMany(()=>Speciality, (specilities)=>specilities.professionals)
+    @JoinTable({
+        name:'professional_speciality'
     })
     specialities: Speciality[]
 
-    @ManyToMany(()=>Service, (services)=>services.professionals,{
-        cascade:true
+    @ManyToMany(()=>Service, (services)=>services.professionals)
+    @JoinTable({
+        name:'professional_service'
     })
     services: Service[]
 
-    @ManyToMany(()=>Language, (language)=>language.professionals, {
-        cascade:true
+    @ManyToMany(()=>Language, (language)=>language.professionals)
+    @JoinTable({
+        name:'professional_language'
     })
     languages: Language[]
 
-    @ManyToMany(()=>City, (city)=>city.professionals,{
-        cascade:true
+    @ManyToMany(()=>City, (city)=>city.professionals)
+    @JoinTable({
+        name:'professional_city'
     })
     cities: City[]
 

@@ -16,9 +16,7 @@ export class Service {
     @Column({type: 'float'})
     price: number;
 
-    @ManyToMany(()=>Professional, (professional)=>professional.services,{
-        cascade:true
-    })
+    @ManyToMany(()=>Professional, (professional)=>professional.services)
     professionals: Professional[]
 
 }
