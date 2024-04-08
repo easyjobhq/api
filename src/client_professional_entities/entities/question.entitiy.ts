@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, Double } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToOne, ManyToMany } from "typeorm";
+import { Client } from "../../clients/entities/client.entity";
+import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class Question {
 
@@ -11,6 +12,14 @@ export class Question {
 
     @Column()
     comment: string;
+
+    @ManyToOne(()=>Client, (client)=>client.questions)
+    client: Client
+
+    @ManyToMany(()=>Professional, (professional) => professional.questions,{
+        cascade: true
+    })
+    professionals:Professional[]
 
 }
 

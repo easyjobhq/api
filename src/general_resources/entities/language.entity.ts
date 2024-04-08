@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Professional } from "../../professionals/entities/professional.entity";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 
 @Entity()
 export class Language {
@@ -8,5 +9,10 @@ export class Language {
 
     @Column()
     language_name: string;
+
+    @ManyToMany(()=>Professional, (professional)=>professional.languages, {
+        cascade: true
+    })
+    professionals: Professional[]
 
 }
