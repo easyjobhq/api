@@ -4,6 +4,7 @@ import { ClientsController } from './clients.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity';
 import { User } from './entities/user.entity';
+import { Question } from 'src/client_professional_entities/entities/question.entitiy';
 
 @Module({
   controllers: [ClientsController],
