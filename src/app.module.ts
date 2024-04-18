@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GeneralResourcesModule } from './general_resources/general_resources.module';
 import { ClientProfessionalEntitiesModule } from './client_professional_entities/client_professional_entities.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true 
     }),
     ClientsModule, 
-    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule],
+    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

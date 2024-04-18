@@ -1,11 +1,12 @@
-import { User } from "../../clients/entities/user.entity";
-import { Entity, Column, PrimaryGeneratedColumn, ChildEntity, JoinTable, ManyToMany, OneToMany } from "typeorm";
+import { User } from "../../auth/entities/user.entity";
+import { Entity, Column, PrimaryGeneratedColumn, ChildEntity, JoinTable, ManyToMany, OneToMany, BeforeInsert } from "typeorm";
 import { Question } from "../../client_professional_entities/entities/question.entitiy";
 import { Review } from "../../client_professional_entities/entities/review.entity";
 import { Speciality } from "./speciality.entity";
 import { Service } from "./service.entity";
 import { Language } from "../../general_resources/entities/language.entity";
 import { City } from "../../general_resources/entities/city.entity";
+import { Role } from "../../auth/entities/role.enum";
 
 @Entity()
 export class Professional extends User {
@@ -48,6 +49,14 @@ export class Professional extends User {
         name:'professional_city'
     })
     cities: City[]
+
+    @BeforeInsert()
+    giveRole(){
+        if(!this.roles)
+            this.roles = []
+
+        this.roles.push(Role.Professional)
+    }
 
 }
 
