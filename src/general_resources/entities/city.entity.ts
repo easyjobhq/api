@@ -12,7 +12,7 @@ export class City {
     city_name: string;
 
     @ManyToOne(()=>Department, (deparment)=>deparment.cities)
-    department: Department[]
+    department: Department
 
     @ManyToMany(()=>Professional, (professional)=>professional.cities,{
         cascade:true

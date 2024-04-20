@@ -14,21 +14,21 @@ export class ProfessionalsController {
 
   @Get()
   findAll() {
-    return this.professionalsService.findAll();
+    //return this.professionalsService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.professionalsService.findOne(+id);
+    //return this.professionalsService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProfessionalDto: UpdateProfessionalDto) {
-    return this.professionalsService.update(+id, updateProfessionalDto);
+    //return this.professionalsService.update(+id, updateProfessionalDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.professionalsService.remove(+id);
+    //return this.professionalsService.remove(+id);
   }
 }

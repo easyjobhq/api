@@ -57,7 +57,7 @@ export class ClientsService {
       ...updateClientDto
     });
 
-    if ( !client ) throw new NotFoundException(`Brand with id: ${ id } not found`);
+    if ( !client ) throw new NotFoundException(`Client with id: ${ id } not found`);
 
     try {
       await this.clientRespository.save( client );
