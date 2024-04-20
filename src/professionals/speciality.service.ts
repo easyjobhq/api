@@ -19,70 +19,70 @@ export class SpecialityService {
     private readonly specialityRepository: Repository<Speciality>
   ) {}
 
-  async create(createServiceDto: CreateServiceDto) {
-    const service =  this.serviceRepository.create(createServiceDto);
+//   async create(createSpecialityDto: CreateServiceDto) {
+//     const service =  this.serviceRepository.create(createServiceDto);
 
-    await this.serviceRepository.save(service);
+//     await this.serviceRepository.save(service);
 
-    return service;
-  }
+//     return service;
+//   }
 
-  findAll( paginationDto: PaginationDto ) {
-    const {limit = 10, offset= 0} = paginationDto;
+//   findAll( paginationDto: PaginationDto ) {
+//     const {limit = 10, offset= 0} = paginationDto;
 
-    return this.serviceRepository.find({
-      take: limit, 
-      skip: offset,
-    })
+//     return this.serviceRepository.find({
+//       take: limit, 
+//       skip: offset,
+//     })
 
-  }
+//   }
 
-  async findOne(id_service: string) {
+//   async findOne(id_service: string) {
 
-    let service: Service;
+//     let service: Service;
 
-    if(isUUID(id_service)){
-      service = await this.serviceRepository.findOneBy({id: id_service});
-    }
+//     if(isUUID(id_service)){
+//       service = await this.serviceRepository.findOneBy({id: id_service});
+//     }
 
-    if(!service){
-      throw new NotFoundException(`Service with ${id_service} not found`)
-    }
+//     if(!service){
+//       throw new NotFoundException(`Service with ${id_service} not found`)
+//     }
 
-    return service;
-  }
+//     return service;
+//   }
 
-  async update(id: string, updateServiceDto: UpdateServiceDto) {
-    const service = await this.serviceRepository.preload({
-      id: id,
-      ...updateServiceDto
-    });
+//   async update(id: string, updateServiceDto: UpdateServiceDto) {
+//     const service = await this.serviceRepository.preload({
+//       id: id,
+//       ...updateServiceDto
+//     });
 
-    if ( !service ) throw new NotFoundException(`Service with id: ${ id } not found`);
+//     if ( !service ) throw new NotFoundException(`Service with id: ${ id } not found`);
 
-    try {
-      await this.serviceRepository.save( service );
-      return service;
+//     try {
+//       await this.serviceRepository.save( service );
+//       return service;
       
-    } catch (error) {
-      this.handleDBExceptions(error);
-    }
-  }
+//     } catch (error) {
+//       this.handleDBExceptions(error);
+//     }
+//   }
 
-  async remove(id: string) {
-    const service = await this.findOne(id);
-    await this.serviceRepository.remove(service);
-  }
+//   async remove(id: string) {
+//     const service = await this.findOne(id);
+//     await this.serviceRepository.remove(service);
+//   }
 
-  private handleDBExceptions( error: any ) {
+//   private handleDBExceptions( error: any ) {
 
-    if ( error.code === '23505' )
-      throw new BadRequestException(error.detail);
+//     if ( error.code === '23505' )
+//       throw new BadRequestException(error.detail);
     
-    this.logger.error(error)
-    // console.log(error)
-    throw new InternalServerErrorException('Unexpected error, check server logs');
+//     this.logger.error(error)
+//     // console.log(error)
+//     throw new InternalServerErrorException('Unexpected error, check server logs');
 
-  }
+//   }
 
 }
