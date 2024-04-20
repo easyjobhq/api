@@ -4,7 +4,7 @@ import { City } from "./city.entity";
 @Entity()
 export class Department {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()

@@ -10,9 +10,7 @@ export class Language {
     @Column()
     language_name: string;
 
-    @ManyToMany(()=>Professional, (professional)=>professional.languages, {
-        cascade: true
-    })
+    @ManyToMany(()=>Professional, (professional)=>professional.languages)
     professionals: Professional[]
 
 }
