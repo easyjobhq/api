@@ -8,6 +8,8 @@ import { GeneralResourcesModule } from './general_resources/general_resources.mo
 import { ClientProfessionalEntitiesModule } from './client_professional_entities/client_professional_entities.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { SeedModule } from './seed/seed.module';
+
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true 
     }),
     ClientsModule, 
-    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule],
+    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule, SeedModule],
   controllers: [AppController],
   providers: [AppService],
 })

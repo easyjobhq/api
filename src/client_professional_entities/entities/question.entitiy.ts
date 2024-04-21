@@ -4,14 +4,24 @@ import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class Question {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+
+    @Column('text',{
+        nullable:false
+    })
     title: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:true,
+        width:200
+    })
     question_description: string;
+
+    
+
 
     @ManyToOne(()=>Client, (client)=>client.reviews)
     client: Client

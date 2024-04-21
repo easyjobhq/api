@@ -9,13 +9,20 @@ import { City } from "../../general_resources/entities/city.entity";
 import { Role } from "../../auth/entities/role.enum";
 import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
 
+
 @Entity()
 export class Professional extends User {
     
-    @Column()
+    @Column('text',{
+        nullable: false
+    })
     score: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable: false,
+        width:200
+    })
     description: string;
 
     @ManyToOne(()=>Question, (question)=>question.professional)
@@ -58,6 +65,8 @@ export class Professional extends User {
 
         this.roles.push(Role.Professional)
     }
+
+
 
 }
 

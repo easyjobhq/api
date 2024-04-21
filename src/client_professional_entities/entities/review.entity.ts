@@ -5,20 +5,28 @@ import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class Review {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
+
+   
     @Column({type: 'float'})
     score: number;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:true,
+        width:500
+    })
     comment: string;
+    
 
     @ManyToOne(()=>Client, (client)=>client.questions)
     client: Client
 
-    @ManyToOne(()=>Professional, (professional) => professional.questions)
-    professional:Professional
+
+    @ManyToOne(()=>Professional, (professional)=> professional.reviews)
+    professional: Professional
 
 }
 
