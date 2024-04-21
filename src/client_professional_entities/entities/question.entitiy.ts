@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToOne, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToOne, ManyToMany, OneToMany } from "typeorm";
 import { Client } from "../../clients/entities/client.entity";
 import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
@@ -6,6 +6,7 @@ export class Question {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
 
     @Column('text',{
         nullable:false
@@ -21,13 +22,13 @@ export class Question {
 
     
 
-    @ManyToOne(()=>Client, (client)=>client.questions)
+
+    @ManyToOne(()=>Client, (client)=>client.reviews)
     client: Client
 
-    @ManyToMany(()=>Professional, (professional) => professional.questions,{
-        cascade: true
-    })
-    professionals:Professional[]
+    @ManyToOne(()=>Professional, (professional)=> professional.reviews)
+    professional: Professional
+
 
 }
 

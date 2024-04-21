@@ -7,6 +7,7 @@ import { Review } from './entities/review.entity';
 import { Client } from 'src/clients/entities/client.entity';
 import { Professional } from '../professionals/entities/professional.entity';
 import { AppointmentService } from './appointment.service';
+import { Appointment } from './entities/appointment.entity';
 
 @Module({
   controllers: [ClientProfessionalEntitiesController],
@@ -17,6 +18,7 @@ import { AppointmentService } from './appointment.service';
     TypeOrmModule.forFeature([Review]),
     TypeOrmModule.forFeature([Client]),
     TypeOrmModule.forFeature([Professional]),
+    TypeOrmModule.forFeature([Appointment]),
   ], 
 })
 export class ClientProfessionalEntitiesModule {}

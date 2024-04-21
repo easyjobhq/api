@@ -8,6 +8,7 @@ export class Review {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+
    
     @Column({type: 'float'})
     score: number;
@@ -20,8 +21,9 @@ export class Review {
     comment: string;
     
 
-    @ManyToOne(()=>Client, (client)=>client.reviews)
+    @ManyToOne(()=>Client, (client)=>client.questions)
     client: Client
+
 
     @ManyToOne(()=>Professional, (professional)=> professional.reviews)
     professional: Professional

@@ -43,7 +43,7 @@ export class AppointmentService {
     }
 
     if(!appointment){
-      throw new NotFoundException(`Service with ${id_appointment} not found`)
+      throw new NotFoundException(`Appointment with ${id_appointment} not found`)
     }
 
     return appointment;
