@@ -7,6 +7,7 @@ import { City } from '../general_resources/entities/city.entity';
 import { Language } from '../general_resources/entities/language.entity';
 import { Professional } from '../professionals/entities/professional.entity';
 import { Role } from '../auth/entities/role.enum';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SeedService {
@@ -108,6 +109,8 @@ export class SeedService {
         
       });
 
+      professionalData1.password = bcrypt.hashSync(professionalData1.password, 10)
+
       const professionalData2 = professionalRepository.create({
         name: "Jane",
         last_name: "Smith",
@@ -121,6 +124,8 @@ export class SeedService {
         languages:[]
         
       });
+
+      professionalData2.password = bcrypt.hashSync(professionalData2.password, 10)
     
       const professionalData3 = professionalRepository.create({
           name: "Michael",
@@ -135,7 +140,7 @@ export class SeedService {
           languages:[]
       });
    
-      
+      professionalData3.password = bcrypt.hashSync(professionalData3.password, 10)
       
       const language1 = languageRepository.create({language_name:'Spanish', professionals:[] });
       //language1.professionals.push(professionalData1,professionalData2);

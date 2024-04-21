@@ -8,6 +8,7 @@ import { Language } from "../../general_resources/entities/language.entity";
 import { City } from "../../general_resources/entities/city.entity";
 import { Role } from "../../auth/entities/role.enum";
 
+
 @Entity()
 export class Professional extends User {
     
@@ -63,6 +64,8 @@ export class Professional extends User {
 
         this.roles.push(Role.Professional)
     }
+
+
 
 }
 
