@@ -5,14 +5,14 @@ import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class City {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     city_name: string;
 
     @ManyToOne(()=>Department, (deparment)=>deparment.cities)
-    department: Department[]
+    department: Department
 
     @ManyToMany(()=>Professional, (professional)=>professional.cities,{
         cascade:true

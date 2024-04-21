@@ -11,10 +11,16 @@ import { Role } from "../../auth/entities/role.enum";
 @Entity()
 export class Professional extends User {
     
-    @Column()
+    @Column('text',{
+        nullable: false
+    })
     score: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable: false,
+        width:200
+    })
     description: string;
 
     @ManyToMany(()=>Question, (question)=>question.professionals)

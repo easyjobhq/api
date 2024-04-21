@@ -6,7 +6,11 @@ export class Payment_method {
     @PrimaryGeneratedColumn()
     id: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:false,
+        width:20
+    })
     payment_method_name: string;
 }
 

@@ -4,13 +4,17 @@ import { Professional } from "../../professionals/entities/professional.entity";
 @Entity()
 export class Question {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column({type: 'float'})
     score: number;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:true,
+        width:500
+    })
     comment: string;
 
     @ManyToOne(()=>Client, (client)=>client.questions)

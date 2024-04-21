@@ -4,15 +4,13 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 @Entity()
 export class Language {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     language_name: string;
 
-    @ManyToMany(()=>Professional, (professional)=>professional.languages, {
-        cascade: true
-    })
+    @ManyToMany(()=>Professional, (professional)=>professional.languages)
     professionals: Professional[]
 
 }

@@ -4,10 +4,10 @@ import { City } from "./city.entity";
 @Entity()
 export class Department {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     department_name: string;
 
     @OneToMany(()=>City, (city)=>city.department)
