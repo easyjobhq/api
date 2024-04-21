@@ -15,7 +15,8 @@ export class Service {
 
     @Column({
         type:'text',
-        nullable:true
+        nullable:true,
+        width:900
     })
     description: string;
 

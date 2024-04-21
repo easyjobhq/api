@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { AuthProfessionalService } from '../services/auth-professional.service';
 import { LoginUserDto } from '../dto/login-user.dto';
-import { CreateProfessionalDto } from 'src/professionals/dto/create-professional.dto';
+import { CreateProfessionalDto } from '../../professionals/dto/create-professional.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../entities/role.enum';
