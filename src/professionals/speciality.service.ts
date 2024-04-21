@@ -3,10 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
-import { Service } from './entities/service.entity';
-import { CreateServiceDto } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
 import { Speciality } from './entities/speciality.entity';
+import { createSpecialityDto } from './dto/create-speciality.dto';
+import { UpdateSpecialityDto } from './dto/update-speciality.dto';
 
 @Injectable()
 export class SpecialityService {
@@ -19,70 +18,70 @@ export class SpecialityService {
     private readonly specialityRepository: Repository<Speciality>
   ) {}
 
-//   async create(createSpecialityDto: CreateServiceDto) {
-//     const service =  this.serviceRepository.create(createServiceDto);
+  async create(createSpecialityDto: createSpecialityDto) {
+    const speciality =  this.specialityRepository.create(createSpecialityDto);
 
-//     await this.serviceRepository.save(service);
+    await this.specialityRepository.save(speciality);
 
-//     return service;
-//   }
+    return speciality;
+  }
 
-//   findAll( paginationDto: PaginationDto ) {
-//     const {limit = 10, offset= 0} = paginationDto;
+  findAll( paginationDto: PaginationDto ) {
+    const {limit = 10, offset= 0} = paginationDto;
 
-//     return this.serviceRepository.find({
-//       take: limit, 
-//       skip: offset,
-//     })
+    return this.specialityRepository.find({
+      take: limit, 
+      skip: offset,
+    })
 
-//   }
+  }
 
-//   async findOne(id_service: string) {
+  async findOne(id_speciality: string) {
 
-//     let service: Service;
+    let speciality: Speciality;
 
-//     if(isUUID(id_service)){
-//       service = await this.serviceRepository.findOneBy({id: id_service});
-//     }
+    if(isUUID(id_speciality)){
+      speciality = await this.specialityRepository.findOneBy({id: id_speciality});
+    }
 
-//     if(!service){
-//       throw new NotFoundException(`Service with ${id_service} not found`)
-//     }
+    if(!speciality){
+      throw new NotFoundException(`Speciality with ${id_speciality} not found`)
+    }
 
-//     return service;
-//   }
+    return speciality;
+  }
 
-//   async update(id: string, updateServiceDto: UpdateServiceDto) {
-//     const service = await this.serviceRepository.preload({
-//       id: id,
-//       ...updateServiceDto
-//     });
+  async update(id: string, updateSpecialityDto: UpdateSpecialityDto) {
+    const speciality = await this.specialityRepository.preload({
+      id: id,
+      ...updateSpecialityDto
+    });
 
-//     if ( !service ) throw new NotFoundException(`Service with id: ${ id } not found`);
+    if ( !speciality ) throw new NotFoundException(`Speciality with id: ${ id } not found`);
 
-//     try {
-//       await this.serviceRepository.save( service );
-//       return service;
+    try {
+      await this.specialityRepository.save( speciality );
+      return speciality;
       
-//     } catch (error) {
-//       this.handleDBExceptions(error);
-//     }
-//   }
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
 
-//   async remove(id: string) {
-//     const service = await this.findOne(id);
-//     await this.serviceRepository.remove(service);
-//   }
+  async remove(id: string) {
+    const speciality = await this.findOne(id);
+    await this.specialityRepository.remove(speciality);
+  }
 
-//   private handleDBExceptions( error: any ) {
+  private handleDBExceptions( error: any ) {
 
-//     if ( error.code === '23505' )
-//       throw new BadRequestException(error.detail);
+    if ( error.code === '23505' )
+      throw new BadRequestException(error.detail);
     
-//     this.logger.error(error)
-//     // console.log(error)
-//     throw new InternalServerErrorException('Unexpected error, check server logs');
+    this.logger.error(error)
+    // console.log(error)
+    throw new InternalServerErrorException('Unexpected error, check server logs');
 
-//   }
+  }
 
 }

@@ -65,7 +65,7 @@ export class ClientsService {
       
     } catch (error) {
       this.handleDBExceptions(error);
-    }
+    } 
   }
 
   async remove(id: string) {

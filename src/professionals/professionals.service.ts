@@ -8,6 +8,8 @@ import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 import { Service } from './entities/service.entity';
 import { ServiceService } from './service.service';
+import { Speciality } from './entities/speciality.entity';
+import { SpecialityService } from './speciality.service';
 
 @Injectable()
 export class ProfessionalsService {
@@ -18,7 +20,8 @@ export class ProfessionalsService {
   constructor(
     @InjectRepository(Professional)
     private readonly professionalRepository: Repository<Professional>,
-    private readonly serviceService: ServiceService
+    private readonly serviceService: ServiceService,
+    private readonly specialityService: SpecialityService
   ) {}
 
   async create(createProfessionalDto: CreateProfessionalDto) {
@@ -68,6 +71,18 @@ export class ProfessionalsService {
 
     return professional;
     
+  }
+  
+  async addSpecialityToProfessional(id_professional: string, id_speciality: string) {
+    let professional: Professional;
+    let speciality: Speciality;
+
+    if(isUUID(id_professional) && isUUID(id_speciality)){
+      professional = await this.findOne(id_professional);
+      speciality = await this.specialityService.findOne(id_speciality);
+    }
+
+    professional.specialities.push(speciality);
   }
 
   async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {
