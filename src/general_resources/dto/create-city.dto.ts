@@ -4,6 +4,7 @@ import { Department } from "../entities/department.entity";
 
 
 export class CreateCityDto {
+    
     @IsString()
     readonly city_name: string;
 

@@ -11,6 +11,7 @@ import { Language } from '../general_resources/entities/language.entity';
 import { City } from '../general_resources/entities/city.entity';
 import { ServiceService } from './service.service';
 import { SpecialityService } from './speciality.service';
+import { Appointment } from 'src/client_professional_entities/entities/appointment.entity';
 
 @Module({
   controllers: [ProfessionalsController],
@@ -22,7 +23,8 @@ import { SpecialityService } from './speciality.service';
     TypeOrmModule.forFeature([Question]),
     TypeOrmModule.forFeature([Review]),
     TypeOrmModule.forFeature([Language]),
-    TypeOrmModule.forFeature([City])
+    TypeOrmModule.forFeature([City]), 
+    TypeOrmModule.forFeature([Appointment])
   ], 
   exports: [ProfessionalsModule]
 })
