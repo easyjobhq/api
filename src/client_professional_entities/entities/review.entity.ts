@@ -8,17 +8,17 @@ export class Review {
     @PrimaryGeneratedColumn()
     id: string;
 
-    @Column()
-    title: string;
+    @Column({type: 'float'})
+    score: number;
 
     @Column()
-    question_description: string;
+    comment: string;
 
-    @ManyToOne(()=>Client, (client)=>client.reviews)
+    @ManyToOne(()=>Client, (client)=>client.questions)
     client: Client
 
-    @ManyToOne(()=>Professional, (professional)=> professional.reviews)
-    professionals: Professional[]
+    @ManyToOne(()=>Professional, (professional) => professional.questions)
+    professional:Professional
 
 }
 
