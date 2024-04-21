@@ -30,7 +30,7 @@ export class Professional extends User {
     })
     questions: Question[]
 
-    @OneToMany(()=>Review, (review)=>review.professionals)   
+    @OneToMany(()=>Review, (review)=>review.professional)   
     reviews: Review[]
 
     @ManyToMany(()=>Speciality, (specilities)=>specilities.professionals)

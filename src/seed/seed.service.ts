@@ -8,6 +8,11 @@ import { Language } from '../general_resources/entities/language.entity';
 import { Professional } from '../professionals/entities/professional.entity';
 import { Role } from '../auth/entities/role.enum';
 import * as bcrypt from 'bcrypt';
+import { Service } from '../professionals/entities/service.entity';
+import { Question } from '../client_professional_entities/entities/question.entitiy';
+import { Speciality } from '../professionals/entities/speciality.entity';
+import { Client } from '../clients/entities/client.entity';
+import { Review } from '../client_professional_entities/entities/review.entity';
 
 @Injectable()
 export class SeedService {
@@ -23,6 +28,11 @@ export class SeedService {
       const cityRepository = queryRunner.manager.getRepository(City);
       const languageRepository = queryRunner.manager.getRepository(Language);
       const professionalRepository = queryRunner.manager.getRepository(Professional)
+      const serviceRepository = queryRunner.manager.getRepository(Service)
+      const questionRepository = queryRunner.manager.getRepository(Question)
+      const specialityRepository = queryRunner.manager.getRepository(Speciality)
+      const clientRepository = queryRunner.manager.getRepository(Client)
+      const reviewRepository = queryRunner.manager.getRepository(Review)
 
       
       const cities = await cityRepository.find();
@@ -33,6 +43,17 @@ export class SeedService {
       await languageRepository.remove(languages);
       const professionals = await professionalRepository.find()
       await professionalRepository.remove(professionals);
+      const services = await serviceRepository.find();
+      await serviceRepository.remove(services)
+      const questions = await questionRepository.find();
+      await questionRepository.remove(questions)
+      const specialities = await specialityRepository.find();
+      await specialityRepository.remove(specialities)
+      const clients = await clientRepository.find()
+      await clientRepository.remove(clients)
+      const reviews = await reviewRepository.find()
+      await reviewRepository.remove(reviews)
+
       
       const deparm1 = departmentRepository.create({ department_name: "Amazonas" });
       const deparm2 = departmentRepository.create({ department_name: "Antioquia" });
@@ -95,6 +116,44 @@ export class SeedService {
         city9, city10, city11, city12
       ]);
       
+      const services1 = serviceRepository.create({
+        title: 'Carpinteria',
+        description:'this service offers help to your house',
+        price: 54900.9
+      })
+
+      const services2 = serviceRepository.create({
+        title: 'Plomería',
+        description: 'Servicio de reparación y mantenimiento de tuberías y sistemas de agua',
+        price: 64900.5
+    });
+    
+    const services3 = serviceRepository.create({
+        title: 'Electricidad',
+        description: 'Instalación y reparación de sistemas eléctricos',
+        price: 79900.75
+    });
+    
+    const services4 = serviceRepository.create({
+      title: 'Limpieza a Domicilio',
+      description: 'Servicio de limpieza profunda para hogares y oficinas',
+      price: 44900.25
+    });
+
+    await serviceRepository.save([services1, services2, services3, services4])
+    
+    
+    
+
+    const speciality1 = specialityRepository.create({speciality_name:'Carpintero'});
+    const speciality2 = specialityRepository.create({speciality_name:'Plomero'});
+    const speciality3 = specialityRepository.create({speciality_name:'Electricista'});
+    const speciality4 = specialityRepository.create({speciality_name:'Limpiador'});
+    
+    await specialityRepository.save([speciality1,speciality2,speciality3,speciality4])
+    
+
+
       const professionalData1= professionalRepository.create({
         name: "John",
         last_name: "Doe",
@@ -105,7 +164,11 @@ export class SeedService {
         roles:[Role.Professional],
         score: "5.0",
         description: "Experienced professional with expertise in various fields.",
-        languages:[]
+        languages:[],
+        cities:[],
+        specialities:[],
+        services:[],
+        questions:[]
         
       });
 
@@ -121,7 +184,11 @@ export class SeedService {
         roles:[Role.Professional],
         score: "4.5",
         description: "Dedicated professional with strong communication skills.",
-        languages:[]
+        languages:[],
+        cities:[],
+        specialities:[],
+        services:[],
+        questions:[]
         
       });
 
@@ -137,10 +204,77 @@ export class SeedService {
           roles:[Role.Professional],
           score: "4.8",
           description: "Highly skilled professional with years of experience.",
-          languages:[]
+          languages:[],
+          cities:[],
+          specialities:[],
+          services:[],
+          questions:[]
       });
    
       professionalData3.password = bcrypt.hashSync(professionalData3.password, 10)
+
+      const clientData1 = clientRepository.create({
+        name: "M",
+        last_name: "J",
+        email: "michaeljo@example.com",
+        phone_number: "555123555",
+        photo_url: "https://example.com/profile.jpg",
+        password: "StrongPassword.456",
+        roles:[Role.Client],
+        questions:[]
+      });
+
+      clientData1.password = bcrypt.hashSync(clientData1.password,10)
+
+      const clientData2 = clientRepository.create({
+        name: "Emily",
+        last_name: "Smith",
+        email: "emilysmith@example.com",
+        phone_number: "555987654",
+        photo_url: "https://example.com/profile_emily.jpg",
+        password: "SecurePassword.789",
+        roles:[Role.Client],
+        questions:[]
+      });
+    
+      clientData2.password = bcrypt.hashSync(clientData2.password,10)
+
+      const clientData3 = clientRepository.create({
+          name: "Sophia",
+          last_name: "Brown",
+          email: "sophiabrown@example.com",
+          phone_number: "555246813",
+          photo_url: "https://example.com/profile_sophia.jpg",
+          password: "SafePassword.123",
+          roles:[Role.Client],
+          questions:[]
+      });
+
+      
+      
+      clientData3.password = bcrypt.hashSync(clientData3.password,10)
+
+      await clientRepository.save([clientData1,clientData2,clientData3])
+    
+      const question1 = questionRepository.create({
+        title:'reseña 1',
+        question_description:'no me gusto como trabaja',
+        client:clientData1
+      })
+  
+      const question2 = questionRepository.create({
+        title: 'Opinión sobre el servicio',
+        question_description: '¿Cómo calificarías la calidad del servicio recibido?',
+        client:clientData2
+      });
+    
+      const question3 = questionRepository.create({
+        title: 'Feedback sobre la experiencia',
+        question_description: '¿Qué aspectos de la experiencia mejorarías para futuros clientes?',
+        client:clientData3
+      });
+
+      await questionRepository.save([question1, question2, question3])
       
       const language1 = languageRepository.create({language_name:'Spanish', professionals:[] });
       //language1.professionals.push(professionalData1,professionalData2);
@@ -157,11 +291,46 @@ export class SeedService {
       ]);
       
       professionalData1.languages.push(language1,language6)
+      professionalData1.cities.push(city1)
+      professionalData1.services.push(services1,services2)
+      professionalData1.questions.push(question1)
+      professionalData1.specialities.push(speciality1)
       professionalData2.languages.push(language1)
-      
+      professionalData2.cities.push(city6,city7)
+      professionalData2.services.push(services2,services3)
+      professionalData2.questions.push(question2)
+      professionalData2.specialities.push(speciality2)
       professionalData3.languages.push(language4,language6)
+      professionalData3.cities.push(city3)
+      professionalData3.services.push(services3,services4)
+      professionalData3.questions.push(question3)
+      professionalData3.specialities.push(speciality3)
 
       await professionalRepository.save([professionalData1, professionalData2, professionalData3]);
+
+      const review1 = reviewRepository.create({
+        score: 5.0,
+        comment:'me encanto el servicio',
+        client:clientData1,
+        professional: professionalData1
+      })
+
+      const review2 = reviewRepository.create({
+        score: 4.5,
+        comment: 'El servicio fue bueno, pero hubo algunos detalles que podrían mejorar.',
+        client: clientData2,
+        professional: professionalData2
+      });
+    
+      const review3 = reviewRepository.create({
+          score: 3.8,
+          comment: 'Experiencia decente en general, pero esperaba un poco más.',
+          client: clientData3,
+          professional: professionalData3
+      });
+    
+      await reviewRepository.save([review1,review2,review3])
+      
 
       await queryRunner.commitTransaction();
 

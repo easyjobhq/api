@@ -7,15 +7,19 @@ export class Question {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({type: 'float'})
-    score: number;
+    @Column('text',{
+        nullable:false
+    })
+    title: string;
 
     @Column({
         type:'text',
         nullable:true,
-        width:500
+        width:200
     })
-    comment: string;
+    question_description: string;
+
+    
 
     @ManyToOne(()=>Client, (client)=>client.questions)
     client: Client
