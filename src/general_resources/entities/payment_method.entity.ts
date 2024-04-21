@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 @Entity()
 export class Payment_method {
@@ -12,5 +13,8 @@ export class Payment_method {
         width:20
     })
     payment_method_name: string;
+
+    @OneToMany(()=>Appointment, (appointment)=>appointment.payment_method)
+    appointments: Appointment[]
 }
 

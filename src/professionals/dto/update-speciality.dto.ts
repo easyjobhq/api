@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateClientDto } from './create-client.dto';
 import { IsOptional, IsString } from 'class-validator';
+import { createSpecialityDto } from './create-speciality.dto';
 
-export class UpdateClientDto extends PartialType(CreateClientDto) {
+export class UpdateSpecialityDto extends PartialType(createSpecialityDto) {
     @IsString()
     @IsOptional()
     readonly id?: string;
