@@ -10,9 +10,9 @@ import { Role } from '../auth/entities/role.enum';
 
 @Injectable()
 export class SeedService {
-  constructor(
-    private readonly datasource: DataSource
-  ){}
+  constructor(private readonly datasource: DataSource){}
+
+
   async seed() {
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
@@ -32,7 +32,7 @@ export class SeedService {
       await languageRepository.remove(languages);
       const professionals = await professionalRepository.find()
       await professionalRepository.remove(professionals);
-
+      
       const deparm1 = departmentRepository.create({ department_name: "Amazonas" });
       const deparm2 = departmentRepository.create({ department_name: "Antioquia" });
       const deparm3 = departmentRepository.create({ department_name: "Arauca" });
@@ -93,7 +93,7 @@ export class SeedService {
         city1, city2, city3, city4, city5, city6, city7, city8, 
         city9, city10, city11, city12
       ]);
-
+      
       const professionalData1= professionalRepository.create({
         name: "John",
         last_name: "Doe",
@@ -103,7 +103,8 @@ export class SeedService {
         password: "Password.123",
         roles:[Role.Professional],
         score: "5.0",
-        description: "Experienced professional with expertise in various fields."
+        description: "Experienced professional with expertise in various fields.",
+        languages:[]
         
       });
 
@@ -116,7 +117,8 @@ export class SeedService {
         password: "SecurePassword.123",
         roles:[Role.Professional],
         score: "4.5",
-        description: "Dedicated professional with strong communication skills."
+        description: "Dedicated professional with strong communication skills.",
+        languages:[]
         
       });
     
@@ -129,28 +131,32 @@ export class SeedService {
           password: "StrongPassword.456",
           roles:[Role.Professional],
           score: "4.8",
-          description: "Highly skilled professional with years of experience."
+          description: "Highly skilled professional with years of experience.",
+          languages:[]
       });
    
-      await professionalRepository.save([professionalData1, professionalData2, professionalData3]);
-
-      const language1 = languageRepository.create({ language_name: "Spanish" });
-      language1.professionals.push(professionalData1,professionalData2);
-      const language2 = languageRepository.create({ language_name: "English" });
-      const language3 = languageRepository.create({ language_name: "French" });
-      const language4 = languageRepository.create({ language_name: "German" });
-      language4.professionals.push(professionalData3);
-      const language5 = languageRepository.create({ language_name: "Portuguese" });
-      const language6 = languageRepository.create({ language_name: "Italian" });
-      language6.professionals.push(professionalData1,professionalData3);
+      
+      
+      const language1 = languageRepository.create({language_name:'Spanish', professionals:[] });
+      //language1.professionals.push(professionalData1,professionalData2);
+      const language2 = languageRepository.create({language_name:'English' });
+      const language3 = languageRepository.create({language_name:'French' });
+      const language4 = languageRepository.create({language_name:'German', professionals:[] });
+      //language4.professionals.push(professionalData3);
+      const language5 = languageRepository.create({language_name:'Portuguese' });
+      const language6 = languageRepository.create({language_name:'Italian', professionals:[] });
+      //language6.professionals.push(professionalData1,professionalData3);
+      
       await languageRepository.save([
         language1, language2, language3, language4, language5, language6
       ]);
-      //professionalData1.languages.push(language1,language6)
-      //professionalData2.languages.push(language1)
-      //professionalData3.languages.push(language4,language6)
-
       
+      professionalData1.languages.push(language1,language6)
+      professionalData2.languages.push(language1)
+      
+      professionalData3.languages.push(language4,language6)
+
+      await professionalRepository.save([professionalData1, professionalData2, professionalData3]);
 
       await queryRunner.commitTransaction();
 

@@ -4,13 +4,19 @@ import { Professional } from "./professional.entity";
 @Entity()
 export class Service {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:false
+    })
     title: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:true
+    })
     description: string;
 
     @Column({type: 'float'})

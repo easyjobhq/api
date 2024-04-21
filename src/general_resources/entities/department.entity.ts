@@ -7,7 +7,7 @@ export class Department {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     department_name: string;
 
     @OneToMany(()=>City, (city)=>city.department)

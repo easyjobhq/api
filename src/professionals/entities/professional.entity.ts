@@ -16,8 +16,10 @@ export class Professional extends User {
     })
     score: string;
 
-    @Column('text',{
-        nullable: false
+    @Column({
+        type:'text',
+        nullable: false,
+        width:200
     })
     description: string;
 

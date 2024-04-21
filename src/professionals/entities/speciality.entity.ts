@@ -4,10 +4,13 @@ import { Professional } from "./professional.entity";
 @Entity()
 export class Speciality {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({
+        type:'text',
+        nullable:false
+    })
     speciality_name: string;
 
     @ManyToMany(()=>Professional, (professional)=>professional.specialities)

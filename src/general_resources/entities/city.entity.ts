@@ -8,7 +8,7 @@ export class City {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column('text')
     city_name: string;
 
     @ManyToOne(()=>Department, (deparment)=>deparment.cities)
