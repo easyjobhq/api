@@ -20,13 +20,10 @@ export class Question {
     })
     question_description: string;
 
-    
-
-
-    @ManyToOne(()=>Client, (client)=>client.reviews)
+    @ManyToOne(()=>Client, (client)=>client.questions)
     client: Client
 
-    @ManyToOne(()=>Professional, (professional)=> professional.reviews)
+    @ManyToOne(()=>Professional, (professional)=> professional.questions)
     professional: Professional
 
 

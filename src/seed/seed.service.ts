@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpCode, Injectable } from '@nestjs/common';
 import { CreateSeedDto } from './dto/create-seed.dto';
 import { UpdateSeedDto } from './dto/update-seed.dto';
 import { DataSource } from 'typeorm';
@@ -167,8 +167,7 @@ export class SeedService {
         languages:[],
         cities:[],
         specialities:[],
-        services:[],
-        questions:[]
+        services:[]
         
       });
 
@@ -187,8 +186,7 @@ export class SeedService {
         languages:[],
         cities:[],
         specialities:[],
-        services:[],
-        questions:[]
+        services:[]
         
       });
 
@@ -207,8 +205,7 @@ export class SeedService {
           languages:[],
           cities:[],
           specialities:[],
-          services:[],
-          questions:[]
+          services:[]
       });
    
       professionalData3.password = bcrypt.hashSync(professionalData3.password, 10)
@@ -256,25 +253,7 @@ export class SeedService {
 
       await clientRepository.save([clientData1,clientData2,clientData3])
     
-      const question1 = questionRepository.create({
-        title:'reseña 1',
-        question_description:'no me gusto como trabaja',
-        client:clientData1
-      })
-  
-      const question2 = questionRepository.create({
-        title: 'Opinión sobre el servicio',
-        question_description: '¿Cómo calificarías la calidad del servicio recibido?',
-        client:clientData2
-      });
-    
-      const question3 = questionRepository.create({
-        title: 'Feedback sobre la experiencia',
-        question_description: '¿Qué aspectos de la experiencia mejorarías para futuros clientes?',
-        client:clientData3
-      });
-
-      await questionRepository.save([question1, question2, question3])
+      
       
       const language1 = languageRepository.create({language_name:'Spanish', professionals:[] });
       //language1.professionals.push(professionalData1,professionalData2);
@@ -293,20 +272,24 @@ export class SeedService {
       professionalData1.languages.push(language1,language6)
       professionalData1.cities.push(city1)
       professionalData1.services.push(services1,services2)
-      professionalData1.questions.push(question1)
+      //professionalData1.questions.push(question1)
       professionalData1.specialities.push(speciality1)
       professionalData2.languages.push(language1)
       professionalData2.cities.push(city6,city7)
       professionalData2.services.push(services2,services3)
-      professionalData2.questions.push(question2)
+      //professionalData2.questions.push(question2)
       professionalData2.specialities.push(speciality2)
       professionalData3.languages.push(language4,language6)
       professionalData3.cities.push(city3)
       professionalData3.services.push(services3,services4)
-      professionalData3.questions.push(question3)
+      //professionalData3.questions.push(question3)
       professionalData3.specialities.push(speciality3)
 
+      
+
       await professionalRepository.save([professionalData1, professionalData2, professionalData3]);
+
+      console.log('aaaaa')
 
       const review1 = reviewRepository.create({
         score: 5.0,
@@ -330,6 +313,29 @@ export class SeedService {
       });
     
       await reviewRepository.save([review1,review2,review3])
+
+      const question1 = questionRepository.create({
+        title:'reseña 1',
+        question_description:'no me gusto como trabaja',
+        client:clientData1,
+        professional: professionalData2
+      })
+  
+      const question2 = questionRepository.create({
+        title: 'Opinión sobre el servicio',
+        question_description: '¿Cómo calificarías la calidad del servicio recibido?',
+        client:clientData2,
+        professional: professionalData1
+      });
+    
+      const question3 = questionRepository.create({
+        title: 'Feedback sobre la experiencia',
+        question_description: '¿Qué aspectos de la experiencia mejorarías para futuros clientes?',
+        client:clientData3,
+        professional:professionalData3
+      });
+
+      await questionRepository.save([question1, question2, question3])
       
 
       await queryRunner.commitTransaction();
@@ -337,6 +343,8 @@ export class SeedService {
     }catch(error){
       await queryRunner.rollbackTransaction();
       throw error;
+      return HttpCode(500)
+      
     }finally {
       await queryRunner.release();
       return 'The seeder was succesful';

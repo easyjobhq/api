@@ -21,7 +21,7 @@ export class Review {
     comment: string;
     
 
-    @ManyToOne(()=>Client, (client)=>client.questions)
+    @ManyToOne(()=>Client, (client)=>client.reviews)
     client: Client
 
 
