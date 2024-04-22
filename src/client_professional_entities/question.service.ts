@@ -9,6 +9,9 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { Question } from './entities/question.entitiy';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import {Client} from '../clients/entities/client.entity'
+import { ClientsService } from '../clients/clients.service';
+import { ProfessionalsService } from '../professionals/professionals.service';
 
 @Injectable()
 export class QuestionService {
@@ -16,14 +19,29 @@ export class QuestionService {
 
   constructor(
     @InjectRepository(Question)
-    private readonly questionRepository: Repository<Question>
+    private readonly questionRepository: Repository<Question>,
+    private readonly clientService: ClientsService,
+    private readonly professionalService: ProfessionalsService
   ) {}
 
-  async create(createQuestionDto: CreateQuestionDto) {
-    const question =  this.questionRepository.create(createQuestionDto);
+  async create(id_client: string, id_professional: string, createQuestionDto: CreateQuestionDto) {
+
+    const question = this.questionRepository.create({
+      title: createQuestionDto.title,
+      question_description: createQuestionDto.question_description
+    });
+
+    const client = await this.clientService.findOne(id_client);
+
+    const professional = await this.professionalService.findOne(id_professional);
+
+    question.client = client
+
+    question.professional = professional
 
     await this.questionRepository.save(question);
-
+    
+    
     return question;
   }
 
@@ -56,7 +74,7 @@ export class QuestionService {
     const question = await this.questionRepository.preload({
       id: id,
       ...updateQuestionDto
-    });
+  });
 
     if ( !question ) throw new NotFoundException(`Question with id: ${ id } not found`);
 

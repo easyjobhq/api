@@ -41,17 +41,17 @@ export class ProfessionalsService {
     });
   }
 
-  async findOne(id_professional: string) {
+  async findOne(name_professional: string) {
 
     let professional: Professional;
 
 
-    if(isUUID(id_professional)){
-      professional = await this.professionalRepository.findOneBy({id: id_professional});
-    }
+    
+    professional = await this.professionalRepository.findOneBy({name: name_professional});
+    
 
     if(!professional){
-      throw new NotFoundException(`Professional with ${id_professional} not found`)
+      throw new NotFoundException(`Professional with ${name_professional} not found`)
     }
 
     return professional;

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ProfessionalsService } from './professionals.service';
-import { ProfessionalsController } from './professionals.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Professional } from './entities/professional.entity';
 import { Service } from './entities/service.entity';
@@ -12,6 +11,7 @@ import { City } from '../general_resources/entities/city.entity';
 import { ServiceService } from './service.service';
 import { SpecialityService } from './speciality.service';
 import { Appointment } from 'src/client_professional_entities/entities/appointment.entity';
+import { ProfessionalsController } from './controllers/professionals.controller';
 
 @Module({
   controllers: [ProfessionalsController],

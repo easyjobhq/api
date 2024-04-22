@@ -12,13 +12,7 @@ export class CreateQuestionDto {
     @IsString()
     question_description: string;
 
-    @ValidateNested()
-    @Type(() => Client)
-    client: Client
-
-    @ValidateNested()
-    @Type(() => Professional)
-    professional: Professional
+    
 
 }
 

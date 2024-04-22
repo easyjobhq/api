@@ -36,16 +36,16 @@ export class ServiceService {
 
   }
 
-  async findOne(id_service: string) {
+  async findOne(name_service: string) {
 
     let service: Service;
 
-    if(isUUID(id_service)){
-      service = await this.serviceRepository.findOneBy({id: id_service});
-    }
+    
+    service = await this.serviceRepository.findOneBy({title: name_service});
+    
 
     if(!service){
-      throw new NotFoundException(`Service with ${id_service} not found`)
+      throw new NotFoundException(`Service with ${name_service} not found`)
     }
 
     return service;
