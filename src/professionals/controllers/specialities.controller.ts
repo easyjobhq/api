@@ -3,8 +3,8 @@ import { SpecialityService } from '../speciality.service'
 import { createSpecialityDto } from '../dto/create-speciality.dto';
 import { UpdateSpecialityDto } from '../dto/update-speciality.dto';
 
-@Controller('professionals')
-export class ProfessionalsController {
+@Controller('specialities')
+export class SpecialityController {
   constructor(private readonly SpecialityService: SpecialityService) {}
 
   @Post()
@@ -14,7 +14,7 @@ export class ProfessionalsController {
 
   @Get()
   findAll() {
-    //return this.professionalsService.findAll();
+    return this.SpecialityService.findAll(10,0);
   }
 
   @Get(':id')

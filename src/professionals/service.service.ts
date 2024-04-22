@@ -26,8 +26,7 @@ export class ServiceService {
     return service;
   }
 
-  findAll( paginationDto: PaginationDto ) {
-    const {limit = 10, offset= 0} = paginationDto;
+  findAll( limit :number, offset:number ) {
 
     return this.serviceRepository.find({
       take: limit, 
@@ -41,7 +40,7 @@ export class ServiceService {
     let service: Service;
 
     
-    service = await this.serviceRepository.findOneBy({title: name_service});
+    service = await this.serviceRepository.findOneBy({id: name_service});
     
 
     if(!service){
@@ -49,6 +48,37 @@ export class ServiceService {
     }
 
     return service;
+  }
+
+  async findByTitle(title_service: string){
+    const service = await this.serviceRepository.findOneBy({title: title_service});
+
+    if(!service){
+      throw new NotFoundException(`Service with ${title_service} not found`)
+    }
+
+    return service;
+  }
+
+  async findByPrice(price: number){
+    const service = await this.serviceRepository.findOneBy({price:price});
+
+    if(!service){
+      throw new NotFoundException(`Service with ${price} not found`)
+    }
+
+    return service;
+
+  }
+
+  async findByCity(city_name: string){
+    const services = await this.serviceRepository
+                    .createQueryBuilder('service')
+                    .innerJoin("service.professionals", "professional")
+                    .innerJoin("professional.cities", "city")
+                    .where("city.city_name = :name", { name: city_name })
+                    .getMany()
+    return services
   }
 
   async update(id: string, updateServiceDto: UpdateServiceDto) {

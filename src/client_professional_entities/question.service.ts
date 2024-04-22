@@ -45,8 +45,7 @@ export class QuestionService {
     return question;
   }
 
-  findAll( paginationDto: PaginationDto ) {
-    const {limit = 10, offset= 0} = paginationDto;
+  findAll( limit: number, offset: number ) {
 
     return this.questionRepository.find({
       take: limit, 

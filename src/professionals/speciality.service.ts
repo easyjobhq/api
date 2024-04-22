@@ -26,8 +26,7 @@ export class SpecialityService {
     return speciality;
   }
 
-  findAll( paginationDto: PaginationDto ) {
-    const {limit = 10, offset= 0} = paginationDto;
+  findAll( limit :number , offset: number) {
 
     return this.specialityRepository.find({
       take: limit, 

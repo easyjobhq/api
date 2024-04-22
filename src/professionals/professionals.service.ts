@@ -20,6 +20,10 @@ export class ProfessionalsService {
   constructor(
     @InjectRepository(Professional)
     private readonly professionalRepository: Repository<Professional>,
+    @InjectRepository(Service)
+    private readonly serviceRepository: Repository<Service>,
+    @InjectRepository(Speciality)
+    private readonly specialityRepository: Repository<Speciality>,
     private readonly serviceService: ServiceService,
     private readonly specialityService: SpecialityService
   ) {}
@@ -32,8 +36,9 @@ export class ProfessionalsService {
     return professional;
   }
 
-  findAll(paginationDto: PaginationDto) {
-    const {limit = 10, offset= 0} = paginationDto;
+  findAll(limit:number, offset:number) {
+    limit = 10 
+    offset= 0
     
     return this.professionalRepository.find({
       take: limit, 
@@ -47,7 +52,7 @@ export class ProfessionalsService {
 
 
     
-    professional = await this.professionalRepository.findOneBy({name: name_professional});
+    professional = await this.professionalRepository.findOneBy({id: name_professional});
     
 
     if(!professional){
@@ -66,8 +71,19 @@ export class ProfessionalsService {
       professional = await this.findOne(id_professional);
       service =  await this.serviceService.findOne(id_service);
     }
+    //if(!professional.services){
+      //professional.services =[]
+    //}
+    const services = await this.findServices(id_professional)
 
-    professional.services.push(service);
+    if(!professional.services)
+      professional.services = []
+    
+    professional.services.push(...services);
+    professional.services.push(service)
+
+
+    this.professionalRepository.save(professional)
 
     return professional;
     
@@ -82,7 +98,35 @@ export class ProfessionalsService {
       speciality = await this.specialityService.findOne(id_speciality);
     }
 
+    const specialities = await this.findSpecialities(id_professional)
+
+    if(!professional.specialities)
+      professional.specialities = []
+
+    professional.specialities.push(...specialities)
     professional.specialities.push(speciality);
+
+    this.professionalRepository.save(professional)
+
+    return professional.services
+  }
+
+  async findServices(id_professional:string){
+    const services = await this.serviceRepository.
+                      createQueryBuilder('service')
+                      .innerJoin("service.professionals", "professional")
+                      .where("professional.id = :id", { id: id_professional })
+                      .getMany();
+    return services
+  }
+
+  async findSpecialities(id_professional: string){
+    const specialities = await this.specialityRepository.
+                          createQueryBuilder('speciality')
+                          .innerJoin('speciality.professionals', 'professional')
+                          .where('professional.id = :id', {id: id_professional})
+                          .getMany();
+    return specialities
   }
 
   async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {

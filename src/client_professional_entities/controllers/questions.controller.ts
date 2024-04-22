@@ -9,8 +9,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 @Controller('questions')
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService,
-              private readonly paginationDto: PaginationDto
+  constructor(private readonly questionService: QuestionService
   ) {}
 
   @UseGuards(AuthGuard(),RolesGuard)
@@ -24,9 +23,7 @@ export class QuestionController {
   @UseGuards(AuthGuard())
   @Get()
   findAll() {
-    this.paginationDto.limit = 10
-    this.paginationDto.offset = 0
-     return this.questionService.findAll(this.paginationDto);
+     return this.questionService.findAll(10,0);
   }
 
   @UseGuards(AuthGuard())

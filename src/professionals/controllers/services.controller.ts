@@ -6,10 +6,9 @@ import {PaginationDto} from '../../common/dtos/pagination.dto'
 import { AuthGuard } from '@nestjs/passport';
 
 
-@Controller('professionals')
-export class ProfessionalsController {
+@Controller('services')
+export class ServiceController {
   constructor(private readonly ServiceService: ServiceService,
-              private readonly paginationDto: PaginationDto
   ) {}
 
   @UseGuards(AuthGuard())
@@ -21,15 +20,31 @@ export class ProfessionalsController {
   @Get()
   @UseGuards(AuthGuard())
   findAll() {
-    this.paginationDto.limit =10
-    this.paginationDto.offset = 0 
-    return this.ServiceService.findAll(this.paginationDto);
+     
+    return this.ServiceService.findAll(10,0);
   }
 
   @Get(':id')
   @UseGuards(AuthGuard())
-  findOne(@Param('name') name: string) {
-    return this.ServiceService.findOne(name);
+  findOne(@Param('id') id: string) {
+    return this.ServiceService.findOne(id);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('title/:title')
+  findByTitle(@Param('title') title:string){
+    return this.ServiceService.findByTitle(title);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('price/:price')
+  findByPrice(@Param('price') price: number){
+    return this.ServiceService.findByPrice(price)
+  }
+
+  @Get('city/:city_name')
+  findByCity(@Param('city_name') city_name: string){
+    return this.ServiceService.findByCity(city_name)
   }
 
   @Patch(':id')

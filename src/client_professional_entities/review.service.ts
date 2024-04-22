@@ -26,10 +26,14 @@ export class ReviewService {
   ) {}
 
   async create(id_client: string, id_review: string, createReviewDto: CreateReviewDto) {
-    const review =  this.reviewRepository.create(createReviewDto);
-    const client = await  this.clientService.findOne(id_client);
+    
+    const review = this.reviewRepository.create(createReviewDto);
+    console.log(id_client)
+    const client = await this.clientService.findOne(id_client);
+    
     const professional = await this.professionalService.findOne(id_review);
 
+    
     review.client = client;
     review.professional = professional;
 
