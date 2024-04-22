@@ -20,7 +20,6 @@ export class ServiceController {
   @Get()
   @UseGuards(AuthGuard())
   findAll() {
-     
     return this.ServiceService.findAll(10,0);
   }
 

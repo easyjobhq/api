@@ -49,12 +49,9 @@ export class ProfessionalsService {
   async findOne(name_professional: string) {
 
     let professional: Professional;
-
-
     
     professional = await this.professionalRepository.findOneBy({id: name_professional});
     
-
     if(!professional){
       throw new NotFoundException(`Professional with ${name_professional} not found`)
     }
@@ -71,9 +68,7 @@ export class ProfessionalsService {
       professional = await this.findOne(id_professional);
       service =  await this.serviceService.findOne(id_service);
     }
-    //if(!professional.services){
-      //professional.services =[]
-    //}
+    
     const services = await this.findServices(id_professional)
 
     if(!professional.services)
