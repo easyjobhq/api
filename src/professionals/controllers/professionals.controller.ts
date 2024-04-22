@@ -66,4 +66,10 @@ export class ProfessionalsController {
     return this.professionalsService.findSpecialities(id_professional);
   }
 
+  @UseGuards(AuthGuard())
+  @Get('city/:city_name')
+  findByCity(@Param('city_name') city_name: string){
+    return this.professionalsService.findByCity(city_name);
+  }
+
 }

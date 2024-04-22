@@ -43,8 +43,15 @@ export class ServiceController {
   }
 
   @Get('city/:city_name')
+  @UseGuards(AuthGuard())
   findByCity(@Param('city_name') city_name: string){
     return this.ServiceService.findByCity(city_name)
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('department/:department_name')
+  findByDeparment(@Param('department_name') department_name: string){
+    return this.ServiceService.findByDeparment(department_name)
   }
 
   @Patch(':id')

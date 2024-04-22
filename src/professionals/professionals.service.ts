@@ -129,6 +129,15 @@ export class ProfessionalsService {
     return specialities
   }
 
+  async findByCity(city_name:string){
+    const professionals = await this.professionalRepository
+                        . createQueryBuilder('professional')
+                        .innerJoin('professional.cities', 'city')
+                        .where('city.city_name = :name', {name:city_name})
+                        .getMany()
+    return professionals
+  }
+
   async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {
     const professional = await this.professionalRepository.preload({
       id: id,
