@@ -1,15 +1,15 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { CreateProfessionalDto } from './dto/create-professional.dto';
-import { UpdateProfessionalDto } from './dto/update-professional.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Professional } from './entities/professional.entity';
-import { Repository } from 'typeorm';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
-import { isUUID } from 'class-validator';
-import { Service } from './entities/service.entity';
-import { ServiceService } from './service.service';
-import { Speciality } from './entities/speciality.entity';
-import { SpecialityService } from './speciality.service';
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
+import {CreateProfessionalDto} from './dto/create-professional.dto';
+import {UpdateProfessionalDto} from './dto/update-professional.dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Professional} from './entities/professional.entity';
+import {Repository} from 'typeorm';
+import {isUUID} from 'class-validator';
+import {Service} from './entities/service.entity';
+import {ServiceService} from './service.service';
+import {Speciality} from './entities/speciality.entity';
+import {SpecialityService} from './speciality.service';
+import {City} from "../general_resources/entities/city.entity";
 
 @Injectable()
 export class ProfessionalsService {
@@ -24,6 +24,8 @@ export class ProfessionalsService {
     private readonly serviceRepository: Repository<Service>,
     @InjectRepository(Speciality)
     private readonly specialityRepository: Repository<Speciality>,
+    @InjectRepository(City)
+    private readonly CityRepository: Repository<City>,
     private readonly serviceService: ServiceService,
     private readonly specialityService: SpecialityService
   ) {}
@@ -78,7 +80,7 @@ export class ProfessionalsService {
     professional.services.push(service)
 
 
-    this.professionalRepository.save(professional)
+    await this.professionalRepository.save(professional)
 
     return professional;
     
@@ -101,36 +103,60 @@ export class ProfessionalsService {
     professional.specialities.push(...specialities)
     professional.specialities.push(speciality);
 
-    this.professionalRepository.save(professional)
+    await this.professionalRepository.save(professional)
 
     return professional.services
   }
 
+  async addCityToProfessional(id_professional: string, id_city: string) {
+    let professional: Professional;
+    let city: City;
+
+    if(isUUID(id_professional) && isUUID(id_city)){
+      professional = await this.findOne(id_professional);
+      city = await this.CityRepository.findOneBy({id:id_city});
+    }
+
+    const cities = await this.findCities(id_professional);
+    if(!professional.cities)
+      professional.cities = []
+
+    professional.cities.push(...cities);
+    professional.cities.push(city);
+
+    await this.professionalRepository.save(professional)
+
+    return professional;
+  }
+
   async findServices(id_professional:string){
-    const services = await this.serviceRepository.
-                      createQueryBuilder('service')
-                      .innerJoin("service.professionals", "professional")
-                      .where("professional.id = :id", { id: id_professional })
-                      .getMany();
-    return services
+    return await this.serviceRepository.createQueryBuilder('service')
+        .innerJoin("service.professionals", "professional")
+        .where("professional.id = :id", {id: id_professional})
+        .getMany()
   }
 
   async findSpecialities(id_professional: string){
-    const specialities = await this.specialityRepository.
-                          createQueryBuilder('speciality')
-                          .innerJoin('speciality.professionals', 'professional')
-                          .where('professional.id = :id', {id: id_professional})
-                          .getMany();
-    return specialities
+    return await this.specialityRepository.createQueryBuilder('speciality')
+        .innerJoin('speciality.professionals', 'professional')
+        .where('professional.id = :id', {id: id_professional})
+        .getMany()
   }
 
   async findByCity(city_name:string){
-    const professionals = await this.professionalRepository
-                        . createQueryBuilder('professional')
-                        .innerJoin('professional.cities', 'city')
-                        .where('city.city_name = :name', {name:city_name})
-                        .getMany()
-    return professionals
+    return await this.professionalRepository
+        .createQueryBuilder('professional')
+        .innerJoin('professional.cities', 'city')
+        .where('city.city_name = :name', {name: city_name})
+        .getMany()
+  }
+
+  private async findCities(id_professional:string){
+    return await this.CityRepository
+        .createQueryBuilder('city')
+        .innerJoin('city.professionals', 'professional')
+        .where('professional.id = :id', {id: id_professional})
+        .getMany();
   }
 
   async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {
