@@ -210,6 +210,22 @@ export class SeedService {
    
       professionalData3.password = bcrypt.hashSync(professionalData3.password, 10)
 
+      const adminData1 = professionalRepository.create({
+        name: "Mateo",
+        last_name: "Silva",
+        email: "mateo.silva@example.com",
+        phone_number: "3219078207",
+        photo_url: "https://example.com/profile.jpg",
+        password: "StrongPassword.456",
+        roles:[Role.Admin],
+        score: "4.8",
+        description: "Highly skilled professional with years of experience.",
+        languages:[],
+        cities:[],
+        specialities:[],
+        services:[]
+      })
+
       const clientData1 = clientRepository.create({
         name: "M",
         last_name: "J",
@@ -287,7 +303,7 @@ export class SeedService {
 
       
 
-      await professionalRepository.save([professionalData1, professionalData2, professionalData3]);
+      await professionalRepository.save([professionalData1, professionalData2, professionalData3, adminData1]);
 
       console.log('aaaaa')
 

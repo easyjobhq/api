@@ -54,6 +54,12 @@ export class ProfessionalsController {
       return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
   }
 
+  @Post('city/:id_city/professional/:id_professional')
+  addCities(@Param('id_professional') id_professional:string, @Param('id_city') id_city:string ){
+    return this.professionalsService.addCityToProfessional(id_professional,id_city);
+  }
+
+
   @UseGuards(AuthGuard())
   @Get('services/:id_professional')
   findServices(@Param('id_professional') id_professional: string){
