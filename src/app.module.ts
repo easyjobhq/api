@@ -24,6 +24,7 @@ import { SeedModule } from './seed/seed.module';
       autoLoadEntities: true, 
       synchronize: true 
     }),
+
     ClientsModule, 
     ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule, SeedModule],
   controllers: [AppController],
