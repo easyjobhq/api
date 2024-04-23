@@ -1,4 +1,4 @@
-import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
+import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 @Entity()
