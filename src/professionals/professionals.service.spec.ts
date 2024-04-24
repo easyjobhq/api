@@ -7,6 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Professional } from './entities/professional.entity';
 import { Service } from './entities/service.entity';
 import { Speciality } from './entities/speciality.entity';
+import { City } from '../general_resources/entities/city.entity';
 
 describe('ProfessionalsService', () => {
   let service: ProfessionalsService;
@@ -40,6 +41,10 @@ describe('ProfessionalsService', () => {
     // Implementa los métodos necesarios para el mock de Speciality Repository
   };
 
+  const mockCityRepository = {
+    // Implementa los métodos necesarios para el mock de Speciality Repository
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -58,6 +63,10 @@ describe('ProfessionalsService', () => {
         {
           provide: getRepositoryToken(Speciality),
           useValue: mockSpecialityRepository,
+        },
+        {
+          provide: getRepositoryToken(City),
+          useValue: mockCityRepository,
         }
       ],
     }).compile();

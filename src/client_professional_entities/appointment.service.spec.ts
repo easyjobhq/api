@@ -10,6 +10,7 @@ import { ServiceService } from '../professionals/service.service';
 import { SpecialityService } from '../professionals/speciality.service';
 import { Service } from '../professionals/entities/service.entity';
 import { Speciality } from '../professionals/entities/speciality.entity';
+import { City } from '../general_resources/entities/city.entity';
 
 describe('AppointmentService', () => {
     let service: AppointmentService;
@@ -58,6 +59,15 @@ describe('AppointmentService', () => {
       findOneBy: jest.fn((id) => (undefined)),
       findOne: jest.fn((id) => (undefined))
     }
+
+    const mockCityRepository = {
+      create: jest.fn((dto) => ({ id: Math.floor(Math.random() * 100), ...dto })),
+      save: jest.fn((dto) => (dto)),
+      preload: jest.fn((dto) => (dto)),
+      remove: jest.fn((id) => (undefined)),
+      findOneBy: jest.fn((id) => (undefined)),
+      findOne: jest.fn((id) => (undefined))
+    }
   
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
@@ -81,6 +91,10 @@ describe('AppointmentService', () => {
           {
             provide: getRepositoryToken(Speciality),
             useValue: mockSpecialityRepository,
+          },
+          {
+            provide: getRepositoryToken(City),
+            useValue: mockCityRepository,
           },
   
         ],
