@@ -33,3 +33,4 @@ jobs:
         with:
           service-id: srv-xxx
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
+          wait-for-success: true
