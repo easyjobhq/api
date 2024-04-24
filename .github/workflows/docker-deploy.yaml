@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
-        uses: docker/build-push-action@v5
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: srv-xxx
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
