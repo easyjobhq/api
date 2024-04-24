@@ -14,7 +14,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
-import { Appointment } from 'src/client_professional_entities/entities/appointment.entity';
+import { Appointment } from '../client_professional_entities/entities/appointment.entity';
 import { ProfessionalsController } from './controllers/professionals.controller';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';

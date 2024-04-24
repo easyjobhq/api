@@ -3,11 +3,11 @@ import { Appointment } from './entities/appointment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
-import { ClientsService } from 'src/clients/clients.service';
-import { ProfessionalsService } from 'src/professionals/professionals.service';
+import { ClientsService } from '../clients/clients.service';
+import { ProfessionalsService } from '../professionals/professionals.service';
 
 @Injectable()
 export class AppointmentService {

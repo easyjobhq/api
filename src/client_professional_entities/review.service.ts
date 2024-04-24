@@ -1,18 +1,12 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { Appointment } from './entities/appointment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
-import { Client } from 'src/clients/entities/client.entity';
-import { Professional } from 'src/professionals/entities/professional.entity';
-import { ClientsService } from 'src/clients/clients.service';
-import { ProfessionalsService } from 'src/professionals/professionals.service';
+import { ClientsService } from '../clients/clients.service';
+import { ProfessionalsService } from '../professionals/professionals.service';
 
 @Injectable()
 export class ReviewService {

@@ -16,7 +16,7 @@ import { SeedModule } from './seed/seed.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres', 
-      host: 'postgres://gfugsxqf:zLc-AhVWtkJs9zLvJWqPQiE7sf-nT7kg@kala.db.elephantsql.com/gfugsxqf',
+      host: 'localhost',
       port: +process.env.DB_PORT,
       database: process.env.DB_NAME, 
       username: process.env.DB_USER, 

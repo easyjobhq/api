@@ -81,7 +81,7 @@ describe('ClientsController', () => {
 
     // console.log(controller.create(dto))
 
-    expect(mockClientsService.create(dto)).toEqual({
+    expect(controller.create(dto)).toEqual({
       id: expect.any(Number), 
       name: "Juan Jose", 
       last_name: "Diaz Parra",
@@ -137,7 +137,7 @@ describe('ClientsController', () => {
   })
 
   it('should retrieve all', () => {
-    expect(controller.findAll()).toEqual(clients);
+    expect(controller.findAll({})).toEqual(clients);
     expect(mockClientsService.findAll).toHaveBeenCalledTimes(1);
   })
 });
