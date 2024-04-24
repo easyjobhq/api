@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
-        uses: actions/render-deploy-action@v0.0.8
+        uses: MateoSilvaLasso/Easy-Job@v0.0.8
         with:
           service-id: srv-xxx
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
