@@ -8,6 +8,7 @@ import { Role } from '../entities/role.enum';
 import { GetUser } from '../decorators/get-user.decorator';
 import { RolesGuard } from '../guards/user/user.guard';
 
+
 @Controller('auth/client')
 export class AuthClientController {
   constructor(private readonly authService: AuthClientService) {}
