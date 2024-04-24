@@ -31,6 +31,6 @@ jobs:
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: srv-xxx
-          api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
+          service-id: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
+          api-key: rnd_Y9vtVBTJaqzyY60StuDAbD3TsH8s
           wait-for-success: true
