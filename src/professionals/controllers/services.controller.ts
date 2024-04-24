@@ -4,6 +4,8 @@ import { CreateServiceDto } from '../dto/create-service.dto'
 import { UpdateServiceDto } from '../dto/update-service.dto'
 import {PaginationDto} from '../../common/dtos/pagination.dto'
 import { AuthGuard } from '@nestjs/passport';
+import {Roles} from "../../auth/decorators/roles.decorator";
+import {Role} from "../../auth/entities/role.enum";
 
 
 @Controller('services')
@@ -13,6 +15,7 @@ export class ServiceController {
 
   @UseGuards(AuthGuard())
   @Post()
+  @Roles(Role.Admin)
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.ServiceService.create(createServiceDto);
   }
@@ -55,12 +58,14 @@ export class ServiceController {
 
   @Patch(':id')
   @UseGuards(AuthGuard())
+  @Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateServicelDto: UpdateServiceDto) {
     return this.ServiceService.update(id, updateServicelDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard())
+  @Roles(Role.Admin)
   remove(@Param('id') id: string) {
     return this.ServiceService.remove(id);
   }
