@@ -1,4 +1,4 @@
-name: Build and deploy Nest.js app to render Web App - staynest
+name: Build and deploy Node.js app to Azure Web App - staynest
 
 on:
   push:
@@ -25,6 +25,7 @@ jobs:
           # npm run test --if-present
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
@@ -33,5 +34,3 @@ jobs:
           service-id: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
           wait-for-success: true
-
-
