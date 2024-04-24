@@ -33,5 +33,3 @@ jobs:
         with:
           service-id: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
-          interval: 60
-          timeout: 300
