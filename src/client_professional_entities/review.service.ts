@@ -61,36 +61,10 @@ export class ReviewService {
     return review;
   }
 
-  // async update(id: string, updateReviewDto: UpdateReviewDto) {
-  //   const review = await this.reviewRepository.preload({
-  //     id: id,
-  //     ...updateReviewDto
-  //   });
-
-  //   if ( !review ) throw new NotFoundException(`Review with id: ${ id } not found`);
-
-  //   try {
-  //     await this.reviewRepository.save( review );
-  //     return review;
-      
-  //   } catch (error) {
-  //     this.handleDBExceptions(error);
-  //   }
-  // }
 
   async remove(id: string) {
     const review = await this.findOne(id);
     await this.reviewRepository.remove(review);
   }
 
-  // private handleDBExceptions( error: any ) {
-
-  //   if ( error.code === '23505' )
-  //     throw new BadRequestException(error.detail);
-    
-  //   this.logger.error(error)
-  //   // console.log(error)
-  //   throw new InternalServerErrorException('Unexpected error, check server logs');
-
-  // }
 }
