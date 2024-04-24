@@ -29,9 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
-        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
+        uses: bounceapp/render-action@0.6.0
         with:
+          render-token: rnd_Y9vtVBTJaqzyY60StuDAbD3TsH8s
           serviceId: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
-          apiKey: rnd_Y9vtVBTJaqzyY60StuDAbD3TsH8s
-          multipleDeployment: false #optional, default true
+          retries: 20
+          wait: 16000
+          sleep: 30000
       
