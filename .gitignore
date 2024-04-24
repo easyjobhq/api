@@ -16,9 +16,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-#Docker_file
-docker-compose.yaml
-
 # OS
 .DS_Store
 

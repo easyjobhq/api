@@ -25,7 +25,7 @@ export class Professional extends User {
     })
     description: string;
 
-    @ManyToOne(()=>Question, (question)=>question.professional)
+    @OneToMany(()=>Question, (question)=>question.professional)
     questions: Question[]
 
     @OneToMany(()=>Review, (review)=>review.professional)   
