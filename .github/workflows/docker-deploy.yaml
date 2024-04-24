@@ -31,5 +31,5 @@ jobs:
       - name: Deploy to production
         uses: actions/checkout@v4
         with:
-          service-id: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
+          service-id: srv-xxx
           api-key: rnd_WsBSHF4UM5FZsVNYA5Gzelsp3emx
