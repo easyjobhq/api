@@ -3,7 +3,7 @@ import { ClientsService } from '../clients/clients.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from './entities/question.entitiy';
 import { Review } from './entities/review.entity';
-import { Client } from 'src/clients/entities/client.entity';
+import { Client } from '../clients/entities/client.entity';
 import { Professional } from '../professionals/entities/professional.entity';
 import { AppointmentService } from './appointment.service';
 import { Appointment } from './entities/appointment.entity';
@@ -22,6 +22,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import {City} from "../general_resources/entities/city.entity";
 
 @Module({
   controllers: [QuestionController, ReviewsController ],
@@ -37,6 +38,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forFeature([Appointment]),
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
+    TypeOrmModule.forFeature([City]),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],

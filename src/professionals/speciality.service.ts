@@ -40,7 +40,7 @@ export class SpecialityService {
     let speciality: Speciality;
 
     if(isUUID(id_speciality)){
-      speciality = await this.specialityRepository.findOneBy({id: id_speciality});
+      speciality = await this.specialityRepository.findOne({where:{id: id_speciality}});
     }
 
     if(!speciality){

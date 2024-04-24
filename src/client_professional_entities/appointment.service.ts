@@ -3,9 +3,11 @@ import { Appointment } from './entities/appointment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { ClientsService } from '../clients/clients.service';
+import { ProfessionalsService } from '../professionals/professionals.service';
 
 @Injectable()
 export class AppointmentService {
@@ -13,12 +15,22 @@ export class AppointmentService {
 
   constructor(
     @InjectRepository(Appointment)
-    private readonly appointmentRepository: Repository<Appointment>
+    private readonly appointmentRepository: Repository<Appointment>,
+    private readonly clientService: ClientsService, 
+    private readonly professionalsService: ProfessionalsService
   ) {}
 
-  async create(createApointmentDto: CreateAppointmentDto) {
+  async create(id_client: string, id_professional: string, createApointmentDto: CreateAppointmentDto) {
+    
     const appointment =  this.appointmentRepository.create(createApointmentDto);
 
+    const client = await this.clientService.findOne(id_client);
+
+    const professional = await this.professionalsService.findOne(id_professional);
+
+    appointment.client = client;
+    appointment.professional = professional;
+    
     await this.appointmentRepository.save(appointment);
 
     return appointment;

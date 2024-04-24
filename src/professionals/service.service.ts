@@ -81,6 +81,17 @@ export class ServiceService {
     return services
   }
 
+  async findByDeparment(deparment_name: string){
+    const services = await this.serviceRepository
+                    .createQueryBuilder('service')
+                    .innerJoin('service.professionals', 'professional')
+                    .innerJoin('professional.cities', 'city')
+                    .innerJoin('city.department', 'department')
+                    .where('department.department_name = :name', {name:deparment_name})
+                    .getMany()
+    return services
+  }
+
   async update(id: string, updateServiceDto: UpdateServiceDto) {
     const service = await this.serviceRepository.preload({
       id: id,
