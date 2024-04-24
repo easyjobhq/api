@@ -7,7 +7,7 @@ import { Service } from "./service.entity";
 import { Language } from "../../general_resources/entities/language.entity";
 import { City } from "../../general_resources/entities/city.entity";
 import { Role } from "../../auth/entities/role.enum";
-import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
+import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 
 
 @Entity()

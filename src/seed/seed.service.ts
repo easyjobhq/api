@@ -226,6 +226,7 @@ export class SeedService {
         services:[]
       })
 
+
       adminData1.password = bcrypt.hashSync(adminData1.password, 10)
 
       const clientData1 = clientRepository.create({
@@ -305,7 +306,9 @@ export class SeedService {
 
       
 
-      await professionalRepository.save([professionalData1, professionalData2, professionalData3,adminData1]);
+
+      await professionalRepository.save([professionalData1, professionalData2, professionalData3, adminData1]);
+
 
       console.log('aaaaa')
 
