@@ -22,6 +22,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import {City} from "../general_resources/entities/city.entity";
 
 @Module({
   controllers: [QuestionController, ReviewsController ],
@@ -37,6 +38,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forFeature([Appointment]),
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
+    TypeOrmModule.forFeature([City]),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
