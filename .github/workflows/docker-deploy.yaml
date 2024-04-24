@@ -29,11 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
-        uses: bounceapp/render-action@0.6.0
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          render-token: rnd_Y9vtVBTJaqzyY60StuDAbD3TsH8s
-          serviceId: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
-          retries: 20
-          wait: 16000
-          sleep: 30000
-      
+          api-key: rnd_Y9vtVBTJaqzyY60StuDAbD3TsH8s
+          service-id: srv-cojv3863e1ms73bjogbg?key=U6oEpE9nzXQ
+          wait-for-success: true
