@@ -37,6 +37,7 @@ export class ProfessionalsController {
     return this.professionalsService.update(id, updateProfessionalDto);
   }
 
+
   @UseGuards(AuthGuard())
   @Roles(Role.Professional)
   @Delete(':id')
@@ -44,8 +45,10 @@ export class ProfessionalsController {
     return this.professionalsService.remove(id);
   }
 
+
   @UseGuards(AuthGuard())
   @Roles(Role.Professional)
+
   @Post('/service/:id_professional/:id_service')
   addService(@Param('id_professional') id_professional: string,@Param('id_service') id_service: string){
     return this.professionalsService.addServiceToProfessional(id_professional, id_service);
@@ -59,6 +62,7 @@ export class ProfessionalsController {
       return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
   }
 
+
   @Roles(Role.Professional)
   @Post('city/:id_city/professional/:id_professional')
   addCities(@Param('id_professional') id_professional:string, @Param('id_city') id_city:string ){
@@ -67,6 +71,7 @@ export class ProfessionalsController {
 
 
   @UseGuards(AuthGuard())
+
   @Get('services/:id_professional')
   findServices(@Param('id_professional') id_professional: string){
     return this.professionalsService.findServices(id_professional)

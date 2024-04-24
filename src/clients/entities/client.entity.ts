@@ -3,7 +3,7 @@ import { User } from "../../auth/entities/user.entity";
 import { Question } from "../../client_professional_entities/entities/question.entitiy";
 import { Review } from "../../client_professional_entities/entities/review.entity";
 import { Role } from "../../auth/entities/role.enum";
-import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
+import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 
 @Entity()
 export class Client extends User {

@@ -18,16 +18,21 @@ export class ReviewsController {
     findAll() {
         return this.reviewsService.findAll({limit: 10, offset: 0});
     }
+    @Get('/:id_review')
+    @UseGuards(AuthGuard())
+    findOne(@Param('id_review') id_review: string) {
+        return this.reviewsService.findOne(id_review);
+    }
 
     @UseGuards(AuthGuard())
     @Post('/client/:id_client/profesional/:id_professional')
-    register( @Param('id_client') id_client:string , @Param('id_professional') id_professional:string, @Body() createReviewDto: CreateReviewDto) {
+    create( @Param('id_client') id_client:string , @Param('id_professional') id_professional:string, @Body() createReviewDto: CreateReviewDto) {
         return this.reviewsService.create(id_client, id_professional, createReviewDto);
     }
 
     @UseGuards(AuthGuard())
     @Delete('/:id_review')
-    removeOne(@Param('id_review') id_review: string) {
+    remove(@Param('id_review') id_review: string) {
         return this.reviewsService.remove(id_review);
     }
 
