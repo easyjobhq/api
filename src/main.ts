@@ -10,6 +10,7 @@ async function bootstrap() {
     methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allowed HTTP methods
     allowedHeaders: 'Content-Type, Authorization', // Allowed headers
     credentials: true, // Allow credentials (cookies, authorization headers)
+    preflightContinue: false,
   });
 
   
