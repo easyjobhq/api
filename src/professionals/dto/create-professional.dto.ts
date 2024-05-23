@@ -28,10 +28,12 @@ export class CreateProfessionalDto {
     })
     password: string;
 
-    @IsString()
+    @IsString
+    @IsOptional()
     score: string;
 
     @IsString()
+    @IsOptional()
     @MinLength(10)
     @MaxLength(200)
     description: string;
