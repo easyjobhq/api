@@ -28,7 +28,7 @@ export class CreateProfessionalDto {
     })
     password: string;
 
-    @IsString
+    @IsString()
     @IsOptional()
     score: string;
 
