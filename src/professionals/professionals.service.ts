@@ -151,7 +151,7 @@ export class ProfessionalsService {
         .getMany()
   }
 
-  private async findCities(id_professional:string){
+  async findCities(id_professional:string){
     return await this.CityRepository
         .createQueryBuilder('city')
         .innerJoin('city.professionals', 'professional')
