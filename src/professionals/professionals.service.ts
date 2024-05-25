@@ -10,8 +10,8 @@ import {ServiceService} from './service.service';
 import {Speciality} from './entities/speciality.entity';
 import {SpecialityService} from './speciality.service';
 import {City} from "../general_resources/entities/city.entity";
-import { LanguageService } from 'src/general_resources/services/language.service';
-import { CityService } from 'src/general_resources/services/city.service';
+import { LanguageService } from '../general_resources/services/language.service';
+import { CityService } from '../general_resources/services/city.service';
 
 @Injectable()
 export class ProfessionalsService {
