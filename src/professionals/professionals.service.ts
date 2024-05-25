@@ -10,6 +10,8 @@ import {ServiceService} from './service.service';
 import {Speciality} from './entities/speciality.entity';
 import {SpecialityService} from './speciality.service';
 import {City} from "../general_resources/entities/city.entity";
+import { LanguageService } from 'src/general_resources/services/language.service';
+import { CityService } from 'src/general_resources/services/city.service';
 
 @Injectable()
 export class ProfessionalsService {
@@ -27,12 +29,22 @@ export class ProfessionalsService {
     @InjectRepository(City)
     private readonly CityRepository: Repository<City>,
     private readonly serviceService: ServiceService,
-    private readonly specialityService: SpecialityService
+    private readonly specialityService: SpecialityService,
+    private readonly languageService: LanguageService,
+    private readonly cityService: CityService
   ) {}
 
   async create(createProfessionalDto: CreateProfessionalDto) {
-    const professional =  this.professionalRepository.create(createProfessionalDto);
+    let professional =  this.professionalRepository.create(createProfessionalDto);
 
+    const service = await this.serviceService.findOne(createProfessionalDto.service_id);
+    const language = await this.languageService.findOne(createProfessionalDto.language_id);
+    const city = await this.cityService.findOne(createProfessionalDto.city_id);
+    const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
+    professional.services.push(service);
+    professional.languages.push(language);
+    professional.cities.push(city);
+    professional.specialities.push(speciality);
     await this.professionalRepository.save(professional);
 
     return professional;
