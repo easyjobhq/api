@@ -13,11 +13,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolesGuard } from './guards/user/user.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ProfessionalsService } from '../professionals/professionals.service';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
   controllers: [AuthClientController, AuthProfessionalController],
-  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard],
+  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService],
   imports: [
     ConfigModule,
     TypeOrmModule.forFeature([Client]),
