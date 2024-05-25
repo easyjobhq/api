@@ -14,6 +14,11 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolesGuard } from './guards/user/user.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ProfessionalsService } from '../professionals/professionals.service';
+import { ProfessionalsModule } from '../professionals/professionals.module';
+import { GeneralResourcesModule } from '../general_resources/general_resources.module';
+import { Service } from '../professionals/entities/service.entity';
+import { Type } from 'class-transformer';
+import { Speciality } from 'src/professionals/entities/speciality.entity';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
@@ -21,8 +26,12 @@ import { ProfessionalsService } from '../professionals/professionals.service';
   providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService],
   imports: [
     ConfigModule,
+    ProfessionalsModule,
+    GeneralResourcesModule,
     TypeOrmModule.forFeature([Client]),
     TypeOrmModule.forFeature([Professional]),
+    TypeOrmModule.forFeature([Service]),
+    TypeOrmModule.forFeature([Speciality]),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],

@@ -23,6 +23,7 @@ import { ServiceController } from './controllers/services.controller';
 import { SpecialityController } from './controllers/specialities.controller';
 import { LanguageService } from '../general_resources/services/language.service';
 import { CityService } from '../general_resources/services/city.service';
+import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController],
@@ -47,8 +48,9 @@ import { CityService } from '../general_resources/services/city.service';
       })
     }),
     PaginationDto,
-    ConfigModule
+    ConfigModule,
+    GeneralResourcesModule
   ], 
-  exports: [ProfessionalsModule]
+  exports: [ProfessionalsModule, ProfessionalsService, ServiceService, SpecialityService]
 })
 export class ProfessionalsModule {}

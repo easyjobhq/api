@@ -22,6 +22,6 @@ import { LanguageController } from './controllers/language.controller';
     TypeOrmModule.forFeature([Professional]),
 
   ],
-  exports: [GeneralResourcesModule, CityService, LanguageService]
+  exports: [GeneralResourcesModule, CityService, LanguageService, TypeOrmModule]
 })
 export class GeneralResourcesModule {}
