@@ -21,10 +21,12 @@ import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { Client } from '../clients/entities/client.entity';
 import { ServiceController } from './controllers/services.controller';
 import { SpecialityController } from './controllers/specialities.controller';
+import { LanguageService } from '../general_resources/services/language.service';
+import { CityService } from '../general_resources/services/city.service';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController],
-  providers: [ProfessionalsService, ServiceService, SpecialityService, JwtStrategy],
+  providers: [ProfessionalsService, ServiceService, SpecialityService, JwtStrategy, LanguageService, CityService],
   imports: [
     TypeOrmModule.forFeature([Professional]),
     TypeOrmModule.forFeature([Service]), 

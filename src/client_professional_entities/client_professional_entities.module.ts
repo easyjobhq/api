@@ -23,6 +23,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import {City} from "../general_resources/entities/city.entity";
+import { GeneralResourcesModule } from 'src/general_resources/general_resources.module';
 
 @Module({
   controllers: [QuestionController, ReviewsController ],
@@ -39,6 +40,7 @@ import {City} from "../general_resources/entities/city.entity";
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
     TypeOrmModule.forFeature([City]),
+    GeneralResourcesModule,
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
