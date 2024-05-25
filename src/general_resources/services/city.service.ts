@@ -16,4 +16,8 @@ export class CityService{
     async findAll(){
         return this.CityRepository.find()
     }
+
+    async findOne(id:string){
+        return this.CityRepository.findOneBy({id:id})
+    }
 }

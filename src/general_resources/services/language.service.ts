@@ -16,4 +16,8 @@ export class LanguageService{
     async findAll(){
         return this.languageRepository.find()
     }
+
+    async findOne(id:string){
+        return this.languageRepository.findOneBy({id:id})
+    }
 }
