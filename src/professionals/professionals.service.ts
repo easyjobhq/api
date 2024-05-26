@@ -36,7 +36,7 @@ export class ProfessionalsService {
 
     async create(createProfessionalDto: CreateProfessionalDto) {
       const professional =  this.professionalRepository.create(createProfessionalDto);
-
+      console.log("este es el serviceId " + createProfessionalDto.service_id + '\n este es el language_id ' + createProfessionalDto.language_id + "\n este es el city_id" + createProfessionalDto.city_id + "\n este es el speciality_id " + createProfessionalDto.speciality_id);
       const service = await this.serviceService.findOne(createProfessionalDto.service_id);
       const language = await this.languageService.findOne(createProfessionalDto.language_id);
       const city = await this.cityService.findOne(createProfessionalDto.city_id);
