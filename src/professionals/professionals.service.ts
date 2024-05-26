@@ -41,6 +41,12 @@ export class ProfessionalsService {
       const language = await this.languageService.findOne(createProfessionalDto.language_id);
       const city = await this.cityService.findOne(createProfessionalDto.city_id);
       const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
+
+      professional.services = professional.services || [];
+      professional.languages = professional.languages || [];
+      professional.cities = professional.cities || [];
+      professional.specialities = professional.specialities || [];
+
       professional.services.push(service);
       professional.languages.push(language);
       professional.cities.push(city);
