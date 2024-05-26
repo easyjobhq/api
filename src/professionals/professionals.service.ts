@@ -34,21 +34,21 @@ export class ProfessionalsService {
     private readonly cityService: CityService
   ) {}
 
-  async create(createProfessionalDto: CreateProfessionalDto) {
-    let professional =  this.professionalRepository.create(createProfessionalDto);
+    async create(createProfessionalDto: CreateProfessionalDto) {
+      const professional =  this.professionalRepository.create(createProfessionalDto);
 
-    const service = await this.serviceService.findOne(createProfessionalDto.service_id);
-    const language = await this.languageService.findOne(createProfessionalDto.language_id);
-    const city = await this.cityService.findOne(createProfessionalDto.city_id);
-    const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
-    professional.services.push(service);
-    professional.languages.push(language);
-    professional.cities.push(city);
-    professional.specialities.push(speciality);
-    await this.professionalRepository.save(professional);
+      const service = await this.serviceService.findOne(createProfessionalDto.service_id);
+      const language = await this.languageService.findOne(createProfessionalDto.language_id);
+      const city = await this.cityService.findOne(createProfessionalDto.city_id);
+      const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
+      professional.services.push(service);
+      professional.languages.push(language);
+      professional.cities.push(city);
+      professional.specialities.push(speciality);
+      await this.professionalRepository.save(professional);
 
-    return professional;
-  }
+      return professional;
+    }
 
   findAll(limit:number, offset:number) {
     limit = 10 
