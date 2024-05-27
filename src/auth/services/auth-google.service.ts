@@ -40,7 +40,7 @@ export class AuthgoogleService {
 
     const existUser = await this.clientRepository.findOne({
         where : {email},
-        select : {email:true, password:true}
+        select : {id:true, email:true, password:true}
     })
     
     if(!existUser){
@@ -56,6 +56,7 @@ export class AuthgoogleService {
     }
     //console.log(existUser)
     const payload = {
+        id : existUser.id,
         email: user.email,
         name: user.name,
     };
