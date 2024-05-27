@@ -63,7 +63,7 @@ export class AuthgoogleService {
   
     return {
         ...payload,
-        token : this.jwtService.sign(payload)
+        token : this.jwtService.sign({id: payload.id})
     }
 
 
