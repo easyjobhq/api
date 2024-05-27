@@ -18,12 +18,19 @@ import { ProfessionalsModule } from '../professionals/professionals.module';
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 import { Service } from '../professionals/entities/service.entity';
 import { Type } from 'class-transformer';
-import { Speciality } from 'src/professionals/entities/speciality.entity';
+import { Speciality } from '../professionals/entities/speciality.entity';
+import { GoogleStrategy } from './strategies/google-oauth.strategy';
+import { GoogleOauthGuard } from './guards/user/google-oauth.guard';
+import { AuthAdminController } from './controller/auth-admin.controller';
+import { AuthGoogleController } from './controller/auth-google.controller';
+import { AuthAdminService } from './services/auth-admin.service';
+import { AuthgoogleService } from './services/auth-google.service';
+import { ClientsService } from '../clients/clients.service';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
-  controllers: [AuthClientController, AuthProfessionalController],
-  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService],
+  controllers: [AuthClientController, AuthProfessionalController, AuthAdminController, AuthGoogleController],
+  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService, GoogleStrategy, GoogleOauthGuard, AuthAdminService, AuthgoogleService, ClientsService],
   imports: [
     ConfigModule,
     ProfessionalsModule,

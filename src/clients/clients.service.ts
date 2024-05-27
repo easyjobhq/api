@@ -20,11 +20,12 @@ export class ClientsService {
 
   async create(createClientDto: CreateClientDto) {
     const client =  this.clientRespository.create(createClientDto);
-
+    console.log("cliente creado\n" + client)
     await this.clientRespository.save(client);
 
     return client;
   }
+  
 
   findAll( paginationDto: PaginationDto ) {
     const {limit = 10, offset= 0} = paginationDto;
