@@ -70,7 +70,7 @@ export class ProfessionalsService {
 
     let professional: Professional;
     
-    professional = await this.professionalRepository.findOne({where :{id: name_professional}});
+    professional = await this.professionalRepository.findOneBy({ id: name_professional});
     
     if(!professional){
       throw new NotFoundException(`Professional with ${name_professional} not found`)
