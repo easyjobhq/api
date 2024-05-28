@@ -11,7 +11,7 @@ import {Role} from "../entities/role.enum";
 
 
 @Injectable()
-export class AuthProfessionalService {
+export class AuthAdminService {
     constructor(
         @InjectRepository(Professional)
         private readonly userRepository: Repository<Professional>,

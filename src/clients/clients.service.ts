@@ -4,7 +4,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity';
 import { Repository } from 'typeorm';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 
 @Injectable()
@@ -20,11 +20,12 @@ export class ClientsService {
 
   async create(createClientDto: CreateClientDto) {
     const client =  this.clientRespository.create(createClientDto);
-
+    console.log("cliente creado\n" + client)
     await this.clientRespository.save(client);
 
     return client;
   }
+  
 
   findAll( paginationDto: PaginationDto ) {
     const {limit = 10, offset= 0} = paginationDto;
