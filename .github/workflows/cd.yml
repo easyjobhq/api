@@ -16,6 +16,6 @@ jobs:
     - name: pull Docker image
       run: sudo docker pull juanjodiazzz/easyjob-backend-cicd-pipeline:latest
     - name: Delete old Docker container
-      run: sudo docker rm -rf cicd-pipeline-container || true
+      run: sudo docker rm -f cicd-pipeline-container || true
     - name: Run Docker container 
       run: sudo docker run -d -p 3000:3000 --name cicd-pipeline-container juanjodiazzz/easyjob-backend-cicd-pipeline
