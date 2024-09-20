@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { Professional } from '../../professionals/entities/professional.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { CreateProfessionalDto } from '../../professionals/dto/create-professional.dto';
+import { ProfessionalsService } from '../../professionals/professionals.service';
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class AuthProfessionalService {
     @InjectRepository(Professional)
     private readonly userRepository: Repository<Professional>,
     private readonly jwtService: JwtService,
+    private readonly professionalService: ProfessionalsService,
 
   ) {}
 
@@ -23,13 +25,17 @@ export class AuthProfessionalService {
     try {
 
       const { password, ...userData } = createUserDto;
-      
-      const user = this.userRepository.create({
-        ...userData,
-        password: bcrypt.hashSync( password, 10 )
-      });
 
-      await this.userRepository.save( user )
+      createUserDto.password = bcrypt.hashSync(createUserDto.password, 10);
+
+      const user = await this.professionalService.create(createUserDto);
+      
+      //const user = this.userRepository.create({
+        //...userData,
+        //password: bcrypt.hashSync( password, 10 )
+      //});
+
+      //await this.userRepository.save( user )
 
       return {
         ...user,

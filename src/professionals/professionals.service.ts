@@ -10,6 +10,8 @@ import {ServiceService} from './service.service';
 import {Speciality} from './entities/speciality.entity';
 import {SpecialityService} from './speciality.service';
 import {City} from "../general_resources/entities/city.entity";
+import { LanguageService } from '../general_resources/services/language.service';
+import { CityService } from '../general_resources/services/city.service';
 
 @Injectable()
 export class ProfessionalsService {
@@ -27,16 +29,32 @@ export class ProfessionalsService {
     @InjectRepository(City)
     private readonly CityRepository: Repository<City>,
     private readonly serviceService: ServiceService,
-    private readonly specialityService: SpecialityService
+    private readonly specialityService: SpecialityService,
+    private readonly languageService: LanguageService,
+    private readonly cityService: CityService
   ) {}
 
-  async create(createProfessionalDto: CreateProfessionalDto) {
-    const professional =  this.professionalRepository.create(createProfessionalDto);
+    async create(createProfessionalDto: CreateProfessionalDto) {
+      const professional =  this.professionalRepository.create(createProfessionalDto);
+      console.log("este es el serviceId " + createProfessionalDto.service_id + '\n este es el language_id ' + createProfessionalDto.language_id + "\n este es el city_id" + createProfessionalDto.city_id + "\n este es el speciality_id " + createProfessionalDto.speciality_id);
+      const service = await this.serviceService.findOne(createProfessionalDto.service_id);
+      const language = await this.languageService.findOne(createProfessionalDto.language_id);
+      const city = await this.cityService.findOne(createProfessionalDto.city_id);
+      const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
 
-    await this.professionalRepository.save(professional);
+      professional.services = professional.services || [];
+      professional.languages = professional.languages || [];
+      professional.cities = professional.cities || [];
+      professional.specialities = professional.specialities || [];
 
-    return professional;
-  }
+      professional.services.push(service);
+      professional.languages.push(language);
+      professional.cities.push(city);
+      professional.specialities.push(speciality);
+      await this.professionalRepository.save(professional);
+
+      return professional;
+    }
 
   findAll(limit:number, offset:number) {
     limit = 10 
@@ -52,7 +70,7 @@ export class ProfessionalsService {
 
     let professional: Professional;
     
-    professional = await this.professionalRepository.findOne({where :{id: name_professional}});
+    professional = await this.professionalRepository.findOneBy({ id: name_professional});
     
     if(!professional){
       throw new NotFoundException(`Professional with ${name_professional} not found`)
@@ -151,7 +169,7 @@ export class ProfessionalsService {
         .getMany()
   }
 
-  private async findCities(id_professional:string){
+  async findCities(id_professional:string){
     return await this.CityRepository
         .createQueryBuilder('city')
         .innerJoin('city.professionals', 'professional')

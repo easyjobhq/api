@@ -18,6 +18,8 @@ export class AuthClientService {
 
   ) {}
 
+  
+
   async create( createUserDto: CreateClientDto) {
     
     try {
@@ -27,6 +29,7 @@ export class AuthClientService {
       const user = this.userRepository.create({
         ...userData,
         password: bcrypt.hashSync( password, 10 )
+
       });
 
       await this.userRepository.save( user )
@@ -45,8 +48,10 @@ export class AuthClientService {
 
   async login( loginUserDto: LoginUserDto ) {
 
-    const { password, email } = loginUserDto;
+    const { email, password } = loginUserDto;
+    //console.log(loginUserDto)
 
+    
     const user = await this.userRepository.findOne({
       where: { email },
       select: { email: true, password: true, id: true } 
@@ -54,16 +59,28 @@ export class AuthClientService {
 
     //console.log(user)
 
+
     if ( !user ) 
       throw new UnauthorizedException('Credentials are not valid (email)');
-      
+  
+    
+    
     if ( !bcrypt.compareSync( password, user.password ) )
       throw new UnauthorizedException('Credentials are not valid (password)');
+    
+    
 
+    //console.log(user)
     return {
       ...user,
       token: this.jwtService.sign({ id: user.id })
     };
+  }
+
+  async isBcryptHash(hash: string): Promise<boolean> {
+    // Verifica que la cadena comience con $2a$, $2b$, $2x$ o $2y$
+    const bcryptPattern = /^\$2[abxy]\$\d{2}\$[./A-Za-z0-9]{53}$/;
+    return bcryptPattern.test(hash);
   }
 
   async checkAuthStatus( user: Client ){

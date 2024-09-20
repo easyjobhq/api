@@ -24,7 +24,7 @@ export abstract class User {
     email: string;
 
     @Column('text',{
-        nullable:false,
+        nullable:true,
         unique:true
     })
     phone_number: string;

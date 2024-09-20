@@ -21,10 +21,13 @@ import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { Client } from '../clients/entities/client.entity';
 import { ServiceController } from './controllers/services.controller';
 import { SpecialityController } from './controllers/specialities.controller';
+import { LanguageService } from '../general_resources/services/language.service';
+import { CityService } from '../general_resources/services/city.service';
+import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController],
-  providers: [ProfessionalsService, ServiceService, SpecialityService, JwtStrategy],
+  providers: [ProfessionalsService, ServiceService, SpecialityService, JwtStrategy, LanguageService, CityService],
   imports: [
     TypeOrmModule.forFeature([Professional]),
     TypeOrmModule.forFeature([Service]), 
@@ -45,8 +48,9 @@ import { SpecialityController } from './controllers/specialities.controller';
       })
     }),
     PaginationDto,
-    ConfigModule
+    ConfigModule,
+    GeneralResourcesModule
   ], 
-  exports: [ProfessionalsModule]
+  exports: [ProfessionalsModule, ProfessionalsService, ServiceService, SpecialityService]
 })
 export class ProfessionalsModule {}

@@ -14,13 +14,13 @@ import { Appointment } from "../../client_professional_entities/entities/appoint
 export class Professional extends User {
     
     @Column('text',{
-        nullable: false
+        nullable: true
     })
     score: string;
 
     @Column({
         type:'text',
-        nullable: false,
+        nullable: true,
         width:200
     })
     description: string;

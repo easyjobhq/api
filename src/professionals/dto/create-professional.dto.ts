@@ -20,6 +20,7 @@ export class CreateProfessionalDto {
     photo_url: string;
 
     @IsString()
+    @IsOptional()
     @MinLength(6)
     @MaxLength(50)
     @Matches(
@@ -29,9 +30,27 @@ export class CreateProfessionalDto {
     password: string;
 
     @IsString()
+    @IsOptional()
+    service_id:string
+
+    @IsString()
+    @IsOptional()
+    language_id:string
+
+    @IsString()
+    @IsOptional()
+    city_id:string
+
+    @IsString()
+    @IsOptional()
+    speciality_id:string
+
+    @IsString()
+    @IsOptional()
     score: string;
 
     @IsString()
+    @IsOptional()
     @MinLength(10)
     @MaxLength(200)
     description: string;
