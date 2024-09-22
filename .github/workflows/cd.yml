@@ -30,4 +30,17 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
           CALLBACK_URL: ${{secrets.GOOGLE_URL}}
           GOOGLE_PASSWORD: ${{secrets.GOOGLE_PASSWORD}}
-      run: sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container juanjodiazzz/easyjob-backend-cicd-pipeline
+      run: |
+        sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container \
+        -e PORT=${{ secrets.PORT }} \
+        -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+        -e DB_NAME=${{ secrets.DB_NAME }} \
+        -e DB_USER=${{ secrets.DB_USER }} \
+        -e DB_PORT=${{ secrets.DB_PORT }} \
+        -e DB_HOST=${{ secrets.DB_HOST }} \
+        -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+        -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+        -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+        -e CALLBACK_URL=${{ secrets.GOOGLE_URL }} \
+        -e GOOGLE_PASSWORD=${{ secrets.GOOGLE_PASSWORD }} \
+        juanjodiazzz/easyjob-backend-cicd-pipeline:latest
