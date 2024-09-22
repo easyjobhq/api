@@ -16,7 +16,7 @@ jobs:
     - name: pull Docker image
       run: sudo docker pull juanjodiazzz/easyjob-backend-cicd-pipeline:latest
     - name: Delete old Docker container
-      run: sudo docker rm -f cicd-pipeline-container || true
+      run: sudo docker rm -f easyjob-backend-cicd-container || true
     - name: Run Docker container 
       env:
           PORT: 3000
@@ -30,4 +30,4 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
           CALLBACK_URL: ${{secrets.GOOGLE_URL}}
           GOOGLE_PASSWORD: ${{secrets.GOOGLE_PASSWORD}}
-      run: sudo docker run -d -p 3000:3000 --name cicd-pipeline-container juanjodiazzz/easyjob-backend-cicd-pipeline
+      run: sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container juanjodiazzz/easyjob-backend-cicd-pipeline
