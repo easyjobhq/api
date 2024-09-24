@@ -8,6 +8,8 @@ import { isUUID } from 'class-validator';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
+import { PaymentMethodService } from '../general_resources/services/paymentMethod.service';
+import { CreatePaymentMethodDto } from '../general_resources/dto/create-paymentMethod';
 
 @Injectable()
 export class AppointmentService {
@@ -17,23 +19,32 @@ export class AppointmentService {
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
     private readonly clientService: ClientsService, 
-    private readonly professionalsService: ProfessionalsService
+    private readonly professionalsService: ProfessionalsService,
+    private readonly paymentMethodService: PaymentMethodService,
   ) {}
 
-  async create(id_client: string, id_professional: string, createApointmentDto: CreateAppointmentDto) {
-    
-    const appointment =  this.appointmentRepository.create(createApointmentDto);
+  async create(clientId: string, professionalId: string, payment_method_name: string, createAppointmentDto: CreateAppointmentDto) {
 
-    const client = await this.clientService.findOne(id_client);
+      const client = await this.clientService.findOne(clientId);
+      const professional = await this.professionalsService.findOne(professionalId);
+      const paymentMethod = await this.paymentMethodService.findOneByName(payment_method_name);
 
-    const professional = await this.professionalsService.findOne(id_professional);
+      if (!client || !professional || !paymentMethod) {
+        throw new NotFoundException('Cliente, profesional o método de pago no encontrado');
+    }
 
-    appointment.client = client;
-    appointment.professional = professional;
-    
-    await this.appointmentRepository.save(appointment);
+      
 
-    return appointment;
+      createAppointmentDto.client = client;
+      createAppointmentDto.professional = professional;
+      createAppointmentDto.paymentMethod = paymentMethod;
+
+      
+
+      const appointment = this.appointmentRepository.create(createAppointmentDto);
+      console.log(appointment)
+      await this.appointmentRepository.save(appointment);
+      return appointment;
   }
 
   findAll( paginationDto: PaginationDto ) {

@@ -14,11 +14,10 @@ export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService
   ) {}
 
-  @UseGuards(AuthGuard(),RolesGuard)
-  @Roles(Role.Client)
-  @Post(':client_id/:professional_id')
-  create(@Body() createAppointmentDto: CreateAppointmentDto, @Param('client_id') client_id: string, @Param('professional_id') professional_id: string ) {
-    return this.appointmentService.create(client_id,professional_id,createAppointmentDto);
+
+  @Post(':client_id/:professional_id/:payment_method_name')
+  create(@Body() createAppointmentDto: CreateAppointmentDto, @Param('client_id') client_id: string, @Param('professional_id') professional_id: string, @Param('paymentMethod_name') payment_method_name : string) {
+    return this.appointmentService.create(client_id,professional_id,payment_method_name, createAppointmentDto);
   }
 
    
@@ -35,7 +34,7 @@ export class AppointmentController {
   }
 
    @UseGuards(AuthGuard(),RolesGuard)
-   @Roles(Role.Client)
+   @Roles(Role.Client, Role.Professional)
    @Delete(':id')
       remove(@Param('id') id: string) {
      return this.appointmentService.remove(id);

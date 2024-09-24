@@ -12,6 +12,7 @@ import {SpecialityService} from './speciality.service';
 import {City} from "../general_resources/entities/city.entity";
 import { LanguageService } from '../general_resources/services/language.service';
 import { CityService } from '../general_resources/services/city.service';
+import { Appointment } from '../client_professional_entities/entities/appointment.entity';
 
 @Injectable()
 export class ProfessionalsService {
@@ -28,6 +29,8 @@ export class ProfessionalsService {
     private readonly specialityRepository: Repository<Speciality>,
     @InjectRepository(City)
     private readonly CityRepository: Repository<City>,
+    @InjectRepository(Appointment)
+    private readonly AppoimentRepository: Repository<Appointment>,
     private readonly serviceService: ServiceService,
     private readonly specialityService: SpecialityService,
     private readonly languageService: LanguageService,
@@ -56,24 +59,37 @@ export class ProfessionalsService {
       return professional;
     }
 
-  findAll(limit:number, offset:number) {
-    limit = 10 
-    offset= 0
-    
-    return this.professionalRepository.find({
-      take: limit, 
-      skip: offset
-    });
-  }
+    async findAll(limit: number, offset: number): Promise<[Professional[], number]> {
+      const [results, total] = await this.professionalRepository.findAndCount({
+        skip: offset,
+        take: limit,
+      });
+      return [results, total];
+    }
 
-  async findOne(name_professional: string) {
+
+    async findByCityAndSpeciality(cityName: string, specialityName: string, limit: number, offset: number): Promise<[Professional[], number]> {
+      const [results, total] = await this.professionalRepository
+        .createQueryBuilder('professional')
+        .leftJoinAndSelect('professional.cities', 'city')
+        .leftJoinAndSelect('professional.specialities', 'speciality')
+        .where('city.city_name = :cityName', { cityName })
+        .andWhere('speciality.speciality_name = :specialityName', { specialityName })
+        .skip(offset)
+        .take(limit)
+        .getManyAndCount();
+
+      return [results, total];
+    }
+
+  async findOne(id_professional: string) {
 
     let professional: Professional;
     
-    professional = await this.professionalRepository.findOneBy({ id: name_professional});
+    professional = await this.professionalRepository.findOneBy({ id: id_professional});
     
     if(!professional){
-      throw new NotFoundException(`Professional with ${name_professional} not found`)
+      throw new NotFoundException(`Professional with ${id_professional} not found`)
     }
 
     return professional;
@@ -84,16 +100,24 @@ export class ProfessionalsService {
     let professional: Professional;
     let service: Service;
 
-    if(isUUID(id_professional) && isUUID(id_service)){
-      professional = await this.findOne(id_professional);
-      service =  await this.serviceService.findOne(id_service);
+    professional = await this.findOne(id_professional);
+    if(!professional){
+      throw new NotFoundException('professional not found')
+    }
+    service =  await this.serviceService.findOne(id_service);
+
+    if(!service){
+      throw new NotFoundException('services not found')
     }
     
     const services = await this.findServices(id_professional)
+    
 
     if(!professional.services)
       professional.services = []
+
     
+
     professional.services.push(...services);
     professional.services.push(service)
 
@@ -104,6 +128,48 @@ export class ProfessionalsService {
     
   }
   
+  async DeleteServiceToProfessional(id_professional:string, id_service:string){
+    let professional: Professional;
+    let service: Service;
+
+    professional = await this.professionalRepository.findOne({where :{id: id_professional}, relations:['services']});
+    if(!professional){
+      throw new NotFoundException('professional not found')
+    }
+    service =  await this.serviceService.findOne(id_service);
+
+    if(!service){
+      throw new NotFoundException('services not found')
+    }
+
+    professional.services = professional.services.filter(s => s.id !== id_service);
+
+    await this.professionalRepository.save(professional);
+
+  }
+
+  async DeleteSpecialityToProfessional(id_professional:string, id_speciality:string){
+    let professional: Professional;
+    let speciality: Speciality;
+
+    professional = await this.professionalRepository.findOne({where :{id: id_professional}, relations:['specialities']});
+    if(!professional){
+      throw new NotFoundException('professional not found')
+    }
+    speciality =  await this.specialityService.findOne(id_speciality);
+
+    if(!speciality){
+      throw new NotFoundException('services not found')
+    }
+
+    console.log(speciality.id)
+
+    professional.specialities = professional.specialities.filter(s => s.id !== id_speciality);
+
+    await this.professionalRepository.save(professional);
+
+  }
+
   async addSpecialityToProfessional(id_professional: string, id_speciality: string) {
     let professional: Professional;
     let speciality: Speciality;
@@ -147,6 +213,8 @@ export class ProfessionalsService {
     return professional;
   }
 
+
+
   async findServices(id_professional:string){
     return await this.serviceRepository.createQueryBuilder('service')
         .innerJoin("service.professionals", "professional")
@@ -159,6 +227,17 @@ export class ProfessionalsService {
         .innerJoin('speciality.professionals', 'professional')
         .where('professional.id = :id', {id: id_professional})
         .getMany()
+  }
+
+  async findAppoiments(id_professional:string){
+    const appoiments = await this.AppoimentRepository.createQueryBuilder('appointment')
+    .leftJoinAndSelect('appointment.client', 'client')
+    .leftJoinAndSelect('appointment.professional', 'professional')
+    .leftJoinAndSelect('appointment.paymentMethod', 'paymentMethod')
+    .where('professional.id = :id', { id: id_professional })
+    .getMany();
+    return appoiments
+
   }
 
   async findByCity(city_name:string){
@@ -198,6 +277,7 @@ export class ProfessionalsService {
     const professional = await this.findOne(id);
     await this.professionalRepository.remove(professional);
   }
+
 
   private handleDBExceptions( error: any ) {
 

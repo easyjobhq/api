@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query } from '@nestjs/common';
 import { ProfessionalsService } from '../professionals.service';
 import { CreateProfessionalDto } from '../dto/create-professional.dto';
 import {PaginationDto} from '../../common/dtos/pagination.dto'
@@ -7,6 +7,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/entities/role.enum";
+import { RolesGuard } from '../../auth/guards/user/user.guard';
 
 @Controller('professionals')
 export class ProfessionalsController {
@@ -21,14 +22,36 @@ export class ProfessionalsController {
 
   @UseGuards(AuthGuard())
   @Get()
-  findAll() {
-    return this.professionalsService.findAll(10,0);
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    const [results, total] = await this.professionalsService.findAll(limit, (page - 1) * limit);
+    return {
+      data: results,
+      total,
+    };
+  }
+
+  @Get('city/:city/speciality/:speciality')
+  async findByCityAndSpecialty( 
+    @Param('city') city: string, 
+    @Param('speciality') speciality: string,
+    @Query('page') page:number = 1, 
+    @Query('limit') limit: number= 10
+  ) {
+    const [results, total] = await this.professionalsService.findByCityAndSpeciality(city, speciality, limit, (page - 1) * limit);
+    
+    return {
+      data: results,
+      total,
+    };
   }
 
   @UseGuards(AuthGuard())
   @Get(':id')
-  findOne(@Param('name') name: string) {
-    return this.professionalsService.findOne(name);
+  findOne(@Param('id') id: string) {
+    return this.professionalsService.findOne(id);
   }
 
   @UseGuards(AuthGuard())
@@ -46,10 +69,9 @@ export class ProfessionalsController {
   }
 
 
-  @UseGuards(AuthGuard())
+  @Get('service/:id_professional/:id_service')
+  @UseGuards(AuthGuard(), RolesGuard)
   @Roles(Role.Professional)
-
-  @Post('/service/:id_professional/:id_service')
   addService(@Param('id_professional') id_professional: string,@Param('id_service') id_service: string){
     return this.professionalsService.addServiceToProfessional(id_professional, id_service);
   }
@@ -57,7 +79,7 @@ export class ProfessionalsController {
   @UseGuards(AuthGuard())
   @HttpCode(200)
   @Roles(Role.Professional)
-  @Post('specialities/:id_professional/:id_speciality')
+  @Get('specialities/:id_professional/:id_speciality')
   addSpeciality(@Param('id_professional') id_professional: string,@Param('id_speciality') id_speciality:string){
       return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
   }
@@ -93,6 +115,28 @@ export class ProfessionalsController {
   @Get('cities/:id_professional')
   findCities(@Param('id_professional') id_professional:string){
     return this.professionalsService.findCities(id_professional);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get('appoiments/:id_professional')
+  findAppoiments(@Param('id_professional') id_professional:string){
+    return this.professionalsService.findAppoiments(id_professional);
+  }
+
+
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(Role.Professional)
+  @Delete('oneservice/:id_professional/:id_service')
+  deleteServiceToProfessional(@Param('id_professional') id_professional:string, @Param('id_service') id_service:string){
+    return this.professionalsService.DeleteServiceToProfessional(id_professional, id_service)
+  } 
+
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(Role.Professional)
+  @Delete('onespeaciality/:id_professional/:id_speciality')
+  deleteSpecialityToProfessional(@Param('id_professional') id_professional:string, @Param('id_speciality') id_speciality:string){
+    return this.professionalsService.DeleteSpecialityToProfessional(id_professional, id_speciality)
+  
   }
 
 }
