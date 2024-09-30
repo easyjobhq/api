@@ -6,6 +6,7 @@ import { Client } from './entities/client.entity';
 import { Repository } from 'typeorm';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
+import { S3Service } from 'src/s3/s3.service';
 
 @Injectable()
 export class ClientsService {
@@ -15,12 +16,36 @@ export class ClientsService {
 
   constructor(
     @InjectRepository(Client)
-    private readonly clientRespository: Repository<Client>
+    private readonly clientRespository: Repository<Client>,
+    private readonly s3Service: S3Service
   ) {}
 
-  async create(createClientDto: CreateClientDto) {
-    const client =  this.clientRespository.create(createClientDto);
-    console.log("cliente creado\n" + client)
+  async create(createClientDto: CreateClientDto, professionalPhoto: Express.Multer.File) {
+
+    try {
+      //Uploading the file to S3
+      
+      const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+
+      const client = this.clientRespository.create(createClientDto);
+      
+      client.photo_url = photoUrl;
+
+      await this.clientRespository.save(client);
+
+      return client;
+      
+    }catch(error) {
+      console.log(error)
+    }
+
+    
+  }
+
+  async createWithPhotoUrl(createClientDto: CreateClientDto){
+
+    const client = this.clientRespository.create(createClientDto);
+
     await this.clientRespository.save(client);
 
     return client;

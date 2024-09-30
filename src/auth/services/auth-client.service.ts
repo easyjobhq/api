@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { Client } from '../../clients/entities/client.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { CreateClientDto } from '../../clients/dto/create-client.dto';
+import { ClientsService } from 'src/clients/clients.service';
 
 
 @Injectable()
@@ -15,30 +16,45 @@ export class AuthClientService {
     @InjectRepository(Client)
     private readonly userRepository: Repository<Client>,
     private readonly jwtService: JwtService,
+    private readonly clientService: ClientsService
 
   ) {}
 
   
 
-  async create( createUserDto: CreateClientDto) {
+  async create( createUserDto: CreateClientDto, clientPhoto: Express.Multer.File) {
     
     try {
 
-      const { password, ...userData } = createUserDto;
-      
-      const user = this.userRepository.create({
-        ...userData,
-        password: bcrypt.hashSync( password, 10 )
+      console.log("CHUPAPI MUNANO")
 
-      });
+      createUserDto.password = bcrypt.hashSync( createUserDto.password, 10 )
 
-      await this.userRepository.save( user )
+      const user = await this.clientService.create(createUserDto, clientPhoto);
 
       return {
         ...user,
         token: this.jwtService.sign({ id: user.id })
       };
-      // TODO: Retornar el JWT de acceso
+
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
+
+  }
+
+  async createWithPhotoUrl( createUserDto: CreateClientDto) {
+    
+    try {
+
+      createUserDto.password = bcrypt.hashSync( createUserDto.password, 10 )
+
+      const user = await this.clientService.createWithPhotoUrl(createUserDto);
+
+      return {
+        ...user,
+        token: this.jwtService.sign({ id: user.id })
+      };
 
     } catch (error) {
       this.handleDBErrors(error);

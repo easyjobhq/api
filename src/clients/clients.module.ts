@@ -7,6 +7,8 @@ import { User } from '../auth/entities/user.entity';
 import { Question } from '../client_professional_entities/entities/question.entitiy';
 import { Review } from '../client_professional_entities/entities/review.entity';
 import { DataSource } from 'typeorm';
+import { S3Service } from 'src/s3/s3.service';
+import { S3Module } from 'src/s3/s3.module';
 
 
 @Module({
@@ -16,7 +18,8 @@ import { DataSource } from 'typeorm';
     TypeOrmModule.forFeature([Client]), 
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Question]),
-    TypeOrmModule.forFeature([Review])
+    TypeOrmModule.forFeature([Review]),
+    S3Module
   ],
   exports: [ClientsModule, ClientsService]
 })

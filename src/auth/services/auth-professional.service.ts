@@ -20,23 +20,14 @@ export class AuthProfessionalService {
 
   ) {}
 
-  async create( createUserDto: CreateProfessionalDto) {
+  async create( createUserDto: CreateProfessionalDto,  professionalPhoto: Express.Multer.File) {
     
     try {
 
-      const { password, ...userData } = createUserDto;
-
       createUserDto.password = bcrypt.hashSync(createUserDto.password, 10);
 
-      const user = await this.professionalService.create(createUserDto);
+      const user = await this.professionalService.create(createUserDto, professionalPhoto);
       
-      //const user = this.userRepository.create({
-        //...userData,
-        //password: bcrypt.hashSync( password, 10 )
-      //});
-
-      //await this.userRepository.save( user )
-
       return {
         ...user,
         token: this.jwtService.sign({ id: user.id })
