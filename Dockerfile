@@ -18,7 +18,7 @@ RUN npm install --force --save-dev @types/express @types/multer
 COPY . .
 
 # Add verbose flag to see more detailed output
-RUN npm run build -- --verbose
+RUN npm run build --verbose
 
 # Prod stage 
 FROM node:18-alpine
