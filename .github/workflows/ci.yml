@@ -1,19 +1,29 @@
 name: CI Pipeline
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Debug Environment Info
+      run: |
+        node --version
+        npm --version
+        docker --version
+        cat package.json
+        cat tsconfig.json
+
     - name: Login Dockerhub
       env: 
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
@@ -21,7 +31,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t juanjodiazzz/easyjob-backend-cicd-pipeline:latest .
+      run: docker build --progress=plain -t juanjodiazzz/easyjob-backend-cicd-pipeline:latest .
       
     - name: Push to Dockerhub
       run: docker push juanjodiazzz/easyjob-backend-cicd-pipeline:latest
