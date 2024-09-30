@@ -263,7 +263,8 @@ export class ProfessionalsService {
         .getMany();
   }
 
-  async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {
+  async update(id: string, updateProfessionalDto: UpdateProfessionalDto, professionalPhoto: Express.Multer.File) {
+  
     const professional = await this.professionalRepository.preload({
       id: id,
       ... updateProfessionalDto
@@ -272,6 +273,13 @@ export class ProfessionalsService {
     if ( !professional ) throw new NotFoundException(`Professional with id: ${ id } not found`);
 
     try {
+
+      if(professionalPhoto){
+        //Uploading the file to S3
+        const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+        professional.photo_url = photoUrl;
+     }
+
       await this.professionalRepository.save( professional );
       return professional;
       

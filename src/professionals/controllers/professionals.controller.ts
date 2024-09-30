@@ -60,9 +60,14 @@ export class ProfessionalsController {
   }
 
   @UseGuards(AuthGuard())
+  @UseInterceptors(FileInterceptor('professional_image'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfessionalDto: UpdateProfessionalDto) {
-    return this.professionalsService.update(id, updateProfessionalDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateProfessionalDto: UpdateProfessionalDto,
+    @UploadedFile() professionalPhoto: Express.Multer.File
+  ) {
+    return this.professionalsService.update(id, updateProfessionalDto, professionalPhoto);
   }
 
 
@@ -98,7 +103,6 @@ export class ProfessionalsController {
 
 
   @UseGuards(AuthGuard())
-
   @Get('services/:id_professional')
   findServices(@Param('id_professional') id_professional: string){
     return this.professionalsService.findServices(id_professional)
