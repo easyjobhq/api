@@ -8,6 +8,7 @@ import { Role } from '../entities/role.enum';
 import { GetUser } from '../decorators/get-user.decorator';
 import { RolesGuard } from '../guards/user/user.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 
 @Controller('auth/client')
