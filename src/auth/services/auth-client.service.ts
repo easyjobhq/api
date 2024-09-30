@@ -8,6 +8,7 @@ import { Client } from '../../clients/entities/client.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { CreateClientDto } from '../../clients/dto/create-client.dto';
 import { ClientsService } from 'src/clients/clients.service';
+import { Express } from 'express';
 
 
 @Injectable()

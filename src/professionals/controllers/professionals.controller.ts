@@ -9,6 +9,7 @@ import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/entities/role.enum";
 import { RolesGuard } from '../../auth/guards/user/user.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('professionals')
 export class ProfessionalsController {

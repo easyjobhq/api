@@ -13,6 +13,7 @@ import { CreateClientDto } from '../../clients/dto/create-client.dto';
 import { ClientsService } from '../../clients/clients.service';
 import { configDotenv } from 'dotenv';
 import { AuthClientService } from './auth-client.service';
+import { Express } from 'express';
 
 configDotenv();
 
