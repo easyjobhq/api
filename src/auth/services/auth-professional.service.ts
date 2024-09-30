@@ -8,6 +8,7 @@ import { Professional } from '../../professionals/entities/professional.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { CreateProfessionalDto } from '../../professionals/dto/create-professional.dto';
 import { ProfessionalsService } from '../../professionals/professionals.service';
+import { Express } from 'express';
 
 
 @Injectable()
