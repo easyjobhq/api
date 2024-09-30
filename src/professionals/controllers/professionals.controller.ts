@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProfessionalsService } from '../professionals.service';
 import { CreateProfessionalDto } from '../dto/create-professional.dto';
 import {PaginationDto} from '../../common/dtos/pagination.dto'
@@ -8,15 +8,22 @@ import { AuthGuard } from '@nestjs/passport';
 import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/entities/role.enum";
 import { RolesGuard } from '../../auth/guards/user/user.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('professionals')
 export class ProfessionalsController {
   constructor(private readonly professionalsService: ProfessionalsService) {}
 
   @UseGuards(AuthGuard())
+  @UseInterceptors(FileInterceptor('professional_image'))
   @Post()
-  create(@Body() createProfessionalDto: CreateProfessionalDto) {
-    return this.professionalsService.create(createProfessionalDto);
+  create(
+    @Body() createProfessionalDto: CreateProfessionalDto,
+    @UploadedFile() professionalPhoto: Express.Multer.File
+  ) {
+    console.log(professionalPhoto);
+    console.log(createProfessionalDto)
+    return this.professionalsService.create(createProfessionalDto, professionalPhoto);
   }
 
 

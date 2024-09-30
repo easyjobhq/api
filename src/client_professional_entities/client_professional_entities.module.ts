@@ -28,6 +28,7 @@ import { GeneralResourcesModule } from '../general_resources/general_resources.m
 import { PaymentMethod } from '../general_resources/entities/payment_method.entity';
 import { PaymentMethodController } from '../general_resources/controllers/paymentMethod.controller';
 import { PaymentMethodService } from '../general_resources/services/paymentMethod.service';
+import { S3Module } from 'src/s3/s3.module';
 
 @Module({
   controllers: [QuestionController, ReviewsController, AppointmentController, PaymentMethodController ],
@@ -55,7 +56,8 @@ import { PaymentMethodService } from '../general_resources/services/paymentMetho
           signOptions: {expiresIn:'2h'}
       })
     }), 
-    ConfigModule
+    ConfigModule,
+    S3Module
   ], 
   exports: [ClientProfessionalEntitiesModule, AppointmentService, QuestionService, ReviewService],
 })

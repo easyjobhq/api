@@ -21,6 +21,7 @@ import { Service } from '../professionals/entities/service.entity';
 import { Type } from 'class-transformer';
 import { Speciality } from '../professionals/entities/speciality.entity';
 import { SpecialityService } from '../professionals/speciality.service';
+import { S3Module } from 'src/s3/s3.module';
 
 @Module({
   controllers: [CityController, LanguageController, PaymentMethodController],
@@ -34,7 +35,8 @@ import { SpecialityService } from '../professionals/speciality.service';
     TypeOrmModule.forFeature([Appointment]),
     TypeOrmModule.forFeature([Client]),
     TypeOrmModule.forFeature([Service]),
-    TypeOrmModule.forFeature([Speciality])
+    TypeOrmModule.forFeature([Speciality]),
+    S3Module
   ],
   exports: [TypeOrmModule,GeneralResourcesModule, CityService, LanguageService, PaymentMethodService]
 })
