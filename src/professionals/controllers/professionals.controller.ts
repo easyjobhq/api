@@ -21,8 +21,6 @@ export class ProfessionalsController {
     @Body() createProfessionalDto: CreateProfessionalDto,
     @UploadedFile() professionalPhoto: Express.Multer.File
   ) {
-    console.log(professionalPhoto);
-    console.log(createProfessionalDto)
     return this.professionalsService.create(createProfessionalDto, professionalPhoto);
   }
 

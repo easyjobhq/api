@@ -52,7 +52,7 @@ export class AuthgoogleService {
         client.photo_url = user.picture,
         client.password = process.env.GOOGLE_PASSWORD
 
-        await this.clientService.create(client)
+        await this.clientService.createWithPhotoUrl(client);
     }
     //console.log(existUser)
 
