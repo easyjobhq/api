@@ -9,12 +9,15 @@ import { ClientProfessionalEntitiesModule } from './client_professional_entities
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
+import { S3Module } from './s3/s3.module';
 import * as fs from 'fs';
 
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal:true
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres', 
       host: process.env.DB_HOST,
@@ -30,7 +33,7 @@ import * as fs from 'fs';
     }),
 
     ClientsModule, 
-    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule, SeedModule],
+    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule, SeedModule, S3Module],
   controllers: [AppController],
   providers: [AppService],
 })

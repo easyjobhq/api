@@ -28,6 +28,7 @@ import { RolesGuard } from '../auth/guards/user/user.guard';
 import { AppointmentService } from '../client_professional_entities/appointment.service';
 import { AppointmentController } from '../client_professional_entities/controllers/appointment.controller';
 import { ClientsService } from '../clients/clients.service';
+import { S3Module } from 'src/s3/s3.module';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController, AppointmentController],
@@ -51,6 +52,7 @@ import { ClientsService } from '../clients/clients.service';
           signOptions: {expiresIn:'20h'}
       })
     }),
+    S3Module,
     PaginationDto,
     ConfigModule,
     GeneralResourcesModule

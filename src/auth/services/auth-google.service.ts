@@ -13,6 +13,7 @@ import { CreateClientDto } from '../../clients/dto/create-client.dto';
 import { ClientsService } from '../../clients/clients.service';
 import { configDotenv } from 'dotenv';
 import { AuthClientService } from './auth-client.service';
+import { Express } from 'express';
 
 configDotenv();
 
@@ -52,7 +53,7 @@ export class AuthgoogleService {
         client.photo_url = user.picture,
         client.password = process.env.GOOGLE_PASSWORD
 
-        await this.clientService.create(client)
+        await this.clientService.createWithPhotoUrl(client);
     }
     //console.log(existUser)
 

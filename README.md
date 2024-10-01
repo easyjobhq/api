@@ -2,7 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
@@ -45,6 +44,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+> If you run into any issues with dependencies, run `npm install --legacy-peer-deps` to install the dependencies.
 
 ## Test
 

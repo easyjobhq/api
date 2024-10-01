@@ -8,6 +8,7 @@ import { Professional } from '../../professionals/entities/professional.entity';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { CreateProfessionalDto } from '../../professionals/dto/create-professional.dto';
 import { ProfessionalsService } from '../../professionals/professionals.service';
+import { Express } from 'express';
 
 
 @Injectable()
@@ -20,23 +21,14 @@ export class AuthProfessionalService {
 
   ) {}
 
-  async create( createUserDto: CreateProfessionalDto) {
+  async create( createUserDto: CreateProfessionalDto,  professionalPhoto: Express.Multer.File) {
     
     try {
 
-      const { password, ...userData } = createUserDto;
-
       createUserDto.password = bcrypt.hashSync(createUserDto.password, 10);
 
-      const user = await this.professionalService.create(createUserDto);
+      const user = await this.professionalService.create(createUserDto, professionalPhoto);
       
-      //const user = this.userRepository.create({
-        //...userData,
-        //password: bcrypt.hashSync( password, 10 )
-      //});
-
-      //await this.userRepository.save( user )
-
       return {
         ...user,
         token: this.jwtService.sign({ id: user.id })

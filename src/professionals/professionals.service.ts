@@ -13,6 +13,8 @@ import {City} from "../general_resources/entities/city.entity";
 import { LanguageService } from '../general_resources/services/language.service';
 import { CityService } from '../general_resources/services/city.service';
 import { Appointment } from '../client_professional_entities/entities/appointment.entity';
+import { S3Service } from 'src/s3/s3.service';
+import { Express } from 'express';
 
 @Injectable()
 export class ProfessionalsService {
@@ -34,12 +36,18 @@ export class ProfessionalsService {
     private readonly serviceService: ServiceService,
     private readonly specialityService: SpecialityService,
     private readonly languageService: LanguageService,
-    private readonly cityService: CityService
+    private readonly cityService: CityService,
+    private s3Service: S3Service
   ) {}
 
-    async create(createProfessionalDto: CreateProfessionalDto) {
+    async create(createProfessionalDto: CreateProfessionalDto, professionalPhoto: Express.Multer.File) {
+      
+      //Uploading the file to S3
+      const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+
       const professional =  this.professionalRepository.create(createProfessionalDto);
-      console.log("este es el serviceId " + createProfessionalDto.service_id + '\n este es el language_id ' + createProfessionalDto.language_id + "\n este es el city_id" + createProfessionalDto.city_id + "\n este es el speciality_id " + createProfessionalDto.speciality_id);
+      professional.photo_url = photoUrl 
+      
       const service = await this.serviceService.findOne(createProfessionalDto.service_id);
       const language = await this.languageService.findOne(createProfessionalDto.language_id);
       const city = await this.cityService.findOne(createProfessionalDto.city_id);
@@ -256,7 +264,8 @@ export class ProfessionalsService {
         .getMany();
   }
 
-  async update(id: string, updateProfessionalDto: UpdateProfessionalDto) {
+  async update(id: string, updateProfessionalDto: UpdateProfessionalDto, professionalPhoto: Express.Multer.File) {
+  
     const professional = await this.professionalRepository.preload({
       id: id,
       ... updateProfessionalDto
@@ -265,6 +274,13 @@ export class ProfessionalsService {
     if ( !professional ) throw new NotFoundException(`Professional with id: ${ id } not found`);
 
     try {
+
+      if(professionalPhoto){
+        //Uploading the file to S3
+        const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+        professional.photo_url = photoUrl;
+     }
+
       await this.professionalRepository.save( professional );
       return professional;
       
