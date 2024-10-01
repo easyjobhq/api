@@ -38,19 +38,19 @@ jobs:
           S3_URL: ${{secrets.S3_URL}}
       run: |
         sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container \
-        -e PORT=${{ secrets.PORT }} \
-        -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-        -e DB_NAME=${{ secrets.DB_NAME }} \
-        -e DB_USER=${{ secrets.DB_USER }} \
-        -e DB_PORT=${{ secrets.DB_PORT }} \
-        -e DB_HOST=${{ secrets.DB_HOST }} \
-        -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-        -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
-        -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-        -e CALLBACK_URL=${{ secrets.GOOGLE_URL }} \
-        -e GOOGLE_PASSWORD=${{ secrets.GOOGLE_PASSWORD }} \
-        -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-        -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-        -e AWS_S3_REGION=${{ secrets.AWS_S3_REGION }} \
-        -e S3_URL=${{ secrets.S3_URL }} \
+        -e PORT=$PORT \
+        -e DB_PASSWORD=$DB_PASSWORD \
+        -e DB_NAME=$DB_NAME \
+        -e DB_USER=$DB_USER \
+        -e DB_PORT=$DB_PORT \
+        -e DB_HOST=$DB_HOST \
+        -e JWT_SECRET=$JWT_SECRET \
+        -e GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
+        -e GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
+        -e CALLBACK_URL=$CALLBACK_URL \
+        -e GOOGLE_PASSWORD=$GOOGLE_PASSWORD \
+        -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+        -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+        -e AWS_S3_REGION=$AWS_S3_REGION \
+        -e S3_URL=$S3_URL \
         juanjodiazzz/easyjob-backend-cicd-pipeline:latest
