@@ -7,13 +7,13 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 COPY package*.json ./
+COPY tsconfig*.json ./
 
 RUN npm install --force
 
 RUN npm install -g @nestjs/cli
 
-# Install dev dependencies including type definitions
-RUN npm install --force --save-dev @types/express @types/multer
+RUN npm install  --force --save-dev @types/express @types/multer
 
 COPY . .
 
