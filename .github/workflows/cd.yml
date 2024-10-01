@@ -15,8 +15,10 @@ jobs:
     steps:
     - name: pull Docker image
       run: sudo docker pull juanjodiazzz/easyjob-backend-cicd-pipeline:latest
+
     - name: Delete old Docker container
       run: sudo docker rm -f easyjob-backend-cicd-container || true
+
     - name: Run Docker container 
       env:
           PORT: 3000
@@ -30,6 +32,10 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
           CALLBACK_URL: ${{secrets.GOOGLE_URL}}
           GOOGLE_PASSWORD: ${{secrets.GOOGLE_PASSWORD}}
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_S3_REGION: ${{secrets.AWS_S3_REGION}}
+          S3_URL: ${{secrets.S3_URL}}
       run: |
         sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container \
         -e PORT=${{ secrets.PORT }} \
@@ -43,4 +49,8 @@ jobs:
         -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
         -e CALLBACK_URL=${{ secrets.GOOGLE_URL }} \
         -e GOOGLE_PASSWORD=${{ secrets.GOOGLE_PASSWORD }} \
+        -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+        -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+        -e AWS_S3_REGION=${{ secrets.AWS_S3_REGION }} \
+        -e S3_URL=${{ secrets.S3_URL }} \
         juanjodiazzz/easyjob-backend-cicd-pipeline:latest
