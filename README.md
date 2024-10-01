@@ -45,6 +45,8 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+> If you run into any issues with dependencies, run `npm install --legacy-peer-deps` to install the dependencies.
+
 ## Test
 
 ```bash
