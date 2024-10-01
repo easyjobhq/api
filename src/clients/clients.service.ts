@@ -7,10 +7,10 @@ import { Repository } from 'typeorm';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 import { S3Service } from 'src/s3/s3.service';
+import { Express } from 'express';
 
 @Injectable()
 export class ClientsService {
-
 
   private readonly logger = new Logger('ClientsService');
 

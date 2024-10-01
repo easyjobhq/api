@@ -4,6 +4,7 @@ import { CreateClientDto } from '../dto/create-client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('clients')
 export class ClientsController {
