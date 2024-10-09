@@ -36,6 +36,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           AWS_S3_REGION: ${{secrets.AWS_S3_REGION}}
           S3_URL: ${{secrets.S3_URL}}
+          BREVO_API_KEY: ${{secrets.BREVO_API_KEY}}
       run: |
         sudo docker run -d -p 80:3000 --name easyjob-backend-cicd-container \
         -e PORT=${{ secrets.PORT }} \
@@ -53,4 +54,5 @@ jobs:
         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
         -e AWS_S3_REGION=${{ secrets.AWS_S3_REGION }} \
         -e S3_URL=${{ secrets.S3_URL }} \
+        -e BREVO_API_KEY=${{ secrets.BREVO_API_KEY }} \
         juanjodiazzz/easyjob-backend-cicd-pipeline:latest
