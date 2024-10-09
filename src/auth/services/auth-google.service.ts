@@ -37,13 +37,15 @@ export class AuthgoogleService {
 
     //    .... your business logic
     const email = user.email
-    console.log(email)
+    //console.log(email)
 
     const existUser = await this.clientRepository.findOne({
         where : {email},
         select : {id:true, email:true, password:true}
     })
     
+    console.log(existUser)
+
     if(!existUser){
         
         let client = new CreateClientDto()
