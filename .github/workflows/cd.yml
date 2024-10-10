@@ -13,11 +13,11 @@ jobs:
     runs-on: self-hosted
     
     steps:
-    - name: pull Docker image
+    - name: Pull Docker image
       run: sudo docker pull juanjodiazzz/easyjob-backend-cicd-pipeline:latest
 
     - name: Delete old Docker container
-      run: sudo docker rm -f easyjob-backend-cicd-container || true
+      run: sudo docker rm -f api || true
 
     - name: Run Docker container 
       env:
@@ -38,7 +38,7 @@ jobs:
           S3_URL: ${{secrets.S3_URL}}
           BREVO_API_KEY: ${{secrets.BREVO_API_KEY}}
       run: |
-        sudo docker run -d -p 80:3000 --name easyjob-backend-cicd-container \
+        sudo docker run -d -p 80:3000 --name api \
         -e PORT=${{ secrets.PORT }} \
         -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
         -e DB_NAME=${{ secrets.DB_NAME }} \
