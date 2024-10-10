@@ -10,6 +10,6 @@ async function bootstrap() {
     credentials: true, // Allow credentials (cookies, authorization headers)
   });
   
-  await app.listen(3001);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
