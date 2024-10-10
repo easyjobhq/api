@@ -8,6 +8,7 @@ on:
 
 jobs:
   deploy:
+
     if: github.event.workflow_run.event == 'push'
     runs-on: self-hosted
     
@@ -35,8 +36,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           AWS_S3_REGION: ${{secrets.AWS_S3_REGION}}
           S3_URL: ${{secrets.S3_URL}}
+          BREVO_API_KEY: ${{secrets.BREVO_API_KEY}}
       run: |
-        sudo docker run -d -p 3000:3000 --name easyjob-backend-cicd-container \
+        sudo docker run -d -p 80:3000 --name easyjob-backend-cicd-container \
         -e PORT=${{ secrets.PORT }} \
         -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
         -e DB_NAME=${{ secrets.DB_NAME }} \
@@ -52,4 +54,5 @@ jobs:
         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
         -e AWS_S3_REGION=${{ secrets.AWS_S3_REGION }} \
         -e S3_URL=${{ secrets.S3_URL }} \
+        -e BREVO_API_KEY=${{ secrets.BREVO_API_KEY }} \
         juanjodiazzz/easyjob-backend-cicd-pipeline:latest
