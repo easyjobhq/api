@@ -7,8 +7,8 @@ on:
       - completed
 
 jobs:
+  deploy:
 
-  build:
     if: github.event.workflow_run.event == 'push'
     runs-on: self-hosted
     

@@ -26,7 +26,7 @@ export class ProfessionalsController {
   }
 
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get()
   async findAll(
     @Query('page') page: number = 1,
@@ -54,7 +54,7 @@ export class ProfessionalsController {
     };
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.professionalsService.findOne(id);
