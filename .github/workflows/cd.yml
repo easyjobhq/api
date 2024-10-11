@@ -30,7 +30,7 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
-          CALLBACK_URL: ${{secrets.GOOGLE_URL}}
+          CALLBACK_URL: ${{secrets.CALLBACK_URL}}
           GOOGLE_PASSWORD: ${{secrets.GOOGLE_PASSWORD}}
           AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
@@ -48,7 +48,7 @@ jobs:
         -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
         -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
         -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-        -e CALLBACK_URL=${{ secrets.GOOGLE_URL }} \
+        -e CALLBACK_URL=${{ secrets.CALLBACK_URL }} \
         -e GOOGLE_PASSWORD=${{ secrets.GOOGLE_PASSWORD }} \
         -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
