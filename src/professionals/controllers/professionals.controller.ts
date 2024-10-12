@@ -103,13 +103,13 @@ export class ProfessionalsController {
   }
 
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get('services/:id_professional')
   findServices(@Param('id_professional') id_professional: string){
     return this.professionalsService.findServices(id_professional)
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get('specialities/:id_professional')
   findSpeciality(@Param('id_professional') id_professional: string){
     return this.professionalsService.findSpecialities(id_professional);
@@ -121,7 +121,7 @@ export class ProfessionalsController {
     return this.professionalsService.findByCity(city_name);
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get('cities/:id_professional')
   findCities(@Param('id_professional') id_professional:string){
     return this.professionalsService.findCities(id_professional);
@@ -147,6 +147,11 @@ export class ProfessionalsController {
   deleteSpecialityToProfessional(@Param('id_professional') id_professional:string, @Param('id_speciality') id_speciality:string){
     return this.professionalsService.DeleteSpecialityToProfessional(id_professional, id_speciality)
   
+  }
+
+  @Get('totalreviews/:id_professional')
+  totalReviews(@Param('id_professional') id_professional:string){
+    return this.professionalsService.getTotalReviews(id_professional);
   }
 
 }

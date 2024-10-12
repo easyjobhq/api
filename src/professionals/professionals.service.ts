@@ -15,6 +15,8 @@ import { CityService } from '../general_resources/services/city.service';
 import { Appointment } from '../client_professional_entities/entities/appointment.entity';
 import { S3Service } from 'src/s3/s3.service';
 import { Express } from 'express';
+import { Review } from '../client_professional_entities/entities/review.entity';
+import { parse } from 'path';
 
 @Injectable()
 export class ProfessionalsService {
@@ -304,5 +306,24 @@ export class ProfessionalsService {
     // console.log(error)
     throw new InternalServerErrorException('Unexpected error, check server logs');
 
+  }
+
+  async getTotalReviews(professional_id:string){
+    const professoinalReviews = await this.professionalRepository.findOne({
+      where: {id: professional_id},
+      relations: ['reviews']
+    })
+
+    const Reviews: Review[] = professoinalReviews.reviews
+
+    let score: number = 0;
+    Reviews.forEach(review => {
+      score += review.score
+    });
+
+    const amountReviews = Reviews.length
+    const result = score / amountReviews;
+
+    return parseFloat(result.toFixed(1));
   }
 }
