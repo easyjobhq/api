@@ -77,6 +77,13 @@ export class ClientsService {
     return client;
   }
 
+  async findOneByEmail( email_client: string ): Promise<Client>{
+    let client: Client;
+    client = await this.clientRespository.findOneBy({email: email_client})
+    return client;
+
+  }
+
   async update(id: string, updateClientDto: UpdateClientDto) {
     const client = await this.clientRespository.preload({
       id: id,
