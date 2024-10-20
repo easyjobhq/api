@@ -28,11 +28,14 @@ import { AuthgoogleService } from './services/auth-google.service';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsController } from '../professionals/controllers/professionals.controller';
 import { S3Module } from 'src/s3/s3.module';
+import { AuthUserController } from './controller/auth-user.controller';
+import { AuthUserService } from './services/auth-user.service';
+import { User } from './entities/user.entity';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
-  controllers: [AuthClientController, AuthProfessionalController, AuthAdminController, AuthGoogleController, ProfessionalsController],
-  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService, GoogleStrategy, GoogleOauthGuard, AuthAdminService, AuthgoogleService, ClientsService],
+  controllers: [AuthClientController, AuthProfessionalController, AuthAdminController, AuthGoogleController, AuthUserController],
+  providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService, GoogleStrategy, GoogleOauthGuard, AuthAdminService, AuthgoogleService, ClientsService, AuthUserService],
   imports: [
     S3Module,
     ConfigModule,

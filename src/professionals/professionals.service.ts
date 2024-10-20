@@ -266,6 +266,12 @@ export class ProfessionalsService {
         .getMany();
   }
 
+  async findOneByEmail( email_professional: string ): Promise<Professional>{
+    let professional: Professional;
+    professional = await this.professionalRepository.findOneBy({email: email_professional})
+    return professional;
+  }
+
   async update(id: string, updateProfessionalDto: UpdateProfessionalDto, professionalPhoto: Express.Multer.File) {
   
     const professional = await this.professionalRepository.preload({

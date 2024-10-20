@@ -34,25 +34,19 @@ export class AppointmentService {
         throw new NotFoundException('Cliente, profesional o método de pago no encontrado');
     }
 
-      
-
       createAppointmentDto.client = client;
       createAppointmentDto.professional = professional;
       //createAppointmentDto.paymentMethod = paymentMethod;
-
-      
-
+    
       const appointment = this.appointmentRepository.create(createAppointmentDto);
       //console.log(appointment)
       await this.appointmentRepository.save(appointment);
-
-      
 
       //transoforma createappointmentdto.date a tipo date
 
       let dateString = createAppointmentDto.date;
 
-      console.log(dateString);
+      //console.log(dateString);
 
       // Elimina comillas al principio y al final si existen
       if (dateString.startsWith('"') && dateString.endsWith('"')) {
@@ -64,19 +58,9 @@ export class AppointmentService {
       const date1 = date.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
       const time = date.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-
       const brevo = require('@getbrevo/brevo');
       
       const apiInstance = new brevo.TransactionalEmailsApi();
-
-      /*
-      if (apiInstance.authentications && apiInstance.authentications['apikey']) {
-          let apikey = apiInstance.authentications['apikey'];
-          apikey.apiKey = `${process.env.BREVO_API_KEY}`;
-      } else {
-          console.error('Error: apiInstance.authentications or apiInstance.authentications["apikey"] is undefined');
-      }
-    */
 
       apiInstance.setApiKey(
         brevo.TransactionalEmailsApiApiKeys.apiKey,
