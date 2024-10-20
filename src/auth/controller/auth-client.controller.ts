@@ -28,6 +28,11 @@ export class AuthClientController {
   loginUser(@Body() loginUserDto: LoginUserDto ) {
     return this.authService.login( loginUserDto );
   }
+  
+  @Post('reset-password/:email')
+  resetPassword(@Param('email') email: string) {
+      return this.authService.resetPassword(email);
+  }
 
   @Get('private')
   @UseGuards(AuthGuard(),RolesGuard)

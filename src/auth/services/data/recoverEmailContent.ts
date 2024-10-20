@@ -1,6 +1,7 @@
+import { User } from "src/auth/entities/user.entity";
 import { Client } from "src/clients/entities/client.entity";
 
-export function recoverEmailContent(client: Client, new_password: string): string {
+export function recoverEmailContent(user: User, new_password: string): string {
     return `
     <!DOCTYPE html>
 <html lang="es">
@@ -71,7 +72,7 @@ export function recoverEmailContent(client: Client, new_password: string): strin
         </div>
         <div class="content">
             <h2>🔑 Restablecimiento de Contraseña 🔒</h2>
-            <p>Estimado/a ${client.name},</p>
+            <p>Estimado/a ${user.name},</p>
             <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en EasyJob. Entendemos lo importante que es la seguridad de tu cuenta y queremos asegurarnos de que puedas acceder a ella lo antes posible.</p>
             <p>Tu nueva contraseña temporal es: <strong>${new_password}</strong></p>
             <p>Por favor, inicia sesión en tu cuenta con esta nueva contraseña. Te recomendamos que cambies esta contraseña temporal por una nueva contraseña personalizada lo antes posible para garantizar la seguridad de tu cuenta. Puedes hacerlo accediendo a la configuración de tu perfil dentro del sistema.</p>
