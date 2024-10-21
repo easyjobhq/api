@@ -15,9 +15,9 @@ export class CreateProfessionalDto {
     @IsString()
     phone_number:string;
 
-    // @IsString()
-    // @IsOptional()
-    // photo_url: string;
+    @IsString()
+    @IsOptional()
+    photo_url: string;
 
     @IsString()
     @IsOptional()
