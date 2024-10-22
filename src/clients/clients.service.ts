@@ -67,7 +67,12 @@ export class ClientsService {
     let client: Client;
 
     if(isUUID(id_client)){
-      client = await this.clientRespository.findOneBy({id: id_client});
+      client = await this.clientRespository.findOne(
+        {
+          where: {id: id_client},
+          relations: ['appointments', 'questions', 'reviews', 'reviews.professional', 'appointments.professional']
+        },
+      );
     }
 
     if(!client){
@@ -84,13 +89,18 @@ export class ClientsService {
 
   }
 
-  async update(id: string, updateClientDto: UpdateClientDto) {
+  async update(id: string, updateClientDto: UpdateClientDto, clientPhoto: Express.Multer.File) {
     const client = await this.clientRespository.preload({
       id: id,
       ...updateClientDto
     });
 
     if ( !client ) throw new NotFoundException(`Client with id: ${ id } not found`);
+
+    if ( clientPhoto ) {
+      const photoUrl = await this.s3Service.uploadFile(clientPhoto, clientPhoto.originalname);
+      client.photo_url = photoUrl;
+    }
 
     try {
       await this.clientRespository.save( client );

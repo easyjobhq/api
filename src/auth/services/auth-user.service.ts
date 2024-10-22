@@ -29,7 +29,7 @@ export class AuthUserService {
        if (client) {
             user = client
             client.password = bcrypt.hashSync(new_random_password, 10);
-            await this.clientService.update(client.id, client);
+            await this.clientService.update(client.id, client, null);
 
         } else {
 
