@@ -67,7 +67,7 @@ export class AuthClientService {
 
     client.password = bcrypt.hashSync(new_random_password, 10);
 
-    const clientSaved = await this.clientService.update(client.id, client);
+    const clientSaved = await this.clientService.update(client.id, client, null);
 
     const brevo = require('@getbrevo/brevo');
 
