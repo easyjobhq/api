@@ -8,14 +8,28 @@ import { ProfessionalsService } from 'src/professionals/professionals.service';
 import { ClientsService } from 'src/clients/clients.service';
 import { Client } from 'src/clients/entities/client.entity';
 import { Professional } from 'src/professionals/entities/professional.entity';
+import { LoginUserDto } from '../dto/login-user.dto';
+import { AuthClientService } from './auth-client.service';
+import { AuthProfessionalService } from './auth-professional.service';
 
 
 @Injectable()
 export class AuthUserService {
     constructor(
         private readonly clientService: ClientsService,
-        private readonly professionalService: ProfessionalsService
+        private readonly professionalService: ProfessionalsService,
+        private readonly clientAuthService: AuthClientService,
+        private readonly professionalAuthService: AuthProfessionalService
     ) { }
+
+
+    async login(loginUserDto: LoginUserDto) {
+        if(await this.clientService.findOneByEmail(loginUserDto.email)){
+            return this.clientAuthService.login(loginUserDto)
+        } else {
+            return this.professionalAuthService.login(loginUserDto)
+        }
+    }
 
 
     async resetPassword(email: string) {

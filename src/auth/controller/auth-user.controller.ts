@@ -19,5 +19,10 @@ export class AuthUserController {
   resetPassword(@Param('email') email: string) {
       return this.authService.resetPassword(email);
   }
+  
+  @Post('login')
+  loginUser(@Body() loginUserDto: LoginUserDto ) {
+    return this.authService.login( loginUserDto );
+  }
 
 }
