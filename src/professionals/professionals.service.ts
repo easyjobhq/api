@@ -73,6 +73,7 @@ export class ProfessionalsService {
       const [results, total] = await this.professionalRepository.findAndCount({
         skip: offset,
         take: limit,
+        relations: ['cities']
       });
       return [results, total];
     }
@@ -96,7 +97,10 @@ export class ProfessionalsService {
 
     let professional: Professional;
     
-    professional = await this.professionalRepository.findOneBy({ id: id_professional});
+    professional = await this.professionalRepository.findOne({
+        where: { id: id_professional },
+        relations: ['cities'], // Include the cities relation here
+    });
     
     if(!professional){
       throw new NotFoundException(`Professional with ${id_professional} not found`)
