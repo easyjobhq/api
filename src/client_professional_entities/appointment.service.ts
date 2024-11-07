@@ -24,7 +24,7 @@ export class AppointmentService {
     private readonly paymentMethodService: PaymentMethodService,
   ) {}
 
-  async create(clientId: string, professionalId: string, payment_method_name: string, createAppointmentDto: CreateAppointmentDto) {
+  async create(clientId: string, professionalId: string, createAppointmentDto: CreateAppointmentDto) {
 
       const client = await this.clientService.findOne(clientId);
       const professional = await this.professionalsService.findOne(professionalId);
