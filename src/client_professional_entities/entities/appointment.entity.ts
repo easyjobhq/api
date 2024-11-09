@@ -9,8 +9,8 @@ export class Appointment {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ type: 'text' })
-    date: string;  
+    @Column({ type: 'date' })
+    date: Date;  
 
     @Column({ type: 'text' })
     location: string;
