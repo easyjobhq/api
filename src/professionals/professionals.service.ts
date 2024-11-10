@@ -22,7 +22,7 @@ import { parse } from 'path';
 export class ProfessionalsService {
 
   private readonly logger = new Logger('ProfessionalService');
-
+  
 
   constructor(
     @InjectRepository(Professional)
@@ -73,7 +73,7 @@ export class ProfessionalsService {
       const [results, total] = await this.professionalRepository.findAndCount({
         skip: offset,
         take: limit,
-        relations: ['cities']
+        relations: ['cities', 'specialities', 'services']
       });
       return [results, total];
     }
