@@ -29,6 +29,7 @@ import { AppointmentService } from '../client_professional_entities/appointment.
 import { AppointmentController } from '../client_professional_entities/controllers/appointment.controller';
 import { ClientsService } from '../clients/clients.service';
 import { S3Module } from 'src/s3/s3.module';
+import { ChatModule } from 'src/chat/chat.module';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController, AppointmentController],
@@ -55,7 +56,7 @@ import { S3Module } from 'src/s3/s3.module';
     S3Module,
     PaginationDto,
     ConfigModule,
-    GeneralResourcesModule
+    GeneralResourcesModule, 
   ], 
   exports: [ProfessionalsModule, ProfessionalsService, ServiceService, SpecialityService]
 })

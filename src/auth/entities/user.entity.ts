@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Role } from "./role.enum";
+import { Chat } from "src/chat/entities/chat.entity";
 
 
 export abstract class User {

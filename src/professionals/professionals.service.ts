@@ -84,6 +84,7 @@ export class ProfessionalsService {
         .createQueryBuilder('professional')
         .leftJoinAndSelect('professional.cities', 'city')
         .leftJoinAndSelect('professional.specialities', 'speciality')
+        .leftJoinAndSelect('professional.services', 'services')
         .where('city.city_name = :cityName', { cityName })
         .andWhere('speciality.speciality_name = :specialityName', { specialityName })
         .skip(offset)

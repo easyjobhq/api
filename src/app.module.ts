@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
 import { S3Module } from './s3/s3.module';
 import * as fs from 'fs';
+import { ChatModule } from './chat/chat.module';
 
 
 @Module({
@@ -33,7 +34,14 @@ import * as fs from 'fs';
     }),
 
     ClientsModule, 
-    ProfessionalsModule, GeneralResourcesModule, ClientProfessionalEntitiesModule, AuthModule, SeedModule, S3Module],
+    ProfessionalsModule, 
+    GeneralResourcesModule, 
+    ClientProfessionalEntitiesModule, 
+    AuthModule, 
+    SeedModule, 
+    S3Module,
+    ChatModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

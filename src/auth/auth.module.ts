@@ -31,12 +31,14 @@ import { S3Module } from 'src/s3/s3.module';
 import { AuthUserController } from './controller/auth-user.controller';
 import { AuthUserService } from './services/auth-user.service';
 import { User } from './entities/user.entity';
+import { ChatModule } from 'src/chat/chat.module';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
   controllers: [AuthClientController, AuthProfessionalController, AuthAdminController, AuthGoogleController, AuthUserController],
   providers: [AuthClientService, AuthProfessionalService, JwtStrategy,RolesGuard, ProfessionalsService, GoogleStrategy, GoogleOauthGuard, AuthAdminService, AuthgoogleService, ClientsService, AuthUserService],
   imports: [
+    ChatModule,
     S3Module,
     ConfigModule,
     ProfessionalsModule,
@@ -45,6 +47,7 @@ import { User } from './entities/user.entity';
     TypeOrmModule.forFeature([Professional]),
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
+    TypeOrmModule.forFeature([User]),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
