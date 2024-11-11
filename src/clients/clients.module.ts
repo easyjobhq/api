@@ -9,6 +9,7 @@ import { Review } from '../client_professional_entities/entities/review.entity';
 import { DataSource } from 'typeorm';
 import { S3Service } from 'src/s3/s3.service';
 import { S3Module } from 'src/s3/s3.module';
+import { ChatModule } from 'src/chat/chat.module';
 
 
 @Module({
