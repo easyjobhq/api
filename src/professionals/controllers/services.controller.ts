@@ -58,14 +58,14 @@ export class ServiceController {
 
   @Patch(':id')
   @UseGuards(AuthGuard())
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateServicelDto: UpdateServiceDto) {
     return this.ServiceService.update(id, updateServicelDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard())
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   remove(@Param('id') id: string) {
     return this.ServiceService.remove(id);
   }

@@ -82,6 +82,25 @@ export class ClientsService {
     return client;
   }
 
+  async findOneNoRelationships(id_client: string) {
+
+    let client: Client;
+
+    if(isUUID(id_client)){
+      client = await this.clientRespository.findOne(
+        {
+          where: {id: id_client}
+        },
+      );
+    }
+
+    if(!client){
+      throw new NotFoundException(`Client with ${id_client} not found`)
+    }
+
+    return client;
+  }
+
   async findOneByEmail( email_client: string ): Promise<Client>{
     let client: Client;
     client = await this.clientRespository.findOneBy({email: email_client})
