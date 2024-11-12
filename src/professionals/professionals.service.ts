@@ -111,6 +111,27 @@ export class ProfessionalsService {
 
   }
 
+  async findOneNoRelationships(id_professional: string) {
+
+
+    if(!id_professional) {
+      return null;
+    }
+
+    let professional: Professional;
+    
+    professional = await this.professionalRepository.findOne({
+        where: { id: id_professional }
+      });
+    
+    if(!professional){
+      throw new NotFoundException(`Professional with ${id_professional} not found`)
+    }
+
+    return professional;
+
+  }
+
   async addServiceToProfessional(id_professional: string, id_service: string ) {
     let professional: Professional;
     let service: Service;
