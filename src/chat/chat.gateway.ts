@@ -13,15 +13,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     ) {}
 
     handleConnection(client: Socket) {
-        //console.log(`Client connected: ${client.id} `);
+        console.log(`Client connected: ${client.id} `);
     }
 
     handleDisconnect(client: Socket) {
-        //console.log(`Client disconnected: ${client.id}`);
+        console.log(`Client disconnected: ${client.id}`);
     }
 
     @SubscribeMessage('message')
     async handleMessage(@MessageBody() createChatDto: CreateChatDto){
+        console.log("AAAAAAAAaaa", createChatDto)
         const message = await this.groupChatService.sendMessage(createChatDto);
         this.server.emit(message.groupChat.id, message)
     }
