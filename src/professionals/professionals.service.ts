@@ -100,7 +100,7 @@ export class ProfessionalsService {
     
     professional = await this.professionalRepository.findOne({
         where: { id: id_professional },
-        relations: ['cities'], // Include the cities relation here
+        relations: ['cities', 'specialities', 'services'], // Include the cities relation here
     });
     
     if(!professional){
