@@ -26,6 +26,7 @@ import { ConfigModule } from '@nestjs/config';
 import {City} from "../general_resources/entities/city.entity";
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 import { S3Module } from 'src/s3/s3.module';
+import { AppointmentStatus } from './entities/appointmentStatus.entity';
 
 @Module({
   controllers: [QuestionController, ReviewsController, AppointmentController ],
@@ -42,6 +43,7 @@ import { S3Module } from 'src/s3/s3.module';
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
     TypeOrmModule.forFeature([City]),
+    TypeOrmModule.forFeature([AppointmentStatus]),
     GeneralResourcesModule,
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
