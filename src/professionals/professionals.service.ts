@@ -274,7 +274,7 @@ export class ProfessionalsService {
       where: {
         professional: professional
       }, 
-      relations: ['client', 'professional', 'service', 'city']
+      relations: ['client', 'professional', 'service']
     });
 
     return appointments
