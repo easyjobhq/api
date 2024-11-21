@@ -19,6 +19,16 @@ export class AppointmentController {
     return this.appointmentService.create(client_id,professional_id, createAppointmentDto);
   }
 
+  @Get('client/:client_id')
+  findAppointmentByClient(@Param('client_id') client_id: string) {
+     return this.appointmentService.findAppointmentByClient(client_id);
+  }
+
+  @Get('professional/:professional_id')
+  findAppointmentByProfessional(@Param('professional_id') professional_id: string) {
+     return this.appointmentService.findAppointmentByProfessional(professional_id);
+  }
+
    
   //@UseGuards(AuthGuard())
   @Get()

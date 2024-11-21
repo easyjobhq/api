@@ -157,6 +157,25 @@ export class AppointmentService {
       return appointment;
   }
 
+  async findAppointmentByClient(clientId: string) {
+    
+    const client = await this.clientService.findOne(clientId);
+
+    return this.appointmentRepository.find({
+      where: { client: client },
+      relations: ['client', 'professional', 'service']
+    });
+  }
+
+  async findAppointmentByProfessional(professional_id: string){
+    const professional = await this.professionalsService.findOne(professional_id);
+
+    return this.appointmentRepository.find({
+      where: { professional: professional },
+      relations: ['client', 'professional', 'service']
+    });
+  }
+
   findAll( paginationDto: PaginationDto ) {
     const {limit = 10, offset= 0} = paginationDto;
 
