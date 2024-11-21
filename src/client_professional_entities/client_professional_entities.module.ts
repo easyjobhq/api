@@ -25,15 +25,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import {City} from "../general_resources/entities/city.entity";
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
-import { PaymentMethod } from '../general_resources/entities/payment_method.entity';
-import { PaymentMethodController } from '../general_resources/controllers/paymentMethod.controller';
-import { PaymentMethodService } from '../general_resources/services/paymentMethod.service';
 import { S3Module } from 'src/s3/s3.module';
 
 @Module({
-  controllers: [QuestionController, ReviewsController, AppointmentController, PaymentMethodController ],
+  controllers: [QuestionController, ReviewsController, AppointmentController ],
   providers: [AppointmentService, QuestionService, ReviewService, ProfessionalsService, ClientsService, ServiceService,
-    SpecialityService, JwtStrategy, PaymentMethodService
+    SpecialityService, JwtStrategy
   ],
   
   imports: [
@@ -45,7 +42,6 @@ import { S3Module } from 'src/s3/s3.module';
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
     TypeOrmModule.forFeature([City]),
-    TypeOrmModule.forFeature([PaymentMethod]),
     GeneralResourcesModule,
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({

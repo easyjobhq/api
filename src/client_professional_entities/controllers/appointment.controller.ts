@@ -20,13 +20,13 @@ export class AppointmentController {
   }
 
    
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get()
   findAll() {
      return this.appointmentService.findAll({limit: 10, offset: 0});
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Get(':id')
   findOne(@Param('id') id: string) {
      return this.appointmentService.findOne(id);
