@@ -19,19 +19,31 @@ export class ReviewService {
     private readonly professionalService: ProfessionalsService
   ) {}
 
-  async create(id_client: string, id_review: string, createReviewDto: CreateReviewDto) {
-    
-    const review = this.reviewRepository.create(createReviewDto);
-    console.log(id_client)
-    const client = await this.clientService.findOne(id_client);
-    
-    const professional = await this.professionalService.findOne(id_review);
+  async create(id_client: string, id_professional: string, createReviewDto: CreateReviewDto) {
 
-    
-    review.client = client;
-    review.professional = professional;
+    const professional = await this.professionalService.findOne(id_professional);
+    const client = await this.clientService.findOne(id_client);
+
+    const review = this.reviewRepository.create({
+      ...createReviewDto,
+      client,
+      professional,
+    });
 
     await this.reviewRepository.save(review);
+
+    const newProfessional = await this.professionalService.findOne(id_professional);
+
+
+    const professionalReviewsCount = newProfessional.reviews.length;
+    const { score, comment } = createReviewDto;
+
+    const newScore = (professionalReviewsCount * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount + 1);    
+    console.log("New score", newScore);
+
+
+    newProfessional.score = newScore.toString();
+    await this.professionalService.saveProfessional(newProfessional);
 
     return review;
   }

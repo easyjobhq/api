@@ -64,9 +64,19 @@ export class ProfessionalsService {
       professional.languages.push(language);
       professional.cities.push(city);
       professional.specialities.push(speciality);
+      professional.score = "0"
       await this.professionalRepository.save(professional);
 
       return professional;
+    }
+
+    async saveProfessional(profesional: Professional) {
+      try {
+        await this.professionalRepository.save(profesional);
+        return profesional;
+      } catch (error) {
+        this.handleDBExceptions(error);
+      }
     }
 
     async findAll(limit: number, offset: number): Promise<[Professional[], number]> {
