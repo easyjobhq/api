@@ -265,14 +265,19 @@ export class ProfessionalsService {
         .getMany()
   }
 
-  async findAppoiments(id_professional:string){
-    const appoiments = await this.AppoimentRepository.createQueryBuilder('appointment')
-    .leftJoinAndSelect('appointment.client', 'client')
-    .leftJoinAndSelect('appointment.professional', 'professional')
-    .leftJoinAndSelect('appointment.paymentMethod', 'paymentMethod')
-    .where('professional.id = :id', { id: id_professional })
-    .getMany();
-    return appoiments
+  async findAppoiments(id_professional:string) {
+
+    const professional = await this.findOne(id_professional);
+    
+    
+    const appointments = this.AppoimentRepository.find({
+      where: {
+        professional: professional
+      }, 
+      relations: ['client', 'professional', 'service', 'city']
+    });
+
+    return appointments
 
   }
 

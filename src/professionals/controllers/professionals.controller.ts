@@ -127,8 +127,8 @@ export class ProfessionalsController {
     return this.professionalsService.findCities(id_professional);
   }
 
-  @UseGuards(AuthGuard())
-  @Get('appoiments/:id_professional')
+  //@UseGuards(AuthGuard())
+  @Get('appointments/:id_professional')
   findAppoiments(@Param('id_professional') id_professional:string){
     return this.professionalsService.findAppoiments(id_professional);
   }

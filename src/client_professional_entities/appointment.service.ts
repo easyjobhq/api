@@ -8,8 +8,7 @@ import { isUUID } from 'class-validator';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
-import { PaymentMethodService } from '../general_resources/services/paymentMethod.service';
-import { CreatePaymentMethodDto } from '../general_resources/dto/create-paymentMethod';
+//import { ServiceService } from 'src/professionals/service.service';
 
 
 @Injectable()
@@ -21,14 +20,14 @@ export class AppointmentService {
     private readonly appointmentRepository: Repository<Appointment>,
     private readonly clientService: ClientsService, 
     private readonly professionalsService: ProfessionalsService,
-    private readonly paymentMethodService: PaymentMethodService,
+    //private readonly serviceService: ServiceService
   ) {}
 
   async create(clientId: string, professionalId: string, createAppointmentDto: CreateAppointmentDto) {
 
       const client = await this.clientService.findOne(clientId);
       const professional = await this.professionalsService.findOne(professionalId);
-      //const paymentMethod = await this.paymentMethodService.findOneByName(payment_method_name);
+      //const service = await this.serviceService.findOne(createAppointmentDto.service_id);
 
       if (!client || !professional) {
         throw new NotFoundException('Cliente, profesional o método de pago no encontrado');
@@ -36,9 +35,10 @@ export class AppointmentService {
 
       createAppointmentDto.client = client;
       createAppointmentDto.professional = professional;
-      //createAppointmentDto.paymentMethod = paymentMethod;
-    
-      const appointment = this.appointmentRepository.create(createAppointmentDto);
+      
+      const appointment = this.appointmentRepository.create({
+        ...createAppointmentDto,
+      });
       //console.log(appointment)
       await this.appointmentRepository.save(appointment);
 
@@ -171,8 +171,11 @@ export class AppointmentService {
 
     let appointment: Appointment;
 
-    if(isUUID(id_appointment)){
-      appointment = await this.appointmentRepository.findOneBy({id: id_appointment});
+    if (isUUID(id_appointment)) {
+      appointment = await this.appointmentRepository.findOne({
+      where: { id: id_appointment },
+      relations: ['client', 'professional', 'service']
+      });
     }
 
     if(!appointment){
