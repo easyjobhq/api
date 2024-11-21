@@ -36,15 +36,22 @@ export class ReviewService {
 
 
     const professionalReviewsCount = newProfessional.reviews.length;
-    const { score, comment } = createReviewDto;
 
-    const newScore = (professionalReviewsCount * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount + 1);    
-    console.log("New score", newScore);
+    if(professionalReviewsCount === 0){
+      
+      newProfessional.score = createReviewDto.score.toString();
+      await this.professionalService.saveProfessional(newProfessional);
+      return review;
 
+    } else {
+      const { score, comment } = createReviewDto;
+      const newScore = (professionalReviewsCount * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount + 1);    
 
-    newProfessional.score = newScore.toString();
-    await this.professionalService.saveProfessional(newProfessional);
+      newProfessional.score = newScore.toString();
+      await this.professionalService.saveProfessional(newProfessional);
 
+    }
+    
     return review;
   }
 
