@@ -37,7 +37,7 @@ export class ReviewService {
 
     const professionalReviewsCount = newProfessional.reviews.length;
 
-    if(professionalReviewsCount === 0){
+    if(professionalReviewsCount === 1){
       
       newProfessional.score = createReviewDto.score.toString();
       await this.professionalService.saveProfessional(newProfessional);
@@ -45,7 +45,7 @@ export class ReviewService {
 
     } else {
       const { score, comment } = createReviewDto;
-      const newScore = (professionalReviewsCount * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount + 1);    
+      const newScore = ((professionalReviewsCount-1) * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount);    
 
       newProfessional.score = newScore.toString();
       await this.professionalService.saveProfessional(newProfessional);
