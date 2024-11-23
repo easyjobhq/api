@@ -15,7 +15,7 @@ export class ServiceController {
 
   //@UseGuards(AuthGuard())
   @Post()
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.ServiceService.create(createServiceDto);
   }
