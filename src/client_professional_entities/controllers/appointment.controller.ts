@@ -15,8 +15,8 @@ export class AppointmentController {
   ) {}
 
   @Post(':client_id/:professional_id')
-  create(@Body() createAppointmentDto: CreateAppointmentDto, @Param('client_id') client_id: string, @Param('professional_id') professional_id: string) {
-    return this.appointmentService.create(client_id,professional_id, createAppointmentDto);
+  create(@Body() createAppointmentDto: CreateAppointmentDto, @Param('client_id') client_id: string, @Param('professional_id') professional_id: string) { 
+   return this.appointmentService.create(client_id,professional_id, createAppointmentDto);
   }
 
   @Get('client/:client_id')
@@ -28,6 +28,11 @@ export class AppointmentController {
   findAppointmentByProfessional(@Param('professional_id') professional_id: string) {
      return this.appointmentService.findAppointmentByProfessional(professional_id);
   }
+
+  @Patch('status/:appointment_id/:status_name')
+   updateStatus(@Param('appointment_id') appointment_id: string, @Param('status_name') status_name: string) {
+       return this.appointmentService.updateStatus(appointment_id, status_name);
+   }
 
    
   //@UseGuards(AuthGuard())

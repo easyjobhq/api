@@ -8,7 +8,7 @@ import { isUUID } from 'class-validator';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
-//import { ServiceService } from 'src/professionals/service.service';
+import { AppointmentStatus } from './entities/appointmentStatus.entity';
 
 
 @Injectable()
@@ -16,19 +16,21 @@ export class AppointmentService {
   private readonly logger = new Logger('ServiceService');
 
   constructor(
+    @InjectRepository(AppointmentStatus)
+    private readonly appointmentStatusRepository: Repository<AppointmentStatus>,
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
     private readonly clientService: ClientsService, 
     private readonly professionalsService: ProfessionalsService,
-    //private readonly serviceService: ServiceService
+
   ) {}
 
   async create(clientId: string, professionalId: string, createAppointmentDto: CreateAppointmentDto) {
 
       const client = await this.clientService.findOne(clientId);
       const professional = await this.professionalsService.findOne(professionalId);
-      //const service = await this.serviceService.findOne(createAppointmentDto.service_id);
-
+      const appointmentStatus = await this.appointmentStatusRepository.findOne({where: {status: 'pendiente'}});
+      
       if (!client || !professional) {
         throw new NotFoundException('Cliente, profesional o método de pago no encontrado');
     }
@@ -38,7 +40,9 @@ export class AppointmentService {
       
       const appointment = this.appointmentRepository.create({
         ...createAppointmentDto,
+        appointmentStatus
       });
+
       //console.log(appointment)
       await this.appointmentRepository.save(appointment);
 
@@ -163,8 +167,14 @@ export class AppointmentService {
 
     return this.appointmentRepository.find({
       where: { client: client },
-      relations: ['client', 'professional', 'service']
+      relations: ['client', 'professional', 'service', 'appointmentStatus']
     });
+  }
+
+  async createAppointmentStatus(statusName: string) {
+    const appointmentStatus = this.appointmentStatusRepository.create({ status: statusName });
+    await this.appointmentStatusRepository.save(appointmentStatus);
+    return appointmentStatus; 
   }
 
   async findAppointmentByProfessional(professional_id: string){
@@ -172,7 +182,7 @@ export class AppointmentService {
 
     return this.appointmentRepository.find({
       where: { professional: professional },
-      relations: ['client', 'professional', 'service']
+      relations: ['client', 'professional', 'service', 'appointmentStatus']
     });
   }
 
@@ -193,7 +203,7 @@ export class AppointmentService {
     if (isUUID(id_appointment)) {
       appointment = await this.appointmentRepository.findOne({
       where: { id: id_appointment },
-      relations: ['client', 'professional', 'service']
+      relations: ['client', 'professional', 'service', 'appointmentStatus']
       });
     }
 
@@ -224,6 +234,20 @@ export class AppointmentService {
   async remove(id: string) {
     const appointment = await this.findOne(id);
     await this.appointmentRepository.remove(appointment);
+  }
+
+  async updateStatus(appointment_id: string, status_name: string) {
+    const appointment = await this.findOne(appointment_id);
+    const appointmentStatus = await this.appointmentStatusRepository.findOne({where: {status: status_name}});
+
+    appointment.appointmentStatus = appointmentStatus;
+
+    try {
+      await this.appointmentRepository.save(appointment);
+      return appointment;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   private handleDBExceptions( error: any ) {

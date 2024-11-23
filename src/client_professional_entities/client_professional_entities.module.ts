@@ -29,34 +29,51 @@ import { S3Module } from 'src/s3/s3.module';
 import { AppointmentStatus } from './entities/appointmentStatus.entity';
 
 @Module({
-  controllers: [QuestionController, ReviewsController, AppointmentController ],
-  providers: [AppointmentService, QuestionService, ReviewService, ProfessionalsService, ClientsService, ServiceService,
-    SpecialityService, JwtStrategy
+  controllers: [
+    QuestionController, 
+    ReviewsController, 
+    AppointmentController 
   ],
-  
+  providers: [
+    AppointmentService, 
+    QuestionService, 
+    ReviewService, 
+    ProfessionalsService, 
+    ClientsService, 
+    ServiceService,
+    SpecialityService, 
+    JwtStrategy
+  ],
   imports: [
-    TypeOrmModule.forFeature([Question]),
-    TypeOrmModule.forFeature([Review]),
-    TypeOrmModule.forFeature([Client]),
-    TypeOrmModule.forFeature([Professional]),
-    TypeOrmModule.forFeature([Appointment]),
-    TypeOrmModule.forFeature([Service]),
-    TypeOrmModule.forFeature([Speciality]),
-    TypeOrmModule.forFeature([City]),
-    TypeOrmModule.forFeature([AppointmentStatus]),
+    TypeOrmModule.forFeature([
+      Question, 
+      Review, 
+      Client, 
+      Professional, 
+      Appointment, 
+      Service, 
+      Speciality, 
+      City, 
+      AppointmentStatus
+    ]),
     GeneralResourcesModule,
-    PassportModule.register({defaultStrategy: 'jwt'}),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      imports: [ ConfigModule ],
-      inject: [ ConfigService ],
-      useFactory: ( configService: ConfigService ) => ({
-          secret: configService.get('JWT_SECRET') || 'secret',
-          signOptions: {expiresIn:'2h'}
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET') || 'secret',
+        signOptions: { expiresIn: '2h' }
       })
     }), 
     ConfigModule,
     S3Module
   ], 
-  exports: [ClientProfessionalEntitiesModule, AppointmentService, QuestionService, ReviewService],
+  exports: [
+    ClientProfessionalEntitiesModule, 
+    AppointmentService, 
+    QuestionService, 
+    ReviewService
+  ],
 })
 export class ClientProfessionalEntitiesModule {}

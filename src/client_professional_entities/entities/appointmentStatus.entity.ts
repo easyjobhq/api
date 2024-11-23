@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany } from "typeorm";
 import { Appointment } from "./appointment.entity";
 
 @Entity()
@@ -10,8 +10,6 @@ export class AppointmentStatus {
     @Column({ type: 'text' })
     status: string;
 
-    @OneToOne(() => Appointment, (appointment) => appointment.appointmentStatus)
-    appointment: Appointment;
-
-
+    @OneToMany(() => Appointment, (appointment) => appointment.appointmentStatus)
+    appointments: Appointment[];
 }

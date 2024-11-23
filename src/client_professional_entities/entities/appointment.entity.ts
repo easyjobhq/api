@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Client } from "../../clients/entities/client.entity";
 import { Professional } from "../../professionals/entities/professional.entity";
 import { Service } from "src/professionals/entities/service.entity";
@@ -19,7 +19,7 @@ export class Appointment {
     @Column({ type: 'time', nullable: true })
     hour: string;
 
-    @OneToOne(() => AppointmentStatus, (status) => status.appointment)
+    @ManyToOne(() => AppointmentStatus, (status) => status.appointments)
     appointmentStatus: AppointmentStatus;
     
     @ManyToOne(() => Service, (service) => service.appointments, { nullable: true })
