@@ -95,6 +95,11 @@ export class ProfessionalsController {
       return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
   }
 
+  @Get('speciality/:speciality_name')
+  findProfessionalsByService(@Param('speciality_name') speciality_name: string){
+    return this.professionalsService.findProfessionalsBySpeciality(speciality_name);
+  }
+
 
   @Roles(Role.Professional)
   @Post('city/:id_city/professional/:id_professional')

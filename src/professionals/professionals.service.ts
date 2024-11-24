@@ -79,6 +79,17 @@ export class ProfessionalsService {
       }
     }
 
+    async findProfessionalsBySpeciality(speciality_name: string) {
+      const professionals = await this.professionalRepository
+        .createQueryBuilder('professional')
+        .leftJoinAndSelect('professional.specialities', 'speciality')
+        .where('speciality.speciality_name = :speciality_name', { speciality_name })
+        .getMany();
+
+      return professionals;
+
+    }
+
     async findAll(limit: number, offset: number): Promise<[Professional[], number]> {
       const [results, total] = await this.professionalRepository.findAndCount({
         skip: offset,
