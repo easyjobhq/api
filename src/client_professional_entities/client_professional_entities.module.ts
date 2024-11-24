@@ -5,7 +5,6 @@ import { Question } from './entities/question.entitiy';
 import { Review } from './entities/review.entity';
 import { Client } from '../clients/entities/client.entity';
 import { Professional } from '../professionals/entities/professional.entity';
-import { AppointmentService } from './appointment.service';
 import { Appointment } from './entities/appointment.entity';
 import { QuestionController } from './controllers/questions.controller';
 import { ReviewsController } from './controllers/reviews.controller';
@@ -27,12 +26,16 @@ import {City} from "../general_resources/entities/city.entity";
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 import { S3Module } from 'src/s3/s3.module';
 import { AppointmentStatus } from './entities/appointmentStatus.entity';
+import { AppointmentService } from './appointment.service';
+import { LikesController } from './controllers/likes.controller';
+import { LikesService } from './services/likes.service';
 
 @Module({
   controllers: [
     QuestionController, 
     ReviewsController, 
-    AppointmentController 
+    AppointmentController, 
+    LikesController
   ],
   providers: [
     AppointmentService, 
@@ -42,7 +45,8 @@ import { AppointmentStatus } from './entities/appointmentStatus.entity';
     ClientsService, 
     ServiceService,
     SpecialityService, 
-    JwtStrategy
+    JwtStrategy, 
+    LikesService
   ],
   imports: [
     TypeOrmModule.forFeature([

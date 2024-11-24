@@ -9,7 +9,6 @@ import { LanguageService } from './services/language.service';
 import { CityController } from './controllers/city.controller';
 import { LanguageController } from './controllers/language.controller';
 import { Appointment } from '../client_professional_entities/entities/appointment.entity';
-import { AppointmentService } from '../client_professional_entities/appointment.service';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
 import { Client } from '../clients/entities/client.entity';
@@ -19,6 +18,7 @@ import { Speciality } from '../professionals/entities/speciality.entity';
 import { SpecialityService } from '../professionals/speciality.service';
 import { S3Module } from 'src/s3/s3.module';
 import { AppointmentStatus } from 'src/client_professional_entities/entities/appointmentStatus.entity';
+import { AppointmentService } from 'src/client_professional_entities/appointment.service';
 
 @Module({
   controllers: [CityController, LanguageController],

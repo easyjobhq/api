@@ -25,11 +25,11 @@ import { LanguageService } from '../general_resources/services/language.service'
 import { CityService } from '../general_resources/services/city.service';
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 import { RolesGuard } from '../auth/guards/user/user.guard';
-import { AppointmentService } from '../client_professional_entities/appointment.service';
 import { AppointmentController } from '../client_professional_entities/controllers/appointment.controller';
 import { ClientsService } from '../clients/clients.service';
 import { S3Module } from 'src/s3/s3.module';
 import { ChatModule } from 'src/chat/chat.module';
+import { AppointmentService } from 'src/client_professional_entities/appointment.service';
 
 @Module({
   controllers: [ProfessionalsController, ServiceController, SpecialityController, AppointmentController],

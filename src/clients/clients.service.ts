@@ -70,7 +70,7 @@ export class ClientsService {
       client = await this.clientRespository.findOne(
         {
           where: {id: id_client},
-          relations: ['appointments', 'questions', 'reviews', 'reviews.professional', 'appointments.professional']
+          relations: ['appointments', 'questions', 'reviews', 'reviews.professional', 'appointments.professional', 'likes']
         },
       );
     }
@@ -133,6 +133,15 @@ export class ClientsService {
   async remove(id: string) {
     const client = await this.findOne(id);
     await this.clientRespository.remove(client);
+  }
+
+
+  async save(client: Client) {
+    try {
+      await this.clientRespository.save(client);
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   private handleDBExceptions( error: any ) {
