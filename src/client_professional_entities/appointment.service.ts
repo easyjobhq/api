@@ -242,7 +242,7 @@ export class AppointmentService {
 
     appointment.appointmentStatus = appointmentStatus;
 
-    try {
+    try { 
       await this.appointmentRepository.save(appointment);
       return appointment;
     } catch (error) {
