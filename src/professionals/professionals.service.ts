@@ -14,6 +14,8 @@ import { LanguageService } from '../general_resources/services/language.service'
 import { CityService } from '../general_resources/services/city.service';
 import { Appointment } from '../client_professional_entities/entities/appointment.entity';
 import { S3Service } from 'src/s3/s3.service';
+//Never delete this import!!!!!
+import { Express } from 'express';
 import { Review } from '../client_professional_entities/entities/review.entity';
 
 @Injectable()
