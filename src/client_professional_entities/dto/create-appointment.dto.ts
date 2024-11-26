@@ -15,6 +15,9 @@ export class CreateAppointmentDto {
     hour: string;
 
     @IsString()
+    description: string;
+
+    @IsString()
     service_id: string;
 
     @ValidateNested()
