@@ -4,6 +4,7 @@ import { CreateProfessionalDto } from 'src/professionals/dto/create-professional
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdateReviewDto } from '../dto/update-review.dto';
 
 
 @Controller('reviews')
@@ -44,6 +45,11 @@ export class ReviewsController {
     @Get("client/:id_client")
     async getReviewsByClient(@Param('id_client') id_client: string) {
         return this.reviewsService.getReviewsByClient(id_client);
+    }
+
+    @Patch('/:id_review')
+    async updateReview(@Param('id_review') id_review: string, @Body() updateReviewDto: UpdateReviewDto) {
+        return this.reviewsService.updateReview(id_review, updateReviewDto);
     }
 
 }
