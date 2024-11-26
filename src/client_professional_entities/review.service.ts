@@ -7,6 +7,7 @@ import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
+import { UpdateReviewDto } from './dto/update-review.dto';
 
 @Injectable()
 export class ReviewService {
@@ -53,6 +54,10 @@ export class ReviewService {
     }
     
     return review;
+  }
+
+  updateReview( id_review: string, updateReviewDto: UpdateReviewDto) {
+    return this.reviewRepository.update(id_review, updateReviewDto);
   }
 
   findAll( paginationDto: PaginationDto ) {
