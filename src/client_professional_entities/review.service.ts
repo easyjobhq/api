@@ -92,4 +92,13 @@ export class ReviewService {
       relations: ['client'],
     });
   }
+
+  getReviewsByClient(id_client: string): Promise<Review[]> {
+    return this.reviewRepository.find({
+      where: { 
+        client: { id: id_client } 
+      },
+      relations: ['professional'],
+    });
+  }
 }

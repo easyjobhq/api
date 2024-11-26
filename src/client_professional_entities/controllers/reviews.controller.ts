@@ -41,4 +41,9 @@ export class ReviewsController {
         return this.reviewsService.getReviewsByProfessional(id_professional);
     }
 
+    @Get("client/:id_client")
+    async getReviewsByClient(@Param('id_client') id_client: string) {
+        return this.reviewsService.getReviewsByClient(id_client);
+    }
+
 }
