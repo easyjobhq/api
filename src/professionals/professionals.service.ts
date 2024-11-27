@@ -60,11 +60,12 @@ export class ProfessionalsService {
       professional.cities = professional.cities || [];
       professional.specialities = professional.specialities || [];
 
-      professional.services.push(service);
-      professional.languages.push(language);
-      professional.cities.push(city);
-      professional.specialities.push(speciality);
+      if(service) professional.services.push(service);
+      if(language) professional.languages.push(language);
+      if(city) professional.cities.push(city);
+      if(speciality) professional.specialities.push(speciality);
       professional.score = "0"
+      
       await this.professionalRepository.save(professional);
 
       return professional;
