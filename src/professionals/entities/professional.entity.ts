@@ -11,6 +11,7 @@ import { Appointment } from "../../client_professional_entities/entities/appoint
 import { GroupChat } from "src/chat/entities/groupChat.entity";
 import { Chat } from "src/chat/entities/chat.entity";
 import { Client } from "src/clients/entities/client.entity";
+import { Place } from "./place.entity";
 
 
 @Entity()
@@ -79,6 +80,9 @@ export class Professional extends User {
 
     @ManyToMany(()=> Client, (client)=>client.likes)
     likedBy: Client[]
+
+    @OneToMany( () => Place, (place) => place.professional)
+    places: Place[];
 
 }
 

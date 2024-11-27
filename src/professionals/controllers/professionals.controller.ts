@@ -25,7 +25,6 @@ export class ProfessionalsController {
     return this.professionalsService.create(createProfessionalDto, professionalPhoto);
   }
 
-
   //@UseGuards(AuthGuard())
   @Get()
   async findAll(
