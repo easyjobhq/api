@@ -60,7 +60,7 @@ export class ProfessionalsController {
     return this.professionalsService.findOne(id);
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('professional_image'))
   @Patch(':id')
   update(

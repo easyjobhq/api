@@ -46,7 +46,9 @@ export class Professional extends User {
     })
     services: Service[]
 
-    @ManyToMany(()=>Language, (language)=>language.professionals)
+    @ManyToMany(()=>Language, (language)=>language.professionals, {
+        nullable: true
+    })
     @JoinTable({
         name:'professional_language'
     })
