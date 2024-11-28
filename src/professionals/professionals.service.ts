@@ -81,11 +81,14 @@ export class ProfessionalsService {
     }
 
     async findProfessionalsBySpeciality(speciality_name: string) {
-      const professionals = await this.professionalRepository
-        .createQueryBuilder('professional')
-        .leftJoinAndSelect('professional.specialities', 'speciality')
-        .where('speciality.speciality_name = :speciality_name', { speciality_name })
-        .getMany();
+      const professionals = await this.professionalRepository.find({
+        where: {
+          specialities: {
+            speciality_name: speciality_name
+          }
+        },
+        relations: ['specialities', 'places']
+      });
 
       return professionals;
 
