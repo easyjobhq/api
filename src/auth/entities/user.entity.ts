@@ -1,9 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Role } from "./role.enum";
 import { Chat } from "src/chat/entities/chat.entity";
+import { Place } from "../../professionals/entities/place.entity";
 
 
-export abstract class User {
+export class User {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;

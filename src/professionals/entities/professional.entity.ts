@@ -10,6 +10,8 @@ import { Role } from "../../auth/entities/role.enum";
 import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 import { GroupChat } from "src/chat/entities/groupChat.entity";
 import { Chat } from "src/chat/entities/chat.entity";
+import { Client } from "src/clients/entities/client.entity";
+import { Place } from "./place.entity";
 
 
 @Entity()
@@ -45,7 +47,9 @@ export class Professional extends User {
     })
     services: Service[]
 
-    @ManyToMany(()=>Language, (language)=>language.professionals)
+    @ManyToMany(()=>Language, (language)=>language.professionals, {
+        nullable: true
+    })
     @JoinTable({
         name:'professional_language'
     })
@@ -73,6 +77,12 @@ export class Professional extends User {
 
     @OneToMany(()=> Chat, (chat)=>chat.professional)
     chats: Chat[]
+
+    @ManyToMany(()=> Client, (client)=>client.likes)
+    likedBy: Client[]
+
+    @OneToMany( () => Place, (place) => place.professional)
+    places: Place[];
 
 }
 

@@ -37,14 +37,12 @@ export class SpecialityService {
 
   async findOne(id_speciality: string) {
 
-    let speciality: Speciality;
+    let speciality: Speciality = null;
 
-    if(isUUID(id_speciality)){
+    try {
       speciality = await this.specialityRepository.findOne({where:{id: id_speciality}});
-    }
-
-    if(!speciality){
-      throw new NotFoundException(`Speciality with ${id_speciality} not found`)
+    } catch (error) {
+      console.log(error);
     }
 
     return speciality;

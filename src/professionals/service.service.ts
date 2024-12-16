@@ -37,14 +37,12 @@ export class ServiceService {
 
   async findOne(name_service: string) {
 
-    let service: Service;
+    let service: Service = null;
 
-    
-    service = await this.serviceRepository.findOne({where :{id: name_service}});
-    
-
-    if(!service){
-      throw new NotFoundException(`Service with ${name_service} not found`)
+    try {
+      service = await this.serviceRepository.findOne({where :{id: name_service}});
+    } catch (error) { 
+      console.log(error);
     }
 
     return service;

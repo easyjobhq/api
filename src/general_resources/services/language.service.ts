@@ -18,6 +18,15 @@ export class LanguageService{
     }
 
     async findOne(id:string){
-        return this.languageRepository.findOneBy({id:id})
+        
+        let language: Language =null;
+
+        try {
+            language = await this.languageRepository.findOneBy({id:id})
+        } catch (error) {
+            console.log(error);
+        }
+
+        return language; 
     }
 }

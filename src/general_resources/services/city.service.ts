@@ -18,6 +18,14 @@ export class CityService{
     }
 
     async findOne(id:string){
-        return this.CityRepository.findOneBy({id:id})
+        
+        let city: City =null;
+
+        try {
+            city = await this.CityRepository.findOneBy({id:id})
+        } catch (error) {  
+            console.log(error);
+        }
+        return city;
     }
 }

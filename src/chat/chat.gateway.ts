@@ -22,6 +22,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('message')
     async handleMessage(@MessageBody() createChatDto: CreateChatDto){
+        //console.log("AAAAAAAAaaa", createChatDto)
         const message = await this.groupChatService.sendMessage(createChatDto);
         this.server.emit(message.groupChat.id, message)
     }

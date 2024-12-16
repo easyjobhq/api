@@ -10,6 +10,7 @@ import { DataSource } from 'typeorm';
 import { S3Service } from 'src/s3/s3.service';
 import { S3Module } from 'src/s3/s3.module';
 import { ChatModule } from 'src/chat/chat.module';
+import { Place } from 'src/professionals/entities/place.entity';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { ChatModule } from 'src/chat/chat.module';
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Question]),
     TypeOrmModule.forFeature([Review]),
+    TypeOrmModule.forFeature([Place]),
     S3Module
   ],
   exports: [ClientsModule, ClientsService]

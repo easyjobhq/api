@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToMany, OneToMany } from "typeorm";
 import { Professional } from "./professional.entity";
+import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
 
 @Entity()
 export class Service {
@@ -25,6 +26,9 @@ export class Service {
 
     @ManyToMany(()=>Professional, (professional)=>professional.services)
     professionals: Professional[]
+
+    @OneToMany(()=>Appointment, (appointment)=>appointment.professional)
+    appointments: Appointment[]
 
 }
 

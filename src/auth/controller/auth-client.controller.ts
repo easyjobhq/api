@@ -21,6 +21,7 @@ export class AuthClientController {
     @Body() createAuthDto: CreateClientDto, 
     @UploadedFile() clientPhoto: Express.Multer.File
   ) {
+    console.log(createAuthDto)
     return this.authService.create(createAuthDto, clientPhoto );
   }
 

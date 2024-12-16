@@ -32,6 +32,7 @@ import { AuthUserController } from './controller/auth-user.controller';
 import { AuthUserService } from './services/auth-user.service';
 import { User } from './entities/user.entity';
 import { ChatModule } from 'src/chat/chat.module';
+import { Place } from '../professionals/entities/place.entity';
 //import { JwtProfessionalStrategy } from './strategies/jwt-professional.strategy';
 
 @Module({
@@ -48,6 +49,7 @@ import { ChatModule } from 'src/chat/chat.module';
     TypeOrmModule.forFeature([Service]),
     TypeOrmModule.forFeature([Speciality]),
     TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([Place]),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ ConfigModule ],

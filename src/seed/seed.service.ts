@@ -13,7 +13,6 @@ import { Question } from '../client_professional_entities/entities/question.enti
 import { Speciality } from '../professionals/entities/speciality.entity';
 import { Client } from '../clients/entities/client.entity';
 import { Review } from '../client_professional_entities/entities/review.entity';
-import { PaymentMethod } from '../general_resources/entities/payment_method.entity';
 
 @Injectable()
 export class SeedService {
@@ -34,7 +33,6 @@ export class SeedService {
       const specialityRepository = queryRunner.manager.getRepository(Speciality)
       const clientRepository = queryRunner.manager.getRepository(Client)
       const reviewRepository = queryRunner.manager.getRepository(Review)
-      const paymentRepository = queryRunner.manager.getRepository(PaymentMethod)
 
       
       const cities = await cityRepository.find();
@@ -55,8 +53,6 @@ export class SeedService {
       await clientRepository.remove(clients)
       const reviews = await reviewRepository.find()
       await reviewRepository.remove(reviews)
-      const payments = await paymentRepository.find();
-      await paymentRepository.remove(payments)
       
       const deparm1 = departmentRepository.create({ department_name: "Amazonas" });
       const deparm2 = departmentRepository.create({ department_name: "Antioquia" });
@@ -361,13 +357,6 @@ export class SeedService {
 
       await questionRepository.save([question1, question2, question3])
 
-
-      const payment_method = paymentRepository.create({payment_method_name:'Tarjeta de Crédito'});
-      const payment_method2 = paymentRepository.create({payment_method_name:'Efectivo'});
-
-      await paymentRepository.save([payment_method,payment_method2])
-
-      await queryRunner.commitTransaction();
 
     }catch(error){
       await queryRunner.rollbackTransaction();

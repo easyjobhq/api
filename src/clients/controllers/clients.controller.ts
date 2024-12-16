@@ -32,7 +32,7 @@ export class ClientsController {
 
   @Patch(':id')
   @UseInterceptors(FileInterceptor('client_image'))
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   update(@Param('id') id: string,@UploadedFile() clientPhoto: Express.Multer.File, @Body() updateClientDto: UpdateClientDto) {
     return this.clientsService.update(id, updateClientDto, clientPhoto);
   }
