@@ -374,19 +374,23 @@ export class ProfessionalsService {
   }
 
   async getTotalReviews(professional_id: string) {
-    const professoinalReviews = await this.professionalRepository.findOne({
+    const professionalReviews = await this.professionalRepository.findOne({
       where: { id: professional_id },
       relations: ['reviews']
-    })
-
-    const Reviews: Review[] = professoinalReviews.reviews
-
-    let score: number = 0;
-    Reviews.forEach(review => {
-      score += review.score
     });
 
-    const amountReviews = Reviews.length
+    const reviews: Review[] = professionalReviews.reviews;
+
+    if (reviews.length === 0) {
+      return 0;
+    }
+
+    let score: number = 0;
+    reviews.forEach(review => {
+      score += review.score;
+    });
+
+    const amountReviews = reviews.length;
     const result = score / amountReviews;
 
     return parseFloat(result.toFixed(1));
