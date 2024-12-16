@@ -6,8 +6,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../../auth/guards/user/user.guard';
 import { Role } from '../../auth/entities/role.enum';
 import { Roles } from '../../auth/decorators/roles.decorator';
-import { AppointmentService } from '../appointment.service';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { AppointmentService } from '../appointment.service';
 
 @Controller('appointment')
 export class AppointmentController {

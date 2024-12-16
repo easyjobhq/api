@@ -23,13 +23,16 @@ export class ClientsService {
   async create(createClientDto: CreateClientDto, professionalPhoto: Express.Multer.File) {
 
     try {
-      //Uploading the file to S3
       
-      const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
 
       const client = this.clientRespository.create(createClientDto);
       
-      client.photo_url = photoUrl;
+      //Uploading the file to S3
+      
+      if(professionalPhoto !== undefined){
+        const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+        client.photo_url = photoUrl;
+      }
 
       await this.clientRespository.save(client);
 
