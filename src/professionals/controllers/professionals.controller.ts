@@ -86,13 +86,13 @@ export class ProfessionalsController {
     return this.professionalsService.addServiceToProfessional(id_professional, id_service);
   }
 
-  @UseGuards(AuthGuard())
-  @HttpCode(200)
-  @Roles(Role.Professional)
-  @Get('specialities/:id_professional/:id_speciality')
-  addSpeciality(@Param('id_professional') id_professional: string,@Param('id_speciality') id_speciality:string){
-      return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
-  }
+  // @UseGuards(AuthGuard())
+  // @HttpCode(200)
+  // @Roles(Role.Professional)
+  // @Get('specialities/:id_professional/:id_speciality')
+  // addSpeciality(@Param('id_professional') id_professional: string,@Param('id_speciality') id_speciality:string){
+  //     return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
+  // }
 
   @Get('speciality/:speciality_name')
   findProfessionalsByService(@Param('speciality_name') speciality_name: string){
@@ -156,6 +156,11 @@ export class ProfessionalsController {
   @Get('totalreviews/:id_professional')
   totalReviews(@Param('id_professional') id_professional:string){
     return this.professionalsService.getTotalReviews(id_professional);
+  }
+
+  @Post(':id_professional/specialities/:id_speciality')
+  addSpecialityToProfessional(@Param('id_professional') id_professional:string, @Param('id_speciality') id_speciality:string){
+    return this.professionalsService.addSpecialityToProfessional(id_professional, id_speciality);
   }
 
 }
