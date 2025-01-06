@@ -13,9 +13,9 @@ export class ServiceController {
   constructor(private readonly ServiceService: ServiceService,
   ) {}
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @Post()
-  @Roles(Role.Admin)
+  //@Roles(Role.Admin)
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.ServiceService.create(createServiceDto);
   }

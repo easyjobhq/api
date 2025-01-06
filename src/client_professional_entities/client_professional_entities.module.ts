@@ -5,7 +5,6 @@ import { Question } from './entities/question.entitiy';
 import { Review } from './entities/review.entity';
 import { Client } from '../clients/entities/client.entity';
 import { Professional } from '../professionals/entities/professional.entity';
-import { AppointmentService } from './appointment.service';
 import { Appointment } from './entities/appointment.entity';
 import { QuestionController } from './controllers/questions.controller';
 import { ReviewsController } from './controllers/reviews.controller';
@@ -25,40 +24,60 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import {City} from "../general_resources/entities/city.entity";
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
-import { PaymentMethod } from '../general_resources/entities/payment_method.entity';
-import { PaymentMethodController } from '../general_resources/controllers/paymentMethod.controller';
-import { PaymentMethodService } from '../general_resources/services/paymentMethod.service';
 import { S3Module } from 'src/s3/s3.module';
+import { AppointmentStatus } from './entities/appointmentStatus.entity';
+import { AppointmentService } from './appointment.service';
+import { LikesController } from './controllers/likes.controller';
+import { LikesService } from './services/likes.service';
 
 @Module({
-  controllers: [QuestionController, ReviewsController, AppointmentController, PaymentMethodController ],
-  providers: [AppointmentService, QuestionService, ReviewService, ProfessionalsService, ClientsService, ServiceService,
-    SpecialityService, JwtStrategy, PaymentMethodService
+  controllers: [
+    QuestionController, 
+    ReviewsController, 
+    AppointmentController, 
+    LikesController
   ],
-  
+  providers: [
+    AppointmentService, 
+    QuestionService, 
+    ReviewService, 
+    ProfessionalsService, 
+    ClientsService, 
+    ServiceService,
+    SpecialityService, 
+    JwtStrategy, 
+    LikesService
+  ],
   imports: [
-    TypeOrmModule.forFeature([Question]),
-    TypeOrmModule.forFeature([Review]),
-    TypeOrmModule.forFeature([Client]),
-    TypeOrmModule.forFeature([Professional]),
-    TypeOrmModule.forFeature([Appointment]),
-    TypeOrmModule.forFeature([Service]),
-    TypeOrmModule.forFeature([Speciality]),
-    TypeOrmModule.forFeature([City]),
-    TypeOrmModule.forFeature([PaymentMethod]),
+    TypeOrmModule.forFeature([
+      Question, 
+      Review, 
+      Client, 
+      Professional, 
+      Appointment, 
+      Service, 
+      Speciality, 
+      City, 
+      AppointmentStatus
+    ]),
     GeneralResourcesModule,
-    PassportModule.register({defaultStrategy: 'jwt'}),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      imports: [ ConfigModule ],
-      inject: [ ConfigService ],
-      useFactory: ( configService: ConfigService ) => ({
-          secret: configService.get('JWT_SECRET') || 'secret',
-          signOptions: {expiresIn:'2h'}
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET') || 'secret',
+        signOptions: { expiresIn: '2h' }
       })
     }), 
     ConfigModule,
     S3Module
   ], 
-  exports: [ClientProfessionalEntitiesModule, AppointmentService, QuestionService, ReviewService],
+  exports: [
+    ClientProfessionalEntitiesModule, 
+    AppointmentService, 
+    QuestionService, 
+    ReviewService
+  ],
 })
 export class ClientProfessionalEntitiesModule {}

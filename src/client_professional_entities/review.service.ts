@@ -7,6 +7,7 @@ import { Review } from './entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ClientsService } from '../clients/clients.service';
 import { ProfessionalsService } from '../professionals/professionals.service';
+import { UpdateReviewDto } from './dto/update-review.dto';
 
 @Injectable()
 export class ReviewService {
@@ -19,21 +20,44 @@ export class ReviewService {
     private readonly professionalService: ProfessionalsService
   ) {}
 
-  async create(id_client: string, id_review: string, createReviewDto: CreateReviewDto) {
-    
-    const review = this.reviewRepository.create(createReviewDto);
-    console.log(id_client)
-    const client = await this.clientService.findOne(id_client);
-    
-    const professional = await this.professionalService.findOne(id_review);
+  async create(id_client: string, id_professional: string, createReviewDto: CreateReviewDto) {
 
-    
-    review.client = client;
-    review.professional = professional;
+    const professional = await this.professionalService.findOne(id_professional);
+    const client = await this.clientService.findOne(id_client);
+
+    const review = this.reviewRepository.create({
+      ...createReviewDto,
+      client,
+      professional,
+    });
 
     await this.reviewRepository.save(review);
 
+    const newProfessional = await this.professionalService.findOne(id_professional);
+
+
+    const professionalReviewsCount = newProfessional.reviews.length;
+
+    if(professionalReviewsCount === 1){
+      
+      newProfessional.score = createReviewDto.score.toString();
+      await this.professionalService.saveProfessional(newProfessional);
+      return review;
+
+    } else {
+      const { score, comment } = createReviewDto;
+      const newScore = ((professionalReviewsCount-1) * Number(newProfessional.score) + Number(score)) / (professionalReviewsCount);    
+
+      newProfessional.score = newScore.toString();
+      await this.professionalService.saveProfessional(newProfessional);
+
+    }
+    
     return review;
+  }
+
+  updateReview( id_review: string, updateReviewDto: UpdateReviewDto) {
+    return this.reviewRepository.update(id_review, updateReviewDto);
   }
 
   findAll( paginationDto: PaginationDto ) {
@@ -71,6 +95,15 @@ export class ReviewService {
     return this.reviewRepository.find({
       where: { professional: { id: id_professional } },
       relations: ['client'],
+    });
+  }
+
+  getReviewsByClient(id_client: string): Promise<Review[]> {
+    return this.reviewRepository.find({
+      where: { 
+        client: { id: id_client } 
+      },
+      relations: ['professional'],
     });
   }
 }

@@ -25,39 +25,67 @@ import { LanguageService } from '../general_resources/services/language.service'
 import { CityService } from '../general_resources/services/city.service';
 import { GeneralResourcesModule } from '../general_resources/general_resources.module';
 import { RolesGuard } from '../auth/guards/user/user.guard';
-import { AppointmentService } from '../client_professional_entities/appointment.service';
 import { AppointmentController } from '../client_professional_entities/controllers/appointment.controller';
 import { ClientsService } from '../clients/clients.service';
 import { S3Module } from 'src/s3/s3.module';
 import { ChatModule } from 'src/chat/chat.module';
+import { AppointmentService } from 'src/client_professional_entities/appointment.service';
+import { Place } from 'src/professionals/entities/place.entity';
+import { PlacesService } from './places.service';
+import { PlacesController } from './controllers/place.controller';
 
 @Module({
-  controllers: [ProfessionalsController, ServiceController, SpecialityController, AppointmentController],
-  providers: [ProfessionalsService, ServiceService, SpecialityService, JwtStrategy, LanguageService, CityService, RolesGuard,AppointmentService, ClientsService],
+  controllers: [
+    ProfessionalsController, 
+    ServiceController, 
+    SpecialityController, 
+    AppointmentController, 
+    PlacesController
+  ],
+  providers: [
+    ProfessionalsService, 
+    ServiceService, 
+    SpecialityService, 
+    JwtStrategy, 
+    LanguageService, 
+    CityService, 
+    RolesGuard,
+    AppointmentService, 
+    ClientsService, 
+    PlacesService
+  ],
   imports: [
-    TypeOrmModule.forFeature([Professional]),
-    TypeOrmModule.forFeature([Service]), 
-    TypeOrmModule.forFeature([Speciality]),
-    TypeOrmModule.forFeature([Question]),
-    TypeOrmModule.forFeature([Review]),
-    TypeOrmModule.forFeature([Language]),
-    TypeOrmModule.forFeature([City]), 
-    TypeOrmModule.forFeature([Appointment]),
-    TypeOrmModule.forFeature([Client]),
-    PassportModule.register({defaultStrategy: 'jwt'}),
+    TypeOrmModule.forFeature([
+      Professional, 
+      Service, 
+      Speciality, 
+      Question, 
+      Review, 
+      Language, 
+      City, 
+      Appointment, 
+      Client, 
+      Place
+    ]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      imports: [ ConfigModule ],
-      inject: [ ConfigService ],
-      useFactory: ( configService: ConfigService ) => ({
-          secret: configService.get('JWT_SECRET') || 'secret',
-          signOptions: {expiresIn:'20h'}
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET') || 'secret',
+        signOptions: { expiresIn: '20h' }
       })
     }),
     S3Module,
     PaginationDto,
     ConfigModule,
-    GeneralResourcesModule, 
-  ], 
-  exports: [ProfessionalsModule, ProfessionalsService, ServiceService, SpecialityService]
+    GeneralResourcesModule
+  ],
+  exports: [
+    ProfessionalsModule, 
+    ProfessionalsService, 
+    ServiceService, 
+    SpecialityService
+  ]
 })
 export class ProfessionalsModule {}

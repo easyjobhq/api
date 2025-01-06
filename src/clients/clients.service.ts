@@ -23,13 +23,16 @@ export class ClientsService {
   async create(createClientDto: CreateClientDto, professionalPhoto: Express.Multer.File) {
 
     try {
-      //Uploading the file to S3
       
-      const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
 
       const client = this.clientRespository.create(createClientDto);
       
-      client.photo_url = photoUrl;
+      //Uploading the file to S3
+      
+      if(professionalPhoto !== undefined){
+        const photoUrl = await this.s3Service.uploadFile(professionalPhoto, professionalPhoto.originalname);
+        client.photo_url = photoUrl;
+      }
 
       await this.clientRespository.save(client);
 
@@ -70,7 +73,7 @@ export class ClientsService {
       client = await this.clientRespository.findOne(
         {
           where: {id: id_client},
-          relations: ['appointments', 'questions', 'reviews', 'reviews.professional', 'appointments.professional']
+          relations: ['appointments', 'questions', 'reviews', 'reviews.professional', 'appointments.professional', 'likes']
         },
       );
     }
@@ -133,6 +136,15 @@ export class ClientsService {
   async remove(id: string) {
     const client = await this.findOne(id);
     await this.clientRespository.remove(client);
+  }
+
+
+  async save(client: Client) {
+    try {
+      await this.clientRespository.save(client);
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   private handleDBExceptions( error: any ) {

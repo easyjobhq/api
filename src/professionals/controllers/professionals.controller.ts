@@ -25,7 +25,6 @@ export class ProfessionalsController {
     return this.professionalsService.create(createProfessionalDto, professionalPhoto);
   }
 
-
   //@UseGuards(AuthGuard())
   @Get()
   async findAll(
@@ -60,7 +59,7 @@ export class ProfessionalsController {
     return this.professionalsService.findOne(id);
   }
 
-  @UseGuards(AuthGuard())
+  //@UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('professional_image'))
   @Patch(':id')
   update(
@@ -87,12 +86,17 @@ export class ProfessionalsController {
     return this.professionalsService.addServiceToProfessional(id_professional, id_service);
   }
 
-  @UseGuards(AuthGuard())
-  @HttpCode(200)
-  @Roles(Role.Professional)
-  @Get('specialities/:id_professional/:id_speciality')
-  addSpeciality(@Param('id_professional') id_professional: string,@Param('id_speciality') id_speciality:string){
-      return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
+  // @UseGuards(AuthGuard())
+  // @HttpCode(200)
+  // @Roles(Role.Professional)
+  // @Get('specialities/:id_professional/:id_speciality')
+  // addSpeciality(@Param('id_professional') id_professional: string,@Param('id_speciality') id_speciality:string){
+  //     return this.professionalsService.addSpecialityToProfessional(id_professional,id_speciality);
+  // }
+
+  @Get('speciality/:speciality_name')
+  findProfessionalsByService(@Param('speciality_name') speciality_name: string){
+    return this.professionalsService.findProfessionalsBySpeciality(speciality_name);
   }
 
 
@@ -127,15 +131,15 @@ export class ProfessionalsController {
     return this.professionalsService.findCities(id_professional);
   }
 
-  @UseGuards(AuthGuard())
-  @Get('appoiments/:id_professional')
+  //@UseGuards(AuthGuard())
+  @Get('appointments/:id_professional')
   findAppoiments(@Param('id_professional') id_professional:string){
     return this.professionalsService.findAppoiments(id_professional);
   }
 
 
-  @UseGuards(AuthGuard(), RolesGuard)
-  @Roles(Role.Professional)
+  //@UseGuards(AuthGuard(), RolesGuard)
+  //@Roles(Role.Professional)
   @Delete('oneservice/:id_professional/:id_service')
   deleteServiceToProfessional(@Param('id_professional') id_professional:string, @Param('id_service') id_service:string){
     return this.professionalsService.DeleteServiceToProfessional(id_professional, id_service)
@@ -152,6 +156,11 @@ export class ProfessionalsController {
   @Get('totalreviews/:id_professional')
   totalReviews(@Param('id_professional') id_professional:string){
     return this.professionalsService.getTotalReviews(id_professional);
+  }
+
+  @Post(':id_professional/specialities/:id_speciality')
+  addSpecialityToProfessional(@Param('id_professional') id_professional:string, @Param('id_speciality') id_speciality:string){
+    return this.professionalsService.addSpecialityToProfessional(id_professional, id_speciality);
   }
 
 }

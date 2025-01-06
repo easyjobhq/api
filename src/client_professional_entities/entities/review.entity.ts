@@ -8,8 +8,6 @@ export class Review {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-
-   
     @Column({type: 'float'})
     score: number;
 
