@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, Double, ManyToMany, OneToMany } from "typeorm";
 import { Professional } from "./professional.entity";
-import { Appointment } from "src/client_professional_entities/entities/appointment.entity";
+import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 
 @Entity()
 export class Service {

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
 import { Speciality } from './entities/speciality.entity';
 import { createSpecialityDto } from './dto/create-speciality.dto';

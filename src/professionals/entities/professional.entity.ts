@@ -9,7 +9,7 @@ import { City } from "../../general_resources/entities/city.entity";
 import { Role } from "../../auth/entities/role.enum";
 import { Appointment } from "../../client_professional_entities/entities/appointment.entity";
 import { GroupChat } from "src/chat/entities/groupChat.entity";
-import { Chat } from "src/chat/entities/chat.entity";
+import { Chat } from "../../chat/entities/chat.entity";
 import { Client } from "src/clients/entities/client.entity";
 import { Place } from "./place.entity";
 

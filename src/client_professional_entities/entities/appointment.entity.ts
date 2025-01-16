@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Client } from "../../clients/entities/client.entity";
 import { Professional } from "../../professionals/entities/professional.entity";
-import { Service } from "src/professionals/entities/service.entity";
+import { Service } from "../../professionals/entities/service.entity";
 import { AppointmentStatus } from "./appointmentStatus.entity";
 
 @Entity()

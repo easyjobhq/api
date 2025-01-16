@@ -19,6 +19,7 @@ import { SpecialityService } from '../professionals/speciality.service';
 import { S3Module } from 'src/s3/s3.module';
 import { AppointmentStatus } from 'src/client_professional_entities/entities/appointmentStatus.entity';
 import { AppointmentService } from 'src/client_professional_entities/appointment.service';
+import { Place } from '../professionals/entities/place.entity';
 
 @Module({
   controllers: [CityController, LanguageController],
@@ -41,7 +42,8 @@ import { AppointmentService } from 'src/client_professional_entities/appointment
       Client,
       Service,
       Speciality,
-      AppointmentStatus
+      AppointmentStatus,
+      Place
     ]),
     S3Module
   ],
