@@ -8,6 +8,7 @@ import { Role } from '../../auth/entities/role.enum';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
 import { AppointmentService } from '../appointment.service';
+import { AppointmentStatusEnum } from '../entities/appointment.status.enum';
 
 @Controller('appointment')
 export class AppointmentController {
@@ -30,7 +31,7 @@ export class AppointmentController {
   }
 
   @Patch('status/:appointment_id/:status_name')
-   updateStatus(@Param('appointment_id') appointment_id: string, @Param('status_name') status_name: string) {
+   updateStatus(@Param('appointment_id') appointment_id: string, @Param('status_name') status_name: AppointmentStatusEnum) {
        return this.appointmentService.updateStatus(appointment_id, status_name);
    }
 
