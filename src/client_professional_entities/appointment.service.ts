@@ -337,6 +337,8 @@ export class AppointmentService {
       </html>
       `;
       
+      //console.log(appointment.client.email);
+
       sendSmtpEmail.sender = {"name":"EasyJob", "email": "no-reply@easyjob.com.co"};
       
       sendSmtpEmail.to = [{"email": `${appointment.client.email}`, "name": `${appointment.client.name}`}];
@@ -345,6 +347,13 @@ export class AppointmentService {
       
       sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
       sendSmtpEmail.params = { "parameter": "My param value", "subject": "¡Tu cita ha sido confirmada!" };
+
+      await apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+      }, function (error) {
+          console.log(error);
+      });
+
     }else if(appointment.appointmentStatus.status === AppointmentStatusEnum.rejected){
       sendSmtpEmail.subject = `{{params.subject}}`;
 
@@ -427,6 +436,12 @@ export class AppointmentService {
 
       sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
       sendSmtpEmail.params = { "parameter": "My param value", "subject": "Actualización importante sobre tu cita" };
+
+      await apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+      }, function (error) {
+          console.log(error);
+      });
     }
     
 
