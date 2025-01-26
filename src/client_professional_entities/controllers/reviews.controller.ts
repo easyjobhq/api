@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ReviewService } from '../review.service';
-import { CreateProfessionalDto } from 'src/professionals/dto/create-professional.dto';
+import { CreateProfessionalDto } from '../../professionals/dto/create-professional.dto';
 import { CreateReviewDto } from '../dto/create-review.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateReviewDto } from '../dto/update-review.dto';
 

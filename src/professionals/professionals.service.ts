@@ -17,6 +17,8 @@ import { S3Service } from 'src/s3/s3.service';
 //Never delete this import!!!!!
 import { Express } from 'express';
 import { Review } from '../client_professional_entities/entities/review.entity';
+import { Place } from './entities/place.entity';
+import { CreatePlaceDTO } from './dto/create-place.dto';
 
 @Injectable()
 export class ProfessionalsService {
@@ -35,6 +37,8 @@ export class ProfessionalsService {
     private readonly CityRepository: Repository<City>,
     @InjectRepository(Appointment)
     private readonly AppoimentRepository: Repository<Appointment>,
+    @InjectRepository(Place)
+    private readonly PlaceRepository: Repository<Place>,
     private readonly serviceService: ServiceService,
     private readonly specialityService: SpecialityService,
     private readonly languageService: LanguageService,
@@ -55,15 +59,28 @@ export class ProfessionalsService {
     const city = await this.cityService.findOne(createProfessionalDto.city_id);
     const speciality = await this.specialityService.findOne(createProfessionalDto.speciality_id);
 
+    const {latitude, longitude} = createProfessionalDto;
+
+    const createplace = new CreatePlaceDTO();
+    createplace.latitude = latitude;
+    createplace.longitude = longitude;
+    createplace.name = ''
+
+    const place = this.PlaceRepository.create(createplace);
+
+    
+
     professional.services = professional.services || [];
     professional.languages = professional.languages || [];
     professional.cities = professional.cities || [];
     professional.specialities = professional.specialities || [];
+    professional.places = professional.places || [];
 
     if (service) professional.services.push(service);
     if (language) professional.languages.push(language);
     if (city) professional.cities.push(city);
     if (speciality) professional.specialities.push(speciality);
+    if (place) professional.places.push(place);
     professional.score = "0"
 
     await this.professionalRepository.save(professional);

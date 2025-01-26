@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsPhoneNumber, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsPhoneNumber, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
 
 export class CreateProfessionalDto {
@@ -44,6 +44,12 @@ export class CreateProfessionalDto {
     @IsString()
     @IsOptional()
     speciality_id:string
+
+    @IsNumber()
+    latitude: number;
+
+    @IsNumber()
+    longitude: number;
 
     @IsString()
     @IsOptional()
