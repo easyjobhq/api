@@ -21,10 +21,10 @@ export class AppointmentService {
     private readonly appointmentStatusRepository: Repository<AppointmentStatus>,
     @InjectRepository(Appointment)
     private readonly appointmentRepository: Repository<Appointment>,
-    private readonly clientService: ClientsService, 
+    private readonly clientService: ClientsService,
     private readonly professionalsService: ProfessionalsService,
 
-  ) {}
+  ) { }
 
   async create(clientId: string, professionalId: string, createAppointmentDto: CreateAppointmentDto) {
 
@@ -36,134 +36,193 @@ export class AppointmentService {
         throw new NotFoundException('Cliente, profesional o método de pago no encontrado');
     }
 
-      createAppointmentDto.client = client;
-      createAppointmentDto.professional = professional;
-      
-      const appointment = this.appointmentRepository.create({
-        ...createAppointmentDto,
-        appointmentStatus
-      });
+    createAppointmentDto.client = client;
+    createAppointmentDto.professional = professional;
 
-      //console.log(appointment)
-      await this.appointmentRepository.save(appointment);
+    const appointment = this.appointmentRepository.create({
+      ...createAppointmentDto,
+      appointmentStatus
+    });
 
-      //transoforma createappointmentdto.date a tipo date
+    //console.log(appointment)
+    await this.appointmentRepository.save(appointment);
 
-      let dateString = createAppointmentDto.date;
+    //transoforma createappointmentdto.date a tipo date
 
-      //console.log(dateString);
+    let dateString = createAppointmentDto.date;
 
-      // Elimina comillas al principio y al final si existen
-      if (dateString.startsWith('"') && dateString.endsWith('"')) {
-        dateString = dateString.slice(1, -1);
-      }
+    //console.log(dateString);
 
-      const date = new Date(dateString);
+    // Elimina comillas al principio y al final si existen
+    if (dateString.startsWith('"') && dateString.endsWith('"')) {
+      dateString = dateString.slice(1, -1);
+    }
 
-      const date1 = date.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
-      const time = date.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const date = new Date(dateString);
 
-      const brevo = require('@getbrevo/brevo');
-      
-      const apiInstance = new brevo.TransactionalEmailsApi();
+    const date1 = date.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+    //const time = date.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-      apiInstance.setApiKey(
-        brevo.TransactionalEmailsApiApiKeys.apiKey,
-        `${process.env.BREVO_API_KEY}`
-      );
+    const brevo = require('@getbrevo/brevo');
 
-      const sendSmtpEmail =  new brevo.SendSmtpEmail();
+    const apiInstance = new brevo.TransactionalEmailsApi();
 
-      sendSmtpEmail.subject = `{{params.subject}}`;
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      `${process.env.BREVO_API_KEY}`
+    );
 
-      sendSmtpEmail.htmlContent = `
-                                    <html>
-                                    <head>
-                                      <style>
-                                        body {
-                                          font-family: Arial, sans-serif;
-                                          background-color: #f4f4f4;
-                                          margin: 0;
-                                          padding: 0;
-                                        }
-                                        .container {
-                                          background-color: #ffffff;
-                                          margin: 50px auto;
-                                          padding: 20px;
-                                          border-radius: 10px;
-                                          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                          max-width: 600px;
-                                        }
-                                        .header {
-                                          background-color: #4CAF50;
-                                          color: white;
-                                          padding: 10px 0;
-                                          text-align: center;
-                                          border-radius: 10px 10px 0 0;
-                                        }
-                                        .content {
-                                          padding: 20px;
-                                          text-align: center;
-                                        }
-                                        .footer {
-                                          background-color: #f4f4f4;
-                                          color: #888;
-                                          padding: 10px;
-                                          text-align: center;
-                                          border-radius: 0 0 10px 10px;
-                                        }
-                                        .button {
-                                          background-color: #4CAF50;
-                                          color: white;
-                                          padding: 10px 20px;
-                                          text-decoration: none;
-                                          border-radius: 5px;
-                                          display: inline-block;
-                                          margin-top: 20px;
-                                        }
-                                      </style>
-                                    </head>
-                                    <body>
-                                      <div class="container">
-                                        <div class="header">
-                                          <h1>¡Cita Agendada!</h1>
-                                        </div>
-                                        <div class="content">
-                                          <h2>Hola ${client.name},</h2>
-                                          <p>Se ha agendado una cita con el profesional <strong>${professional.name}</strong> para el día <strong>${date1}</strong> a las <strong>${time}</strong>.</p>
-                                          <p>El método de pago seleccionado es <strong>Efectivo</strong>.</p>
-                                          <a href="#" class="button">Ver Detalles</a>
-                                        </div>
-                                        <div class="footer">
-                                          <p>¡Te esperamos!</p>
-                                          <p>EasyJob</p>
-                                        </div>
-                                      </div>
-                                    </body>
-                                    </html>
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+
+    sendSmtpEmail.subject = `{{params.subject}}`;
+
+    sendSmtpEmail.htmlContent = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petición de Cita Agendada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #3B82F6;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    .header img {
+      width: 150px;
+    }
+    .header h1 {
+      margin: 10px 0 0 0;
+      font-size: 24px;
+    }
+    .content {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333333;
+      padding: 20px;
+      text-align: left;
+    }
+    .content h2 {
+      font-size: 20px;
+      color: #3B82F6;
+      margin-bottom: 20px;
+    }
+    .content p {
+      margin: 10px 0;
+    }
+    .content .info {
+      background-color: #f0f8ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .content .info p {
+      margin: 5px 0;
+    }
+    .content .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .content .button {
+      background-color: #3B82F6;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      font-size: 16px;
+    }
+    .footer {
+      background-color: #3B82F6;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      margin-top: 30px;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .footer a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://easyjob-bucket.s3.us-east-2.amazonaws.com/imagotipo-vertical-blanco.png" alt="EasyJob Logo">
+      <h1>¡Petición de Cita Agendada!</h1>
+    </div>
+    <div class="content">
+      <h2>Hola, ${client.name}</h2>
+      <p>Se ha realizado la petición de cita exitosamente. Aquí tienes los detalles:</p>
+      <div class="info">
+        <p><strong>👨‍⚕️ Profesional:</strong> ${professional.name}</p>
+        <p><strong>📅 Fecha:</strong> ${date1}</p>
+        <p><strong>⏰ Hora:</strong> ${createAppointmentDto.hour}</p>
+      </div>
+      <p>
+        Próximamente, el profesional revisará su agenda y te notificará si acepta esta cita. 
+        Mientras tanto, si tienes alguna duda, no dudes en contactarnos.
+      </p>
+      <div class="button-container">
+        <a href="https://easyjob.com.co" class="button">Ver Detalles de la Cita</a>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Gracias por confiar en EasyJob</p>
+      <p>Email: <a href="mailto:contacto@easyjob.com.co">contacto@easyjob.com.co</a></p>
+      <p>Teléfono: 3181234567 ☎️</p>
+      <p>Web: <a href="https://easyjob.com.co">easyjob.com.co</a> 🌐</p>
+    </div>
+  </div>
+</body>
+</html>
+
                                     `;
 
-      sendSmtpEmail.sender = {"name":"EasyJob", "email": "no-reply@easyjob.com.co"}
+    sendSmtpEmail.sender = { "name": "EasyJob", "email": "no-reply@easyjob.com.co" }
 
-      sendSmtpEmail.to = [{"email": `${client.email}`, "name": `${client.name}`}];
+    sendSmtpEmail.to = [{ "email": `${client.email}`, "name": `${client.name}` }];
 
-      sendSmtpEmail.replyTo = {"email": `${client.email}`, "name": `${client.name}`}
+    sendSmtpEmail.replyTo = { "email": `${client.email}`, "name": `${client.name}` }
 
-      sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-      sendSmtpEmail.params = { "parameter": "My param value", "subject": "Pedido agendado" };
+    sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
+    sendSmtpEmail.params = { "parameter": "My param value", "subject": "Peticion de cita hecha" };
 
-      await apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
-        //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-      }, function (error) {
-          console.log(error);
-      });
+    await apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+      //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+      console.log(error);
+    });
 
 
-      return appointment;
+    return appointment;
   }
 
   async findAppointmentByClient(clientId: string) {
-    
+
     const client = await this.clientService.findOne(clientId);
 
     return this.appointmentRepository.find({
@@ -179,7 +238,7 @@ export class AppointmentService {
     return appointmentStatus; 
   }*/
 
-  async findAppointmentByProfessional(professional_id: string){
+  async findAppointmentByProfessional(professional_id: string) {
     const professional = await this.professionalsService.findOne(professional_id);
 
     return this.appointmentRepository.find({
@@ -188,11 +247,11 @@ export class AppointmentService {
     });
   }
 
-  findAll( paginationDto: PaginationDto ) {
-    const {limit = 10, offset= 0} = paginationDto;
+  findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto;
 
     return this.appointmentRepository.find({
-      take: limit, 
+      take: limit,
       skip: offset,
     })
 
@@ -204,12 +263,12 @@ export class AppointmentService {
 
     if (isUUID(id_appointment)) {
       appointment = await this.appointmentRepository.findOne({
-      where: { id: id_appointment },
-      relations: ['client', 'professional', 'service', 'appointmentStatus']
+        where: { id: id_appointment },
+        relations: ['client', 'professional', 'service', 'appointmentStatus']
       });
     }
 
-    if(!appointment){
+    if (!appointment) {
       throw new NotFoundException(`Appointment with ${id_appointment} not found`)
     }
 
@@ -222,12 +281,12 @@ export class AppointmentService {
       ...updateAppointmentDto
     });
 
-    if ( !appointment ) throw new NotFoundException(`Appointment with id: ${ id } not found`);
+    if (!appointment) throw new NotFoundException(`Appointment with id: ${id} not found`);
 
     try {
-      await this.appointmentRepository.save( appointment );
+      await this.appointmentRepository.save(appointment);
       return appointment;
-      
+
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -453,11 +512,11 @@ export class AppointmentService {
     }
   }
 
-  private handleDBExceptions( error: any ) {
+  private handleDBExceptions(error: any) {
 
-    if ( error.code === '23505' )
+    if (error.code === '23505')
       throw new BadRequestException(error.detail);
-    
+
     this.logger.error(error)
     // console.log(error)
     throw new InternalServerErrorException('Unexpected error, check server logs');
